@@ -15,29 +15,134 @@
 
 html, body {
   width: 100%;
-  height: 100%;
-  background: #ffffff;
-  overflow: hidden;
+  min-height: 100%;
+  background: white;
+  overflow-x: hidden;
+  cursor: crosshair;
 }
 
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  min-height: 100vh;
 }
 
-img {
-  display: block;
+.background {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.background img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
+
+#markos {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.marko {
+  position: absolute;
+  white-space: nowrap;
+  font-weight: 900;
+  line-height: 0.8;
+  animation: appear 0.15s ease-out;
+  user-select: none;
+}
+
+@keyframes appear {
+  from {
+    transform: scale(0) rotate(0deg);
+  }
+  to {
+    transform: scale(1) rotate(var(--rotation));
+  }
+}
+
 </style>
 </head>
 
 <body>
 
-<img src="birthday.gif" alt="">
+<div class="background">
+  <img src="birthday.gif" alt="">
+</div>
+
+<div id="markos"></div>
+
+<script>
+const container = document.getElementById("markos");
+
+const colors = [
+  "#ff0000", "#ff00cc", "#00ff00",
+  "#0000ff", "#ffff00", "#ff6600",
+  "#00ffff", "#9900ff", "#000000",
+  "#ff1493", "#7fff00", "#ff4500",
+  "#ffffff", "#8a2be2", "#00aaff"
+];
+
+const fonts = [
+  "Arial",
+  "Helvetica",
+  "Impact",
+  "Georgia",
+  "Comic Sans MS",
+  "Times New Roman",
+  "Courier New",
+  "Verdana",
+  "Trebuchet MS",
+  "Papyrus",
+  "fantasy",
+  "cursive"
+];
+
+function random(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function createMarko() {
+  const marko = document.createElement("div");
+  marko.className = "marko";
+  marko.textContent = "MARKO";
+
+  marko.style.left = random(-5, 95) + "vw";
+  marko.style.top = random(-5, 95) + "vh";
+  marko.style.fontSize = random(12, 180) + "px";
+  marko.style.color = colors[
+    Math.floor(Math.random() * colors.length)
+  ];
+  marko.style.fontFamily = fonts[
+    Math.floor(Math.random() * fonts.length)
+  ];
+  marko.style.fontWeight = random(100, 1000);
+  marko.style.fontStyle = Math.random() > 0.5 ? "italic" : "normal";
+  marko.style.setProperty("--rotation", random(-90, 90) + "deg");
+
+  container.appendChild(marko);
+}
+
+function explosion() {
+  const amount = 250;
+
+  for (let i = 0; i < amount; i++) {
+    createMarko();
+  }
+}
+
+document.addEventListener("click", () => {
+  explosion();
+});
+
+// Erste kleine Überraschung beim ersten Klick
+</script>
 
 </body>
 </html>
