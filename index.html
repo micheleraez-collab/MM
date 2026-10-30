@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>hottie</title>
+<title>MARKO 26</title>
 
 <style>
 * { box-sizing: border-box; }
@@ -674,6 +674,9 @@ function generateComposition() {
     createLandingItem();
   }
 
+  counter.textContent = `${clickCount} / 10`;
+}
+
 stage.addEventListener("click", generateComposition);
 
 function animateLanding() {
@@ -914,7 +917,7 @@ function finishHangman(won) {
     showWinImages();
   } else {
     hangmanMessage.textContent =
-      "GAME OVER";
+      "GAME OVER – DAS WORT WAR FREITAG.";
   }
 }
 
