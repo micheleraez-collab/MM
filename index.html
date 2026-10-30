@@ -3,18 +3,16 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>MARKO 26</title>
 
 <style>
 @font-face {
-  font-family: "NationalCode";
+  font-family: "National";
   src: url("NationalCodePiStd-Universal.otf") format("opentype");
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 html, body {
   margin: 0;
@@ -22,215 +20,179 @@ html, body {
   height: 100%;
   overflow: hidden;
   background: white;
+  color: black;
   font-family: Helvetica, Arial, sans-serif;
 }
 
-#canvas-area {
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+#stage {
   position: fixed;
   inset: 0;
   overflow: hidden;
+  background: white;
 }
 
 .item {
   position: absolute;
+  transform-origin: center;
   white-space: nowrap;
-  font-family: "NationalCode", sans-serif;
   user-select: none;
   pointer-events: none;
-  transform-origin: center;
+  line-height: .85;
 }
 
 .item img {
   display: block;
-  width: auto;
+  width: 100%;
   height: auto;
-  max-width: min(42vw, 260px);
-  max-height: min(42vh, 260px);
-  object-fit: contain;
 }
 
-.controls {
+#controls {
   position: fixed;
-  left: 16px;
-  bottom: 16px;
+  z-index: 20;
+  bottom: 20px;
+  left: 20px;
   display: flex;
-  flex-direction: column;
-  gap: 7px;
-  z-index: 10;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-button {
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 11px;
-  letter-spacing: .02em;
-  padding: 10px 13px;
-  border: 1px solid black;
+.ui-button {
   background: white;
   color: black;
-  cursor: pointer;
+  border: 1px solid black;
+  border-radius: 30px;
+  padding: 10px 16px;
+  font-size: 12px;
+  letter-spacing: .02em;
 }
 
-#click-counter {
+.ui-button:hover {
+  background: black;
+  color: white;
+}
+
+#counter {
   position: fixed;
-  right: 16px;
-  bottom: 16px;
+  right: 20px;
+  bottom: 24px;
+  z-index: 20;
   font-size: 12px;
-  z-index: 10;
 }
 
 /* WISH */
 
-#wish-panel {
+.screen {
   display: none;
   position: fixed;
   inset: 0;
-  z-index: 30;
+  z-index: 50;
   background: white;
+}
+
+.screen.active { display: block; }
+
+#wish-screen {
+  display: none;
   align-items: center;
   justify-content: center;
   padding: 24px;
 }
 
-#wish-panel-inner {
+#wish-screen.active { display: flex; }
+
+#wish-panel {
   width: min(420px, 100%);
+  text-align: center;
 }
 
-#wish-panel textarea {
+#wish-panel h2 {
+  font-size: 24px;
+  font-weight: 400;
+  margin: 0 0 24px;
+}
+
+#wish-input {
   width: 100%;
-  height: 130px;
-  padding: 12px;
-  border: 1px solid black;
-  font: 14px Helvetica, Arial, sans-serif;
-  resize: none;
+  border: 0;
+  border-bottom: 1px solid black;
+  border-radius: 0;
+  padding: 12px 4px;
+  font: inherit;
+  font-size: 18px;
+  outline: none;
+  text-align: center;
+  background: transparent;
 }
 
-#wish-panel button {
-  margin-top: 10px;
+#wish-submit {
+  margin-top: 24px;
 }
 
-#thank-you-screen {
+#thank-you {
   display: none;
   position: fixed;
   inset: 0;
-  z-index: 40;
+  z-index: 60;
   background: white;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  flex-direction: column;
+  cursor: pointer;
 }
 
-#thank-you-screen img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+#thank-you.active { display: flex; }
+
+#thank-you img {
+  width: min(55vw, 320px);
+  height: auto;
+  object-fit: contain;
 }
 
-#thank-you-screen span {
-  position: absolute;
-  color: white;
-  font-family: "NationalCode", sans-serif;
-  font-size: clamp(50px, 14vw, 150px);
-  pointer-events: none;
-}
-
-/* BEER */
-
-#beer-screen {
-  display: none;
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  height: 100dvh;
-  z-index: 50;
-  overflow: hidden;
-  background: #17100a;
-  touch-action: none;
-}
-
-#beer-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-#beer-photos {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.beer-photo {
-  position: absolute;
-  width: clamp(75px, 22vw, 145px);
-  height: clamp(75px, 22vw, 145px);
-  object-fit: cover;
-  box-shadow: 0 3px 15px rgba(0,0,0,.3);
-  will-change: transform;
-}
-
-#beer-close {
-  position: absolute;
-  right: 15px;
-  top: 15px;
-  z-index: 60;
-  border: 1px solid rgba(255,255,255,.6);
-  background: rgba(0,0,0,.2);
-  color: white;
+#thank-you p {
+  font-size: 28px;
+  margin-top: 20px;
 }
 
 /* HANGMAN */
 
 #hangman-screen {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: white;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
   overflow-y: auto;
+  padding: 30px 20px 60px;
+  text-align: center;
 }
 
 #hangman-close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  z-index: 5;
+  position: fixed;
+  top: 18px;
+  right: 20px;
+  z-index: 10;
 }
 
 .hangman-content {
   position: relative;
   z-index: 2;
-  width: min(440px, 100%);
-  text-align: center;
-}
-
-.hangman-title {
-  font-family: "NationalCode", sans-serif;
-  font-size: clamp(42px, 10vw, 75px);
-}
-
-.hangman-subtitle {
-  font-size: 11px;
-  letter-spacing: .12em;
-  margin-top: 5px;
+  width: min(600px, 100%);
+  margin: 45px auto 0;
 }
 
 #hangman-drawing {
-  width: 190px;
-  margin: 20px auto 10px;
+  width: 180px;
+  height: 180px;
+  margin: 0 auto 20px;
 }
 
-#hangman-drawing svg {
-  width: 100%;
+.hm-part {
+  display: none;
+  fill: none;
+  stroke: black;
+  stroke-width: 3;
+  stroke-linecap: round;
 }
-
-/* Buchstabenanzeige */
 
 #hangman-word {
   position: relative;
@@ -250,16 +212,11 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #000000;
+  color: #000;
   font-family: Helvetica, Arial, sans-serif;
   font-size: 27px;
   font-weight: bold;
   line-height: 1;
-}
-
-#hangman-message {
-  font-size: 11px;
-  margin-bottom: 20px;
 }
 
 #hangman-letters {
@@ -267,65 +224,47 @@ button {
   flex-wrap: wrap;
   justify-content: center;
   gap: 7px;
-  max-width: 360px;
-  margin: 0 auto;
+  max-width: 420px;
+  margin: 30px auto;
 }
 
-#hangman-letters button {
-  width: 35px;
-  height: 35px;
-  padding: 0;
+.letter-button {
+  width: 36px;
+  height: 36px;
+  border: 1px solid black;
+  background: white;
+  border-radius: 50%;
+  font-size: 13px;
 }
 
-#hangman-letters button:disabled {
+.letter-button:disabled {
   opacity: .2;
   cursor: default;
 }
 
-#hangman-restart {
-  display: none;
-  margin: 25px auto 0;
+#hangman-message {
+  min-height: 30px;
+  font-size: 14px;
+  margin: 20px 0;
 }
-
-/* WIN WIN WIN */
-
-#you-won {
-  display: none;
-  font-family: "NationalCode", sans-serif;
-  font-size: clamp(45px, 13vw, 105px);
-  line-height: 1;
-  margin: 25px 0;
-  color: #e52b24;
-  white-space: nowrap;
-  animation: wonBlink .55s steps(2, start) infinite;
-}
-
-@keyframes wonBlink {
-  to {
-    visibility: hidden;
-  }
-}
-
-/* WIN IMAGES */
 
 #win-images {
-  position: absolute;
+  position: fixed;
   inset: 0;
+  z-index: 1;
   overflow: hidden;
   pointer-events: none;
-  z-index: 1;
 }
 
-#win-images img {
+.win-image {
   position: absolute;
-  width: var(--size);
-  height: var(--size);
-  object-fit: cover;
-  animation: markoPop .5s ease-out both;
-  animation-delay: var(--delay);
+  width: 100px;
+  height: auto;
+  opacity: 0;
+  animation: pop-in .45s ease forwards;
 }
 
-@keyframes markoPop {
+@keyframes pop-in {
   0% {
     opacity: 0;
     transform: scale(.1) rotate(var(--rotation));
@@ -336,765 +275,333 @@ button {
   }
 }
 
+#you-won {
+  display: none;
+  position: fixed;
+  z-index: 5;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: red;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: clamp(40px, 12vw, 110px);
+  font-weight: 900;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: blink .5s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  to { visibility: hidden; }
+}
+
+/* BEER */
+
+#beer-screen {
+  background: #d99a32;
+  overflow: hidden;
+  touch-action: none;
+}
+
+#beer-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#beer-photos {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.beer-photo {
+  position: absolute;
+  width: 90px;
+  height: auto;
+  transform-origin: center;
+}
+
+#beer-close {
+  position: fixed;
+  z-index: 10;
+  top: 18px;
+  right: 20px;
+}
 </style>
 </head>
 
 <body>
 
-<div id="canvas-area"></div>
+<div id="stage"></div>
 
-<div class="controls">
-  <button id="gift-button">GESCHENK »</button>
-  <button id="beer-button">BEER</button>
-  <button id="wish-button">ADD WISH +</button>
+<div id="controls">
+  <button class="ui-button" id="gift-button">GESCHENK</button>
+  <button class="ui-button" id="beer-button">BEER</button>
+  <button class="ui-button" id="wish-button">ADD WISH +</button>
 </div>
 
-<div id="click-counter">0 / 10</div>
+<div id="counter">0 / 10</div>
 
-<!-- WISH -->
-
-<div id="wish-panel">
-  <div id="wish-panel-inner">
-    <textarea id="wish-text" placeholder="Your wish..."></textarea>
+<!-- WISH SCREEN -->
+<div id="wish-screen" class="screen">
+  <div id="wish-panel">
+    <h2>MAKE A WISH</h2>
+    <input id="wish-input" type="text" placeholder="Your wish..." maxlength="120">
     <br>
-    <button id="submit-wish">SEND WISH →</button>
-    <button id="cancel-wish">CLOSE</button>
+    <button class="ui-button" id="wish-submit">SEND WISH</button>
+    <br><br>
+    <button class="ui-button" id="wish-close">CLOSE</button>
   </div>
 </div>
 
-<!-- THANK YOU -->
-
-<div id="thank-you-screen">
-  <img id="thank-you-image" src="" alt="">
-  <span>THANK YOU</span>
+<div id="thank-you">
+  <img id="thank-you-image" src="1.png" alt="">
+  <p>THANK YOU</p>
 </div>
 
-<!-- BEER -->
+<!-- HANGMAN SCREEN -->
+<div id="hangman-screen" class="screen">
+  <button class="ui-button" id="hangman-close">CLOSE</button>
 
-<div id="beer-screen">
-  <canvas id="beer-canvas"></canvas>
-  <div id="beer-photos"></div>
-  <button id="beer-close">CLOSE</button>
-</div>
-
-<!-- HANGMAN -->
-
-<div id="hangman-screen">
   <div id="win-images"></div>
-
-  <button id="hangman-close">CLOSE ×</button>
+  <div id="you-won">WIN WIN WIN</div>
 
   <div class="hangman-content">
-    <div class="hangman-title">GESCHENK »</div>
-    <div class="hangman-subtitle">RATE DAS WORT.</div>
 
-    <div id="hangman-drawing">
-      <svg viewBox="0 0 220 190">
-        <path d="M30 175 H145 M60 175 V15 H145 V40"
-              stroke="black" stroke-width="3" fill="none"/>
-
-        <circle id="hm-head" cx="145" cy="55" r="15"
-                stroke="black" stroke-width="3"
-                fill="none" opacity="0"/>
-
-        <path id="hm-body" d="M145 70 V115"
-              stroke="black" stroke-width="3"
-              fill="none" opacity="0"/>
-
-        <path id="hm-arm1" d="M145 82 L120 100"
-              stroke="black" stroke-width="3"
-              fill="none" opacity="0"/>
-
-        <path id="hm-arm2" d="M145 82 L170 100"
-              stroke="black" stroke-width="3"
-              fill="none" opacity="0"/>
-
-        <path id="hm-leg1" d="M145 115 L120 145"
-              stroke="black" stroke-width="3"
-              fill="none" opacity="0"/>
-
-        <path id="hm-leg2" d="M145 115 L170 145"
-              stroke="black" stroke-width="3"
-              fill="none" opacity="0"/>
-      </svg>
-    </div>
+    <svg id="hangman-drawing" viewBox="0 0 180 180">
+      <path class="hm-part" id="hm-1" d="M25 165 H155"/>
+      <path class="hm-part" id="hm-2" d="M55 165 V15 H120 V35"/>
+      <circle class="hm-part" id="hm-3" cx="120" cy="52" r="17"/>
+      <path class="hm-part" id="hm-4" d="M120 69 V112"/>
+      <path class="hm-part" id="hm-5" d="M120 80 L95 100"/>
+      <path class="hm-part" id="hm-6" d="M120 80 L145 100"/>
+    </svg>
 
     <div id="hangman-word"></div>
-    <div id="you-won">WIN WIN WIN</div>
-    <div id="hangman-message">6 VERSUCHE ÜBRIG</div>
     <div id="hangman-letters"></div>
-    <button id="hangman-restart">NOCHMAL SPIELEN ↻</button>
+    <div id="hangman-message"></div>
+
   </div>
+</div>
+
+<!-- BEER SCREEN -->
+<div id="beer-screen" class="screen">
+  <canvas id="beer-canvas"></canvas>
+  <div id="beer-photos"></div>
+  <button class="ui-button" id="beer-close">CLOSE</button>
 </div>
 
 <script>
 
-/* ==================================================
-   SETTINGS
-================================================== */
+/* SHARED SETTINGS */
+
+const stage = document.getElementById("stage");
+const counter = document.getElementById("counter");
 
 const imageFiles = Array.from(
-  {length: 16},
+  { length: 16 },
   (_, i) => `${i + 1}.png`
 );
 
-const random = (min, max) =>
-  Math.random() * (max - min) + min;
-
-const randomImage = () =>
-  imageFiles[Math.floor(Math.random() * imageFiles.length)];
-
-const colors = [
-  "#000000",
-  "#e52b24",
-  "#2449d8",
-  "#f1bd00",
-  "#00a36c",
-  "#a52bcb",
-  "#ff5c35",
-  "#6a3e2b"
-];
-
-
-/* ==================================================
-   DEVICE MOTION
-================================================== */
-
-let sensorEnabled = false;
+let clickCount = 0;
+let rawBeta = null;
+let rawGamma = null;
 let tiltX = 0;
 let tiltY = 0;
-let targetTiltX = 0;
-let targetTiltY = 0;
-let rawBeta = null;
+let sensorsStarted = false;
+
+function random(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function randomItem(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}
+
+/* DEVICE TILT */
 
 async function enableSensors() {
-  if (sensorEnabled) return;
+  if (sensorsStarted) return;
 
   if (
     typeof DeviceOrientationEvent !== "undefined" &&
     typeof DeviceOrientationEvent.requestPermission === "function"
   ) {
     try {
-      const permission =
-        await DeviceOrientationEvent.requestPermission();
-
+      const permission = await DeviceOrientationEvent.requestPermission();
       if (permission !== "granted") return;
     } catch (error) {
-      console.log("Motion permission unavailable");
+      console.log("Sensor permission:", error);
       return;
     }
   }
 
-  window.addEventListener("deviceorientation", event => {
-    if (event.beta == null || event.gamma == null) return;
+  window.addEventListener("deviceorientation", (event) => {
+    if (event.beta !== null) rawBeta = event.beta;
+    if (event.gamma !== null) rawGamma = event.gamma;
 
-    rawBeta = event.beta;
+    const beta = event.beta || 0;
+    const gamma = event.gamma || 0;
 
-    targetTiltX = Math.max(-1, Math.min(1, event.gamma / 35));
-    targetTiltY = Math.max(-1, Math.min(1, event.beta / 60));
-  }, true);
+    tiltX += (gamma / 45 - tiltX) * 0.08;
+    tiltY += (beta / 45 - tiltY) * 0.08;
+  });
 
-  sensorEnabled = true;
+  sensorsStarted = true;
 }
 
-function smoothSensors() {
-  tiltX += (targetTiltX - tiltX) * .09;
-  tiltY += (targetTiltY - tiltY) * .09;
-  requestAnimationFrame(smoothSensors);
-}
+document.addEventListener("pointerdown", enableSensors, { once: true });
 
-smoothSensors();
+/* RANDOM LANDING PAGE */
 
-
-/* ==================================================
-   LANDING PAGE
-================================================== */
-
-const canvasArea = document.getElementById("canvas-area");
-const counter = document.getElementById("click-counter");
-
-let items = [];
-let clickCount = 0;
-
-function createItem() {
+function createLandingItem() {
+  const isImage = Math.random() < 0.12;
   const element = document.createElement("div");
+
   element.className = "item";
 
-  if (Math.random() < .12) {
+  const x = random(-5, window.innerWidth - 30);
+  const y = random(-5, window.innerHeight - 30);
+  const rotation = random(-65, 65);
+
+  if (isImage) {
     const img = document.createElement("img");
-    img.src = randomImage();
+    img.src = randomItem(imageFiles);
+    img.alt = "";
+
     element.appendChild(img);
+    element.style.width = `${random(35, 220)}px`;
   } else {
-    element.textContent = Math.random() < .5 ? "MARKO" : "26";
-    element.style.fontSize = `${random(13, 150)}px`;
-    element.style.color = colors[Math.floor(Math.random() * colors.length)];
-    element.style.fontWeight = Math.random() < .5 ? "normal" : "bold";
-    element.style.fontStyle = Math.random() < .22 ? "italic" : "normal";
-    element.style.letterSpacing = `${random(-5, 8)}px`;
+    element.textContent = Math.random() < 0.5 ? "MARKO" : "26";
+    element.style.fontFamily = "National, Helvetica, sans-serif";
+    element.style.fontSize = `${random(18, 150)}px`;
+    element.style.fontWeight = randomItem(["400", "600", "800"]);
+
+    element.style.color = randomItem([
+      "#000000",
+      "#ed1c24",
+      "#2445ff",
+      "#00a651",
+      "#ff6b00",
+      "#a000c8",
+      "#ff1493"
+    ]);
   }
-
-  let x, y;
-
-  if (Math.random() < .65 && items.length > 0) {
-    const anchor = items[Math.floor(Math.random() * items.length)];
-    x = anchor.x + random(-180, 180);
-    y = anchor.y + random(-160, 160);
-  } else {
-    x = random(-80, window.innerWidth - 40);
-    y = random(-70, window.innerHeight - 40);
-  }
-
-  const rotation = random(-75, 75);
 
   element.style.left = `${x}px`;
   element.style.top = `${y}px`;
+
+  element.dataset.x = x;
+  element.dataset.y = y;
+  element.dataset.rotation = rotation;
+
   element.style.transform = `rotate(${rotation}deg)`;
 
-  canvasArea.appendChild(element);
-
-  items.push({
-    element,
-    x,
-    y,
-    vx: random(-2.8, 2.8),
-    vy: random(-2.8, 2.8),
-    rotation,
-    rotationSpeed: random(-.7, .7)
-  });
+  stage.appendChild(element);
 }
 
-function createComposition() {
+function generateComposition() {
   clickCount++;
 
+  stage.innerHTML = "";
+
   if (clickCount >= 10) {
-    canvasArea.innerHTML = "";
-    items = [];
     clickCount = 0;
+  }
+
+  let amount;
+  const chance = Math.random();
+
+  if (chance < 0.15) {
+    amount = Math.floor(random(3, 12));
+  } else if (chance < 0.45) {
+    amount = Math.floor(random(12, 30));
+  } else if (chance < 0.80) {
+    amount = Math.floor(random(30, 65));
   } else {
-    const roll = Math.random();
-    let amount;
+    amount = Math.floor(random(65, 110));
+  }
 
-    if (roll < .15) {
-      amount = Math.floor(random(3, 12));
-    } else if (roll < .45) {
-      amount = Math.floor(random(12, 30));
-    } else if (roll < .8) {
-      amount = Math.floor(random(30, 65));
-    } else {
-      amount = Math.floor(random(65, 110));
-    }
-
-    for (let i = 0; i < amount; i++) {
-      createItem();
-    }
+  for (let i = 0; i < amount; i++) {
+    createLandingItem();
   }
 
   counter.textContent = `${clickCount} / 10`;
 }
 
-canvasArea.addEventListener("click", () => {
-  enableSensors();
-  createComposition();
-});
+stage.addEventListener("click", generateComposition);
 
+function animateLanding() {
+  document.querySelectorAll("#stage .item").forEach((item) => {
+    const x = Number(item.dataset.x);
+    const y = Number(item.dataset.y);
+    const rotation = Number(item.dataset.rotation);
 
-/* ==================================================
-   LANDING PAGE MOVEMENT
-================================================== */
-
-function animateItems() {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
-
-  items.forEach(item => {
-    item.vx += tiltX * .15;
-    item.vy += tiltY * .15;
-
-    item.vx *= .985;
-    item.vy *= .985;
-
-    item.x += item.vx;
-    item.y += item.vy;
-    item.rotation += item.rotationSpeed;
-
-    const rect = item.element.getBoundingClientRect();
-
-    if (item.x > width - rect.width || item.x < -rect.width) {
-      item.vx *= -.75;
-    }
-
-    if (item.y > height - rect.height || item.y < -rect.height) {
-      item.vy *= -.75;
-    }
-
-    item.element.style.left = `${item.x}px`;
-    item.element.style.top = `${item.y}px`;
-    item.element.style.transform = `rotate(${item.rotation}deg)`;
+    item.style.left = `${x + tiltX * 35}px`;
+    item.style.top = `${y + tiltY * 35}px`;
+    item.style.transform = `rotate(${rotation + tiltX * 2}deg)`;
   });
 
-  requestAnimationFrame(animateItems);
+  requestAnimationFrame(animateLanding);
 }
 
-animateItems();
+animateLanding();
 
+/* WISH */
 
-/* ==================================================
-   WISH
-================================================== */
+const wishScreen = document.getElementById("wish-screen");
+const thankYou = document.getElementById("thank-you");
+const wishInput = document.getElementById("wish-input");
 
-const wishPanel = document.getElementById("wish-panel");
-const wishText = document.getElementById("wish-text");
-const thankYouScreen = document.getElementById("thank-you-screen");
+document.getElementById("wish-button").addEventListener("click", () => {
+  wishScreen.classList.add("active");
+  wishInput.value = "";
+  wishInput.focus();
+});
 
-document.getElementById("wish-button").onclick = () => {
-  wishPanel.style.display = "flex";
-  wishText.value = "";
-};
+document.getElementById("wish-close").addEventListener("click", () => {
+  wishScreen.classList.remove("active");
+});
 
-document.getElementById("cancel-wish").onclick = () => {
-  wishPanel.style.display = "none";
-};
+document.getElementById("wish-submit").addEventListener("click", () => {
+  if (!wishInput.value.trim()) {
+    wishInput.focus();
+    return;
+  }
 
-document.getElementById("submit-wish").onclick = () => {
-  if (!wishText.value.trim()) return;
+  wishScreen.classList.remove("active");
 
-  wishPanel.style.display = "none";
-  canvasArea.innerHTML = "";
-  items = [];
+  stage.innerHTML = "";
   clickCount = 0;
   counter.textContent = "0 / 10";
 
-  document.getElementById("thank-you-image").src = randomImage();
-  thankYouScreen.style.display = "flex";
-};
+  document.getElementById("thank-you-image").src = randomItem(imageFiles);
 
-thankYouScreen.onclick = () => {
-  thankYouScreen.style.display = "none";
-};
-
-
-/* ==================================================
-   BEER MODE
-================================================== */
-
-const beerScreen = document.getElementById("beer-screen");
-const beerCanvas = document.getElementById("beer-canvas");
-const ctx = beerCanvas.getContext("2d");
-const beerPhotos = document.getElementById("beer-photos");
-
-let beerLevel = .94;
-let beerAngle = 0;
-let beerAngleVelocity = 0;
-let beerSlosh = 0;
-let beerSloshVelocity = 0;
-let beerLastTime = 0;
-let beerRunning = false;
-let beerPhotoItems = [];
-let beerBaseBeta = 0;
-let beerBaseCaptured = false;
-
-function resizeBeer() {
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  beerCanvas.width = window.innerWidth * dpr;
-  beerCanvas.height = window.innerHeight * dpr;
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-}
-
-window.addEventListener("resize", resizeBeer);
-
-function openBeer() {
-  enableSensors();
-
-  beerScreen.style.display = "block";
-  canvasArea.style.display = "none";
-  document.querySelector(".controls").style.display = "none";
-  counter.style.display = "none";
-
-  beerPhotos.innerHTML = "";
-  beerPhotoItems = [];
-
-  beerLevel = .94;
-  beerAngle = 0;
-  beerAngleVelocity = 0;
-  beerSlosh = 0;
-  beerSloshVelocity = 0;
-
-  beerBaseCaptured = rawBeta !== null;
-
-  if (beerBaseCaptured) beerBaseBeta = rawBeta;
-
-  resizeBeer();
-  beerRunning = true;
-  beerLastTime = performance.now();
-
-  requestAnimationFrame(animateBeer);
-}
-
-function closeBeer() {
-  beerRunning = false;
-  beerScreen.style.display = "none";
-  canvasArea.style.display = "block";
-  document.querySelector(".controls").style.display = "flex";
-  counter.style.display = "block";
-}
-
-document.getElementById("beer-button").onclick = openBeer;
-document.getElementById("beer-close").onclick = closeBeer;
-
-
-/* Fotos im Bier */
-
-beerScreen.addEventListener("pointerdown", event => {
-  if (event.target.id === "beer-close") return;
-
-  const amount = Math.floor(random(2, 5));
-
-  for (let i = 0; i < amount; i++) {
-    const img = document.createElement("img");
-    img.className = "beer-photo";
-    img.src = randomImage();
-
-    const size = random(75, 135);
-    img.style.width = `${size}px`;
-    img.style.height = `${size}px`;
-
-    beerPhotos.appendChild(img);
-
-    beerPhotoItems.push({
-      element: img,
-      x: random(0, window.innerWidth - size),
-      y: random(0, window.innerHeight - size),
-      vx: random(-2, 2),
-      vy: random(-2, 2),
-      size,
-      rotation: random(-25, 25),
-      spin: random(-.5, .5)
-    });
-  }
+  thankYou.classList.add("active");
 });
 
-function updatePhotos(dt) {
-  const w = window.innerWidth;
-  const h = window.innerHeight;
+thankYou.addEventListener("click", () => {
+  thankYou.classList.remove("active");
+});
 
-  beerPhotoItems.forEach(photo => {
-    photo.vx += tiltX * 18 * dt;
-    photo.vy += tiltY * 18 * dt;
+/* HANGMAN */
 
-    photo.vx *= Math.pow(.985, dt * 60);
-    photo.vy *= Math.pow(.985, dt * 60);
-
-    photo.x += photo.vx * dt * 60;
-    photo.y += photo.vy * dt * 60;
-    photo.rotation += photo.spin * dt * 60;
-
-    if (photo.x < 0) {
-      photo.x = 0;
-      photo.vx *= -.8;
-    }
-
-    if (photo.x + photo.size > w) {
-      photo.x = w - photo.size;
-      photo.vx *= -.8;
-    }
-
-    if (photo.y < 0) {
-      photo.y = 0;
-      photo.vy *= -.8;
-    }
-
-    if (photo.y + photo.size > h) {
-      photo.y = h - photo.size;
-      photo.vy *= -.8;
-    }
-
-    photo.element.style.left = "0";
-    photo.element.style.top = "0";
-    photo.element.style.transform =
-      `translate(${photo.x}px, ${photo.y}px) rotate(${photo.rotation}deg)`;
-  });
-}
-
-
-/* Flüssigkeitsphysik */
-
-function updateBeerPhysics(dt) {
-  const targetAngle = Math.atan2(-tiltX, tiltY || .001);
-
-  beerAngleVelocity += (targetAngle - beerAngle) * 3.5 * dt;
-  beerAngleVelocity *= Math.pow(.86, dt * 60);
-  beerAngle += beerAngleVelocity * dt * 60;
-
-  beerAngle = Math.max(-1.05, Math.min(1.05, beerAngle));
-
-  beerSloshVelocity += (tiltX * .5 - beerSlosh) * 2.5 * dt;
-  beerSloshVelocity *= Math.pow(.92, dt * 60);
-  beerSlosh += beerSloshVelocity * dt * 60;
-
-  /*
-    Trinkmechanik: Die Haltung beim Öffnen ist
-    die Ausgangsposition. Erst ab 18 Grad Abweichung
-    wird Bier verbraucht.
-  */
-
-  if (rawBeta !== null) {
-    if (!beerBaseCaptured) {
-      beerBaseBeta = rawBeta;
-      beerBaseCaptured = true;
-    }
-
-    let pitchFromRest = rawBeta - beerBaseBeta;
-
-    if (pitchFromRest > 180) pitchFromRest -= 360;
-    if (pitchFromRest < -180) pitchFromRest += 360;
-
-    const drinkingAngle = Math.max(0, Math.abs(pitchFromRest) - 18);
-
-    if (drinkingAngle > 0 && beerLevel > .01) {
-      const drinkingSpeed = drinkingAngle / 35;
-      beerLevel -= drinkingSpeed * .0008 * dt * 60;
-      beerLevel = Math.max(.01, beerLevel);
-    }
-  }
-}
-
-
-/* Oberfläche */
-
-function surfaceY(x, time, width, height) {
-  const centerX = width / 2;
-  const baseY = height * (1 - beerLevel);
-  const slope = Math.tan(beerAngle);
-
-  const movement =
-    Math.sin(x * .009 + time * .0015) * beerSlosh * 13;
-
-  const wave =
-    Math.sin(x * .018 + time * .0018) * 2.5 +
-    Math.sin(x * .038 - time * .0012) * 1.3 +
-    Math.sin(x * .006 + time * .0008) * 3;
-
-  return baseY + (x - centerX) * slope + movement + wave;
-}
-
-
-/* Bier zeichnen */
-
-function drawBeer(time) {
-  const w = window.innerWidth;
-  const h = window.innerHeight;
-
-  ctx.clearRect(0, 0, w, h);
-  ctx.fillStyle = "#160d07";
-  ctx.fillRect(0, 0, w, h);
-
-  const points = [];
-
-  for (let x = -10; x <= w + 10; x += 3) {
-    points.push({x, y: surfaceY(x, time, w, h)});
-  }
-
-  ctx.save();
-  ctx.beginPath();
-  ctx.moveTo(0, h);
-  ctx.lineTo(0, points[0].y);
-
-  points.forEach(p => ctx.lineTo(p.x, p.y));
-
-  ctx.lineTo(w, h);
-  ctx.closePath();
-  ctx.clip();
-
-  const liquid = ctx.createLinearGradient(0, 0, w * .6, h);
-  liquid.addColorStop(0, "#f8c45d");
-  liquid.addColorStop(.18, "#e99b26");
-  liquid.addColorStop(.42, "#ce7914");
-  liquid.addColorStop(.72, "#a9530b");
-  liquid.addColorStop(1, "#612a08");
-
-  ctx.fillStyle = liquid;
-  ctx.fillRect(0, 0, w, h);
-
-  const glow = ctx.createRadialGradient(
-    w * .3, h * .45, 5,
-    w * .3, h * .45, w * .85
-  );
-
-  glow.addColorStop(0, "rgba(255,224,142,.35)");
-  glow.addColorStop(.45, "rgba(255,174,48,.12)");
-  glow.addColorStop(1, "rgba(40,12,0,.35)");
-
-  ctx.fillStyle = glow;
-  ctx.fillRect(0, 0, w, h);
-
-  for (let i = 0; i < 160; i++) {
-    const x = (i * 97.31) % w;
-    const y = (i * 173.13 - time * (.018 + (i % 5) * .004)) % h;
-
-    if (y < 0) continue;
-
-    const r = .5 + (i % 4) * .45;
-
-    ctx.beginPath();
-    ctx.arc(x, y, r, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(255,232,170,.3)";
-    ctx.fill();
-  }
-
-  ctx.restore();
-
-  /* Schaum */
-
-  ctx.save();
-  ctx.beginPath();
-  ctx.moveTo(0, 0);
-  ctx.lineTo(w, 0);
-
-  for (let i = points.length - 1; i >= 0; i--) {
-    ctx.lineTo(points[i].x, points[i].y);
-  }
-
-  ctx.closePath();
-
-  const foam = ctx.createLinearGradient(0, 0, 0, 65);
-  foam.addColorStop(0, "#fffdf5");
-  foam.addColorStop(.5, "#f9f0dc");
-  foam.addColorStop(1, "#e5d3b2");
-
-  ctx.fillStyle = foam;
-  ctx.fill();
-
-  for (let i = 0; i < 260; i++) {
-    const x = (i * 37.71) % w;
-    const y = surfaceY(x, time, w, h) + random(-7, 7);
-    const r = random(1, 3.8);
-
-    ctx.beginPath();
-    ctx.arc(x, y, r, 0, Math.PI * 2);
-
-    ctx.fillStyle = i % 3 === 0
-      ? "rgba(255,255,255,.9)"
-      : "rgba(221,197,158,.45)";
-
-    ctx.fill();
-  }
-
-  ctx.beginPath();
-
-  points.forEach((p, i) => {
-    if (i === 0) ctx.moveTo(p.x, p.y + 5);
-    else ctx.lineTo(p.x, p.y + 5);
-  });
-
-  ctx.strokeStyle = "rgba(73,35,9,.25)";
-  ctx.lineWidth = 7;
-  ctx.filter = "blur(5px)";
-  ctx.stroke();
-  ctx.filter = "none";
-
-  ctx.restore();
-
-  ctx.save();
-  ctx.globalCompositeOperation = "screen";
-
-  const highlight = ctx.createLinearGradient(0, 0, w, h);
-  highlight.addColorStop(0, "rgba(255,255,255,.09)");
-  highlight.addColorStop(.35, "rgba(255,255,255,0)");
-  highlight.addColorStop(1, "rgba(255,255,255,.04)");
-
-  ctx.fillStyle = highlight;
-  ctx.fillRect(0, 0, w, h);
-
-  ctx.restore();
-}
-
-
-/* Bier-Animation */
-
-function animateBeer(time) {
-  if (!beerRunning) return;
-
-  const dt = Math.min((time - beerLastTime) / 1000, .04);
-  beerLastTime = time;
-
-  updateBeerPhysics(dt);
-  drawBeer(time);
-  updatePhotos(dt);
-
-  requestAnimationFrame(animateBeer);
-}
-
-
-/* ==================================================
-   HANGMAN – GESCHENK
-================================================== */
+const solution = "FREITAG";
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
 const hangmanScreen = document.getElementById("hangman-screen");
 const hangmanWord = document.getElementById("hangman-word");
-const hangmanMessage = document.getElementById("hangman-message");
 const hangmanLetters = document.getElementById("hangman-letters");
-const hangmanRestart = document.getElementById("hangman-restart");
+const hangmanMessage = document.getElementById("hangman-message");
 const winImages = document.getElementById("win-images");
 const youWon = document.getElementById("you-won");
-
-const solution = "FREITAG";
-const maxMistakes = 6;
 
 let guessedLetters = [];
 let mistakes = 0;
 let gameFinished = false;
-
-const bodyParts = [
-  "hm-head",
-  "hm-body",
-  "hm-arm1",
-  "hm-arm2",
-  "hm-leg1",
-  "hm-leg2"
-];
-
-function openHangman() {
-  hangmanScreen.style.display = "flex";
-  startHangman();
-}
-
-function closeHangman() {
-  hangmanScreen.style.display = "none";
-}
-
-document.getElementById("gift-button")
-  .addEventListener("click", openHangman);
-
-document.getElementById("hangman-close")
-  .addEventListener("click", closeHangman);
-
-hangmanRestart.addEventListener("click", startHangman);
-
-
-/* Neues Spiel */
-
-function startHangman() {
-  guessedLetters = [];
-  mistakes = 0;
-  gameFinished = false;
-
-  bodyParts.forEach(id => {
-    document.getElementById(id).setAttribute("opacity", "0");
-  });
-
-  winImages.innerHTML = "";
-  youWon.style.display = "none";
-
-  hangmanRestart.style.display = "none";
-  hangmanMessage.style.display = "block";
-  hangmanMessage.textContent = "6 VERSUCHE ÜBRIG";
-
-  renderWord();
-  renderLetters();
-}
-
-
-/* Wort mit festen Positionen anzeigen */
 
 function renderWord() {
   hangmanWord.innerHTML = "";
@@ -1104,26 +611,21 @@ function renderWord() {
     const span = document.createElement("div");
 
     span.className = "hm-letter";
-
-    if (guessedLetters.includes(letter)) {
-      span.textContent = letter;
-    } else {
-      span.textContent = "\u00A0";
-    }
+    span.textContent = guessedLetters.includes(letter)
+      ? letter
+      : "\u00A0";
 
     hangmanWord.appendChild(span);
   }
 }
 
-
-/* Tastatur anzeigen */
-
 function renderLetters() {
   hangmanLetters.innerHTML = "";
 
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(letter => {
+  alphabet.forEach((letter) => {
     const button = document.createElement("button");
 
+    button.className = "letter-button";
     button.textContent = letter;
     button.disabled = guessedLetters.includes(letter) || gameFinished;
 
@@ -1135,8 +637,12 @@ function renderLetters() {
   });
 }
 
-
-/* Buchstaben raten */
+function renderDrawing() {
+  for (let i = 1; i <= 6; i++) {
+    document.getElementById(`hm-${i}`).style.display =
+      i <= mistakes ? "block" : "none";
+  }
+}
 
 function guessLetter(letter) {
   if (gameFinished || guessedLetters.includes(letter)) return;
@@ -1145,32 +651,39 @@ function guessLetter(letter) {
 
   if (!solution.includes(letter)) {
     mistakes++;
-
-    if (mistakes <= bodyParts.length) {
-      document.getElementById(bodyParts[mistakes - 1])
-        .setAttribute("opacity", "1");
-    }
   }
 
   renderWord();
   renderLetters();
+  renderDrawing();
 
-  const wordSolved = solution
-    .split("")
-    .every(letter => guessedLetters.includes(letter));
-
-  if (wordSolved) {
+  if (
+    solution.split("").every((character) =>
+      guessedLetters.includes(character)
+    )
+  ) {
     finishHangman(true);
-  } else if (mistakes >= maxMistakes) {
+    return;
+  }
+
+  if (mistakes >= 6) {
     finishHangman(false);
-  } else {
-    hangmanMessage.textContent =
-      `${maxMistakes - mistakes} VERSUCHE ÜBRIG`;
   }
 }
 
+function finishHangman(won) {
+  gameFinished = true;
+  renderLetters();
 
-/* Gewinnanimation mit Marko-Bildern */
+  if (won) {
+    hangmanMessage.textContent = "";
+    youWon.style.display = "block";
+    showWinImages();
+  } else {
+    hangmanMessage.textContent =
+      "GAME OVER – DAS WORT WAR FREITAG.";
+  }
+}
 
 function showWinImages() {
   winImages.innerHTML = "";
@@ -1178,58 +691,254 @@ function showWinImages() {
   for (let i = 0; i < 60; i++) {
     const img = document.createElement("img");
 
-    img.src = randomImage();
+    img.className = "win-image";
+    img.src = randomItem(imageFiles);
+    img.alt = "";
 
-    const size = random(45, 180);
-    const rotation = random(-45, 45);
-    const delay = random(0, 1.5);
-
-    img.style.setProperty("--size", `${size}px`);
-    img.style.setProperty("--rotation", `${rotation}deg`);
-    img.style.setProperty("--delay", `${delay}s`);
-
-    img.style.left = `${random(-5, 95)}%`;
-    img.style.top = `${random(-5, 100)}%`;
+    img.style.left = `${random(-2, 95)}%`;
+    img.style.top = `${random(-2, 95)}%`;
+    img.style.width = `${random(35, 160)}px`;
+    img.style.setProperty(
+      "--rotation",
+      `${random(-50, 50)}deg`
+    );
+    img.style.animationDelay = `${random(0, 2)}s`;
 
     winImages.appendChild(img);
   }
 }
 
+function resetHangman() {
+  guessedLetters = [];
+  mistakes = 0;
+  gameFinished = false;
 
-/* Spiel beenden */
+  hangmanMessage.textContent = "";
+  winImages.innerHTML = "";
+  youWon.style.display = "none";
 
-function finishHangman(won) {
-  gameFinished = true;
+  renderWord();
   renderLetters();
-
-  if (won) {
-    showWinImages();
-
-    youWon.style.display = "block";
-    hangmanMessage.style.display = "none";
-  } else {
-    winImages.innerHTML = "";
-    youWon.style.display = "none";
-
-    hangmanMessage.style.display = "block";
-    hangmanMessage.textContent =
-      "GAME OVER – DAS WORT WAR FREITAG.";
-
-    renderWord();
-  }
-
-  hangmanRestart.style.display = "block";
+  renderDrawing();
 }
 
+document.getElementById("gift-button").addEventListener("click", () => {
+  hangmanScreen.classList.add("active");
+  resetHangman();
+});
 
-/* ==================================================
-   INITIALISIERUNG
-================================================== */
+document.getElementById("hangman-close").addEventListener("click", () => {
+  hangmanScreen.classList.remove("active");
+});
 
-document.addEventListener("pointerdown", () => {
+/* BEER MODE */
+
+const beerScreen = document.getElementById("beer-screen");
+const beerCanvas = document.getElementById("beer-canvas");
+const beerCtx = beerCanvas.getContext("2d");
+const beerPhotos = document.getElementById("beer-photos");
+
+let beerLevel = 0.72;
+let beerBaseBeta = null;
+let beerBaseGamma = null;
+let beerLastTime = 0;
+let beerAnimationStarted = false;
+let beerSurfaceOffset = 0;
+
+function resizeBeerCanvas() {
+  const dpr = window.devicePixelRatio || 1;
+
+  beerCanvas.width = window.innerWidth * dpr;
+  beerCanvas.height = window.innerHeight * dpr;
+
+  beerCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+window.addEventListener("resize", resizeBeerCanvas);
+
+function openBeer() {
   enableSensors();
-}, {once: true});
+
+  beerScreen.classList.add("active");
+
+  beerBaseBeta = rawBeta;
+  beerBaseGamma = rawGamma;
+  beerLevel = 0.72;
+  beerPhotos.innerHTML = "";
+
+  resizeBeerCanvas();
+
+  if (!beerAnimationStarted) {
+    beerAnimationStarted = true;
+    requestAnimationFrame(drawBeer);
+  }
+}
+
+document.getElementById("beer-button").addEventListener("click", openBeer);
+
+document.getElementById("beer-close").addEventListener("click", () => {
+  beerScreen.classList.remove("active");
+});
+
+function addBeerPhotos() {
+  for (let i = 0; i < Math.floor(random(2, 5)); i++) {
+    const img = document.createElement("img");
+
+    img.className = "beer-photo";
+    img.src = randomItem(imageFiles);
+    img.alt = "";
+
+    img.style.left = `${random(5, 85)}%`;
+    img.style.top = `${random(10, 80)}%`;
+    img.style.width = `${random(45, 140)}px`;
+    img.dataset.rotation = random(-30, 30);
+
+    beerPhotos.appendChild(img);
+  }
+}
+
+beerScreen.addEventListener("pointerdown", (event) => {
+  if (event.target.id === "beer-close") return;
+  addBeerPhotos();
+});
+
+function drawBeer(time) {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  const dt = beerLastTime
+    ? Math.min((time - beerLastTime) / 1000, 0.05)
+    : 0.016;
+
+  beerLastTime = time;
+
+  beerCtx.clearRect(0, 0, width, height);
+
+  let pitchDifference = 0;
+  let rollDifference = 0;
+
+  if (rawBeta !== null && beerBaseBeta !== null) {
+    pitchDifference = rawBeta - beerBaseBeta;
+  }
+
+  if (rawGamma !== null && beerBaseGamma !== null) {
+    rollDifference = rawGamma - beerBaseGamma;
+  }
+
+  const drinkingAngle = Math.max(
+    0,
+    Math.abs(pitchDifference) - 18
+  );
+
+  if (
+    beerScreen.classList.contains("active") &&
+    drinkingAngle > 0
+  ) {
+    beerLevel -= (drinkingAngle / 35) * 0.0008 * dt * 60;
+    beerLevel = Math.max(0.02, beerLevel);
+  }
+
+  const surfaceY = height * (1 - beerLevel);
+
+  beerSurfaceOffset +=
+    ((rollDifference / 45) * 50 - beerSurfaceOffset) * 0.08;
+
+  const beerGradient = beerCtx.createLinearGradient(
+    0,
+    surfaceY,
+    0,
+    height
+  );
+
+  beerGradient.addColorStop(0, "#f5c35b");
+  beerGradient.addColorStop(0.25, "#e6a337");
+  beerGradient.addColorStop(1, "#b66a13");
+
+  beerCtx.fillStyle = beerGradient;
+  beerCtx.beginPath();
+  beerCtx.moveTo(0, surfaceY + beerSurfaceOffset);
+
+  for (let x = 0; x <= width + 10; x += 10) {
+    const wave =
+      Math.sin(x * 0.012 + time * 0.0015) * 5 +
+      Math.sin(x * 0.025 + time * 0.001) * 3;
+
+    beerCtx.lineTo(
+      x,
+      surfaceY + beerSurfaceOffset + wave
+    );
+  }
+
+  beerCtx.lineTo(width, height);
+  beerCtx.lineTo(0, height);
+  beerCtx.closePath();
+  beerCtx.fill();
+
+  /* Foam */
+
+  beerCtx.fillStyle = "#fff3d4";
+  beerCtx.beginPath();
+  beerCtx.moveTo(0, surfaceY + beerSurfaceOffset - 3);
+
+  for (let x = 0; x <= width + 10; x += 8) {
+    const foamWave =
+      Math.sin(x * 0.04 + time * 0.001) * 4 +
+      Math.sin(x * 0.09 + time * 0.0017) * 2;
+
+    beerCtx.lineTo(
+      x,
+      surfaceY + beerSurfaceOffset + foamWave - 5
+    );
+  }
+
+  beerCtx.lineTo(
+    width,
+    surfaceY + beerSurfaceOffset + 7
+  );
+
+  beerCtx.lineTo(
+    0,
+    surfaceY + beerSurfaceOffset + 7
+  );
+
+  beerCtx.closePath();
+  beerCtx.fill();
+
+  /* Bubbles */
+
+  for (let i = 0; i < 35; i++) {
+    const bx = (i * 83 + time * 0.015) % width;
+
+    const by =
+      surfaceY + 20 +
+      ((i * 47 + time * 0.035) %
+        Math.max(30, height * beerLevel - 30));
+
+    beerCtx.beginPath();
+    beerCtx.arc(bx, by, (i % 3) + 1.5, 0, Math.PI * 2);
+    beerCtx.fillStyle = "rgba(255,245,205,.35)";
+    beerCtx.fill();
+  }
+
+  /* Photos move with tilt */
+
+  beerPhotos.querySelectorAll(".beer-photo").forEach((img) => {
+    const rotation = Number(img.dataset.rotation);
+
+    img.style.transform =
+      `translate(${rollDifference * 1.2}px, ${pitchDifference * 0.8}px) rotate(${rotation}deg)`;
+  });
+
+  requestAnimationFrame(drawBeer);
+}
+
+/* INITIAL STATE */
+
+renderWord();
+renderLetters();
+renderDrawing();
 
 </script>
+
 </body>
 </html>
