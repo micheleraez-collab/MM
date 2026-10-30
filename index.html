@@ -4,13 +4,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HOTTIE</title>
+<title>MARKO — 26</title>
 
 <style>
 @font-face {
   font-family: "NationalCode";
   src: url("NationalCodePiStd-Universal.otf") format("opentype");
   font-weight: 100 1000;
+  font-style: normal;
 }
 
 * {
@@ -27,6 +28,8 @@ body {
   cursor: crosshair;
 }
 
+/* MAIN CANVAS */
+
 #canvas-area {
   position: fixed;
   inset: 0;
@@ -42,7 +45,6 @@ body {
   transform: translate(-50%, -50%) rotate(var(--rotation));
   animation: appear 180ms ease-out;
   user-select: none;
-  will-change: transform;
 }
 
 .marko-image {
@@ -51,12 +53,17 @@ body {
   transform: translate(-50%, -50%) rotate(var(--rotation));
   animation: appear 180ms ease-out;
   user-select: none;
-  will-change: transform;
 }
 
 @keyframes appear {
-  from { opacity: 0; scale: 0; }
-  to { opacity: 1; scale: 1; }
+  from {
+    opacity: 0;
+    scale: 0;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
 }
 
 /* BUTTONS */
@@ -135,6 +142,10 @@ textarea {
   outline: none;
 }
 
+textarea:focus {
+  border-width: 2px;
+}
+
 .wish-buttons {
   display: flex;
   justify-content: space-between;
@@ -177,121 +188,216 @@ textarea {
   pointer-events: none;
 }
 
-/* BEER MODE */
+/* BEER SCREEN */
 
 #beer-screen {
   display: none;
   position: fixed;
   inset: 0;
   z-index: 40;
-  background: #111;
-  overflow: hidden;
+  background:
+    radial-gradient(ellipse at center, #393939 0%, #171717 65%, #080808 100%);
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  overflow: hidden;
   cursor: pointer;
+  touch-action: manipulation;
 }
+
+#beer-title {
+  position: absolute;
+  top: 8%;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: clamp(22px, 5vw, 42px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -1px;
+  z-index: 5;
+}
+
+/* GLASS */
 
 #beer-glass {
   position: relative;
-  width: min(72vw, 360px);
-  height: min(78vh, 580px);
-  border: 5px solid rgba(255,255,255,0.8);
-  border-top: 0;
-  border-radius: 0 0 45px 45px;
-  overflow: hidden;
-  transform: perspective(700px) rotate(0deg);
-  background: rgba(255,255,255,0.08);
+  width: min(65vw, 310px);
+  height: min(57vh, 470px);
+  margin-top: 35px;
+  border: 3px solid rgba(255,255,255,0.72);
+  border-top: 1px solid rgba(255,255,255,0.6);
+  border-radius: 12px 12px 48px 48px;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.16),
+    rgba(255,255,255,0.03) 18%,
+    rgba(255,255,255,0.08) 80%,
+    rgba(255,255,255,0.18)
+  );
   box-shadow:
-    inset 12px 0 18px rgba(255,255,255,0.12),
-    inset -12px 0 18px rgba(0,0,0,0.2),
-    0 0 35px rgba(255,255,255,0.12);
+    inset 9px 0 16px rgba(255,255,255,0.12),
+    inset -9px 0 16px rgba(255,255,255,0.1),
+    0 20px 60px rgba(0,0,0,0.45);
+  transform-origin: center center;
+  transition: transform 0.12s ease-out;
+  overflow: hidden;
 }
+
+#beer-content {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 8px 8px 43px 43px;
+}
+
+/* BEER LIQUID */
 
 #beer-liquid {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 82%;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(150,65,0,0.9),
-      #f6a900 18%,
-      #ffc02e 48%,
-      #d87a00 85%,
-      rgba(130,55,0,0.9)
-    );
-  border-radius: 0 0 38px 38px;
-  transition: height 0.25s ease;
-  overflow: hidden;
+  height: 85%;
+  background: linear-gradient(
+    90deg,
+    #a64c00 0%,
+    #e58a08 12%,
+    #ffc02e 35%,
+    #f9a900 65%,
+    #b95c00 100%
+  );
+  box-shadow: inset 0 8px 18px rgba(255,255,255,0.2);
+  transition: height 0.12s linear;
+  z-index: 1;
 }
 
 #beer-surface {
   position: absolute;
-  top: 0;
   left: -20%;
+  top: -12px;
   width: 140%;
-  height: 28px;
-  background: #ffca48;
+  height: 25px;
+  background: #ffcf57;
   border-radius: 50%;
-  transform: rotate(0deg);
-  box-shadow: 0 4px 12px rgba(255,255,255,0.4);
+  box-shadow: 0 5px 10px rgba(255,255,255,0.3);
+  transition: transform 0.12s ease-out;
 }
 
 #beer-foam {
   position: absolute;
-  top: -32px;
   left: -5%;
+  top: -25px;
   width: 110%;
-  height: 55px;
-  background: #fff4d6;
+  height: 48px;
   border-radius: 50%;
+  background: #fff4db;
   box-shadow:
-    0 4px 10px rgba(255,255,255,0.4),
-    inset 0 -5px 8px rgba(220,170,80,0.2);
+    0 3px 8px rgba(255,255,255,0.6),
+    inset 0 -6px 8px rgba(205,160,80,0.2);
+  transition: opacity 0.3s;
 }
 
-.bubble {
+/* BUBBLES */
+
+#beer-bubbles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.beer-bubble {
+  position: absolute;
+  bottom: -10px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.6);
+  animation: beer-bubble-rise 3s infinite ease-in;
+}
+
+@keyframes beer-bubble-rise {
+  from {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  to {
+    transform: translateY(-450px);
+    opacity: 0;
+  }
+}
+
+/* PHOTOS INSIDE GLASS */
+
+#marko-photos {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.beer-photo {
+  position: absolute;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 4px rgba(0,0,0,0.25));
+  will-change: left, top, transform;
+}
+
+/* GLASS REFLECTIONS */
+
+.glass-shine {
+  position: absolute;
+  top: 5%;
+  left: 8%;
+  width: 12px;
+  height: 80%;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.24);
+  filter: blur(4px);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.glass-rim {
+  position: absolute;
+  top: 0;
+  left: -2px;
+  right: -2px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.75);
+  box-shadow: 0 2px 8px rgba(255,255,255,0.25);
+  pointer-events: none;
+  z-index: 6;
+}
+
+.glass-base {
   position: absolute;
   bottom: 0;
-  width: 7px;
-  height: 7px;
-  background: rgba(255,255,255,0.55);
+  left: 10%;
+  width: 80%;
+  height: 8px;
   border-radius: 50%;
-  animation: bubbleUp 2.5s infinite ease-in;
-}
-
-@keyframes bubbleUp {
-  from { transform: translateY(0); opacity: 0; }
-  20% { opacity: 0.8; }
-  to { transform: translateY(-400px); opacity: 0; }
-}
-
-#beer-label {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  color: rgba(255,255,255,0.9);
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 24px;
-  font-weight: 900;
-  letter-spacing: 4px;
-  text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  background: rgba(255,255,255,0.2);
   pointer-events: none;
+  z-index: 6;
 }
 
 #beer-hint {
   position: absolute;
-  bottom: 35px;
+  bottom: 7%;
   color: white;
   font-family: Helvetica, Arial, sans-serif;
-  font-size: 12px;
-  letter-spacing: 1px;
-  opacity: 0.7;
+  font-size: 11px;
+  letter-spacing: 2px;
+  opacity: 0.65;
   text-align: center;
-  pointer-events: none;
+  padding: 0 15px;
 }
 
 #beer-close {
@@ -301,7 +407,7 @@ textarea {
   color: white;
   background: transparent;
   border-color: white;
-  z-index: 2;
+  z-index: 10;
 }
 
 /* MOBILE */
@@ -334,8 +440,12 @@ textarea {
   }
 
   #beer-glass {
-    width: 75vw;
-    height: 65vh;
+    width: 70vw;
+    height: 52vh;
+  }
+
+  #beer-title {
+    top: 12%;
   }
 }
 </style>
@@ -358,7 +468,9 @@ textarea {
 <div id="wish-panel">
   <div class="wish-content">
     <h2>MAKE A WISH</h2>
+
     <textarea id="wish-input" placeholder="Write your wish here..."></textarea>
+
     <div class="wish-buttons">
       <button id="close-wish">CLOSE ×</button>
       <button id="submit-wish">SEND WISH ↑</button>
@@ -377,24 +489,43 @@ textarea {
 <!-- BEER -->
 
 <div id="beer-screen">
+
   <button id="beer-close">CLOSE ×</button>
 
+  <div id="beer-title">DRINK A BEER<br>WITH MARKO.</div>
+
   <div id="beer-glass">
-    <div id="beer-liquid">
-      <div id="beer-surface"></div>
-      <div id="beer-foam"></div>
+    <div id="beer-content">
+
+      <div id="beer-liquid">
+        <div id="beer-bubbles"></div>
+        <div id="beer-surface"></div>
+        <div id="beer-foam"></div>
+      </div>
+
+      <div id="marko-photos"></div>
+
     </div>
-    <div id="beer-label">BEER</div>
+
+    <div class="glass-shine"></div>
+    <div class="glass-rim"></div>
+    <div class="glass-base"></div>
   </div>
 
-  <div id="beer-hint">TILT YOUR PHONE TO DRINK</div>
+  <div id="beer-hint">TILT TO DRINK · TAP TO FILL WITH MARKO</div>
+
 </div>
 
 <script>
+
+/* ELEMENTS */
+
 const canvasArea = document.getElementById("canvas-area");
 const counterDisplay = document.getElementById("click-counter");
+
 const wishPanel = document.getElementById("wish-panel");
 const wishInput = document.getElementById("wish-input");
+
 const thankYouScreen = document.getElementById("thank-you-screen");
 const thankYouImage = document.getElementById("thank-you-image");
 
@@ -402,19 +533,30 @@ const beerScreen = document.getElementById("beer-screen");
 const beerGlass = document.getElementById("beer-glass");
 const beerLiquid = document.getElementById("beer-liquid");
 const beerSurface = document.getElementById("beer-surface");
+const beerFoam = document.getElementById("beer-foam");
+const beerBubbles = document.getElementById("beer-bubbles");
+const markoPhotos = document.getElementById("marko-photos");
 
 let clickCount = 0;
 let sensorsEnabled = false;
 let beerMode = false;
-let beerLevel = 82;
+
+let beerLevel = 85;
 let lastBeta = 0;
 let lastGamma = 0;
 let lastShake = 0;
+let lastOrientationTime = 0;
 
 const colors = [
-  "#ff0000", "#0000ff", "#00a651",
-  "#ff6600", "#ff00aa", "#8b00ff",
-  "#000000", "#ffcc00", "#00a6a6"
+  "#ff0000",
+  "#0000ff",
+  "#00a651",
+  "#ff6600",
+  "#ff00aa",
+  "#8b00ff",
+  "#000000",
+  "#ffcc00",
+  "#00a6a6"
 ];
 
 function random(min, max) {
@@ -425,7 +567,7 @@ function randomImageNumber() {
   return Math.floor(Math.random() * 16) + 1;
 }
 
-/* SENSOR ACTIVATION ON FIRST TAP */
+/* SENSOR ACTIVATION */
 
 async function enableSensors() {
   if (sensorsEnabled) return;
@@ -435,7 +577,8 @@ async function enableSensors() {
       typeof DeviceOrientationEvent !== "undefined" &&
       typeof DeviceOrientationEvent.requestPermission === "function"
     ) {
-      const permission = await DeviceOrientationEvent.requestPermission();
+      const permission =
+        await DeviceOrientationEvent.requestPermission();
 
       if (permission !== "granted") return;
     }
@@ -448,20 +591,23 @@ async function enableSensors() {
     if ("DeviceMotionEvent" in window) {
       window.addEventListener("devicemotion", handleMotion);
     }
+
   } catch (error) {
     console.log("Motion sensors unavailable:", error);
   }
 }
 
-/* CREATE TEXT OR IMAGE */
+/* CREATE MARKO ELEMENTS */
 
 function createMarko() {
+
   if (Math.random() < 0.08) {
     createRandomImage();
     return;
   }
 
   const element = document.createElement("div");
+
   element.className = "marko";
   element.textContent = Math.random() < 0.5 ? "MARKO" : "26";
 
@@ -475,6 +621,7 @@ function createMarko() {
   element.style.fontWeight = Math.floor(random(100, 1001));
   element.style.color = color;
   element.style.fontStyle = Math.random() < 0.35 ? "italic" : "normal";
+
   element.style.setProperty("--rotation", rotation + "deg");
 
   canvasArea.appendChild(element);
@@ -482,6 +629,7 @@ function createMarko() {
 
 function createRandomImage() {
   const image = document.createElement("img");
+
   image.className = "marko-image";
   image.src = `${randomImageNumber()}.png`;
 
@@ -492,10 +640,13 @@ function createRandomImage() {
   image.style.height = size + "px";
   image.style.left = random(0, window.innerWidth) + "px";
   image.style.top = random(0, window.innerHeight) + "px";
+
   image.style.setProperty("--rotation", rotation + "deg");
 
   canvasArea.appendChild(image);
 }
+
+/* COUNTER AND RESET */
 
 function updateCounter() {
   counterDisplay.textContent = clickCount + " / 10";
@@ -516,7 +667,9 @@ document.addEventListener("click", async function(event) {
     event.target.closest("#wish-panel") ||
     event.target.closest("#thank-you-screen") ||
     event.target.closest("#beer-screen")
-  ) return;
+  ) {
+    return;
+  }
 
   if (wishPanel.style.display === "flex") return;
 
@@ -538,9 +691,10 @@ document.addEventListener("click", async function(event) {
   updateCounter();
 });
 
-/* DEVICE TILT */
+/* ORIENTATION */
 
 function handleOrientation(event) {
+
   const beta = event.beta || 0;
   const gamma = event.gamma || 0;
 
@@ -552,23 +706,16 @@ function handleOrientation(event) {
     return;
   }
 
-  const elements = document.querySelectorAll(".marko, .marko-image");
-
-  elements.forEach(element => {
-    const originalLeft = parseFloat(element.style.left);
-    const originalTop = parseFloat(element.style.top);
-
-    const moveX = gamma * 1.1;
-    const moveY = beta * 0.7;
-
-    element.style.marginLeft = moveX + "px";
-    element.style.marginTop = moveY + "px";
+  document.querySelectorAll(".marko, .marko-image").forEach(element => {
+    element.style.marginLeft = gamma * 1.1 + "px";
+    element.style.marginTop = beta * 0.7 + "px";
   });
 }
 
-/* SHAKE EFFECT */
+/* SHAKE */
 
 function handleMotion(event) {
+
   if (beerMode) return;
 
   const acceleration = event.accelerationIncludingGravity;
@@ -585,8 +732,8 @@ function handleMotion(event) {
     lastShake = now;
 
     document.querySelectorAll(".marko, .marko-image").forEach(element => {
-      element.style.transition = "transform 0.2s";
-      element.style.translate = `${random(-35, 35)}px ${random(-35, 35)}px`;
+      element.style.translate =
+        `${random(-35, 35)}px ${random(-35, 35)}px`;
     });
   }
 }
@@ -594,6 +741,7 @@ function handleMotion(event) {
 /* PNG DOWNLOAD */
 
 document.getElementById("download-button").addEventListener("click", async function() {
+
   await document.fonts.ready;
 
   const width = window.innerWidth;
@@ -605,6 +753,7 @@ document.getElementById("download-button").addEventListener("click", async funct
 
   canvas.width = width * scale;
   canvas.height = height * scale;
+
   ctx.scale(scale, scale);
 
   ctx.fillStyle = "white";
@@ -612,37 +761,59 @@ document.getElementById("download-button").addEventListener("click", async funct
 
   const elements = document.querySelectorAll(".marko, .marko-image");
 
-  await Promise.all(
-    Array.from(document.querySelectorAll(".marko-image")).map(image => {
-      if (image.complete && image.naturalWidth > 0) return Promise.resolve();
+  const images = Array.from(document.querySelectorAll(".marko-image"));
 
-      return new Promise(resolve => {
-        image.onload = resolve;
-        image.onerror = resolve;
-      });
-    })
-  );
+  await Promise.all(images.map(image => {
+    if (image.complete && image.naturalWidth > 0) {
+      return Promise.resolve();
+    }
+
+    return new Promise(resolve => {
+      image.onload = resolve;
+      image.onerror = resolve;
+    });
+  }));
 
   elements.forEach(element => {
+
     const rect = element.getBoundingClientRect();
     const style = window.getComputedStyle(element);
 
     ctx.save();
-    ctx.translate(rect.left + rect.width / 2, rect.top + rect.height / 2);
 
-    const rotation = parseFloat(element.style.getPropertyValue("--rotation")) || 0;
+    ctx.translate(
+      rect.left + rect.width / 2,
+      rect.top + rect.height / 2
+    );
+
+    const rotation =
+      parseFloat(element.style.getPropertyValue("--rotation")) || 0;
+
     ctx.rotate(rotation * Math.PI / 180);
 
     if (element.classList.contains("marko-image")) {
+
       if (element.complete && element.naturalWidth > 0) {
-        ctx.drawImage(element, -rect.width / 2, -rect.height / 2, rect.width, rect.height);
+        ctx.drawImage(
+          element,
+          -rect.width / 2,
+          -rect.height / 2,
+          rect.width,
+          rect.height
+        );
       }
+
     } else {
+
       const size = parseFloat(style.fontSize);
-      ctx.font = `${style.fontStyle} ${style.fontWeight} ${size}px "NationalCode"`;
+
+      ctx.font =
+        `${style.fontStyle} ${style.fontWeight} ${size}px "NationalCode"`;
+
       ctx.fillStyle = style.color;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
+
       ctx.fillText(element.textContent, 0, 0);
     }
 
@@ -650,9 +821,11 @@ document.getElementById("download-button").addEventListener("click", async funct
   });
 
   const link = document.createElement("a");
+
   link.download = "MARKO-26.png";
   link.href = canvas.toDataURL("image/png");
   link.click();
+
 });
 
 /* WISH PANEL */
@@ -668,10 +841,12 @@ document.getElementById("close-wish").addEventListener("click", function() {
 });
 
 function showRandomImage() {
-  thankYouImage.style.backgroundImage = `url("${randomImageNumber()}.png")`;
+  const imageNumber = randomImageNumber();
+  thankYouImage.style.backgroundImage = `url("${imageNumber}.png")`;
 }
 
 document.getElementById("submit-wish").addEventListener("click", function() {
+
   if (wishInput.value.trim() === "") {
     wishInput.focus();
     return;
@@ -682,7 +857,9 @@ document.getElementById("submit-wish").addEventListener("click", function() {
 
   resetCanvas();
   showRandomImage();
+
   thankYouScreen.style.display = "flex";
+
 });
 
 thankYouScreen.addEventListener("click", function() {
@@ -692,66 +869,228 @@ thankYouScreen.addEventListener("click", function() {
 
 /* BEER MODE */
 
-document.getElementById("beer-button").addEventListener("click", async function() {
-  await enableSensors();
+function openBeer() {
 
   beerMode = true;
-  beerLevel = 82;
-  beerLiquid.style.height = beerLevel + "%";
+  beerLevel = 85;
+
+  beerLiquid.style.height = "85%";
+  beerFoam.style.opacity = "1";
+
+  markoPhotos.innerHTML = "";
+
+  document.getElementById("beer-hint").textContent =
+    "TILT TO DRINK · TAP TO FILL WITH MARKO";
+
+  beerGlass.style.opacity = "1";
+  beerGlass.style.transform = "none";
+
   beerScreen.style.display = "flex";
 
-  updateBeer(lastBeta, lastGamma);
-});
-
-document.getElementById("beer-close").addEventListener("click", function(event) {
-  event.stopPropagation();
-  closeBeer();
-});
-
-function updateBeer(beta, gamma) {
-  // Tilt controls the angle of the glass and the beer surface
-  const tilt = Math.max(-55, Math.min(55, gamma));
-  beerGlass.style.transform = `perspective(700px) rotate(${tilt * 0.65}deg)`;
-
-  beerSurface.style.transform =
-    `translateY(${beta * 0.5}px) rotate(${-gamma * 0.8}deg)`;
-
-  // When the phone is tilted strongly, the beer level drops
-  if (beta > 55 || beta < -55) {
-    beerLevel = Math.max(0, beerLevel - 0.12);
-    beerLiquid.style.height = beerLevel + "%";
-  }
-
-  // Refill when the phone is brought upright again
-  if (Math.abs(beta) < 25 && Math.abs(gamma) < 25) {
-    beerLevel = Math.min(82, beerLevel + 0.025);
-    beerLiquid.style.height = beerLevel + "%";
-  }
-
-  if (beerLevel <= 0) {
-    beerGlass.style.opacity = "0.55";
-  } else {
-    beerGlass.style.opacity = "1";
-  }
+  createBeerBubbles();
 }
 
-function closeBeer() {
-  beerMode = false;
-  beerScreen.style.display = "none";
-  beerGlass.style.transform = "perspective(700px) rotate(0deg)";
-  beerGlass.style.opacity = "1";
+document.getElementById("beer-button").addEventListener("click", async function() {
+  await enableSensors();
+  openBeer();
+});
+
+/* TAP GLASS = ADD PHOTOS, NOT DRINK */
+
+beerGlass.addEventListener("click", function(event) {
+  event.stopPropagation();
+
+  if (!beerMode) return;
+
+  const amount = Math.floor(random(2, 5));
+
+  for (let i = 0; i < amount; i++) {
+    addBeerPhoto();
+  }
+
+  document.getElementById("beer-hint").textContent =
+    "MORE MARKO · MORE MARKO · MORE MARKO";
+});
+
+/* ADD PHOTOS */
+
+function addBeerPhoto() {
+
+  const image = document.createElement("img");
+
+  image.className = "beer-photo";
+  image.src = `${randomImageNumber()}.png`;
+
+  const size = random(45, 100);
+
+  image.style.width = size + "px";
+  image.style.height = size + "px";
+
+  const glassWidth = markoPhotos.clientWidth;
+  const glassHeight = markoPhotos.clientHeight;
+
+  const margin = size / 2 + 4;
+
+  const x = random(margin, Math.max(margin, glassWidth - margin));
+  const y = random(margin, Math.max(margin, glassHeight - margin));
+
+  const rotation = random(-35, 35);
+
+  image.dataset.x = x;
+  image.dataset.y = y;
+
+  image.dataset.vx = random(-0.5, 0.5);
+  image.dataset.vy = random(-0.5, 0.5);
+
+  image.dataset.rotation = rotation;
+  image.dataset.spin = random(-0.4, 0.4);
+  image.dataset.size = size;
+
+  image.style.left = x + "px";
+  image.style.top = y + "px";
+  image.style.transform =
+    `translate(-50%, -50%) rotate(${rotation}deg)`;
+
+  markoPhotos.appendChild(image);
+}
+
+/* TILT = DRINK BEER, PHOTOS MOVE TOO */
+
+function updateBeer(beta, gamma) {
+
+  if (!beerMode) return;
+
+  // Glass movement
+  const tilt = Math.max(-35, Math.min(35, gamma));
+
+  beerGlass.style.transform =
+    `perspective(800px) rotate(${tilt * 0.45}deg)`;
+
+  // Beer surface reacts to tilt
+  beerSurface.style.transform =
+    `translateY(${beta * 0.25}px) rotate(${-gamma * 0.7}deg)`;
+
+  // The beer gets consumed while the phone is tilted
+  const drinkingAngle = Math.max(0, Math.abs(beta) - 40);
+
+  if (drinkingAngle > 0 && beerLevel > 0) {
+
+    beerLevel = Math.max(
+      0,
+      beerLevel - drinkingAngle * 0.00035
+    );
+
+    beerLiquid.style.height = beerLevel + "%";
+    beerFoam.style.opacity = Math.max(0, beerLevel / 85);
+  }
+
+  // Gravity-like movement for photos
+  const photos = document.querySelectorAll(".beer-photo");
+
+  const width = markoPhotos.clientWidth;
+  const height = markoPhotos.clientHeight;
+
+  photos.forEach(photo => {
+
+    let x = parseFloat(photo.dataset.x);
+    let y = parseFloat(photo.dataset.y);
+
+    let vx = parseFloat(photo.dataset.vx);
+    let vy = parseFloat(photo.dataset.vy);
+
+    let rotation = parseFloat(photo.dataset.rotation);
+    let spin = parseFloat(photo.dataset.spin);
+
+    const size = parseFloat(photo.dataset.size);
+
+    // Phone tilt acts like gravity
+    vx += gamma * 0.006;
+    vy += beta * 0.006;
+
+    // Air/liquid resistance
+    vx *= 0.985;
+    vy *= 0.985;
+
+    // Move photos
+    x += vx;
+    y += vy;
+
+    // Photos bounce against glass walls
+    const halfSize = size / 2;
+
+    if (x < halfSize || x > width - halfSize) {
+      vx *= -0.65;
+      x = Math.max(halfSize, Math.min(width - halfSize, x));
+    }
+
+    if (y < halfSize || y > height - halfSize) {
+      vy *= -0.65;
+      y = Math.max(halfSize, Math.min(height - halfSize, y));
+    }
+
+    // Rotation follows movement
+    rotation += spin + vx * 0.12;
+
+    // Save physics values
+    photo.dataset.x = x;
+    photo.dataset.y = y;
+
+    photo.dataset.vx = vx;
+    photo.dataset.vy = vy;
+
+    photo.dataset.rotation = rotation;
+
+    // Update visual position
+    photo.style.left = x + "px";
+    photo.style.top = y + "px";
+
+    photo.style.transform =
+      `translate(-50%, -50%) rotate(${rotation}deg)`;
+
+  });
+
+  if (beerLevel <= 0) {
+    document.getElementById("beer-hint").textContent =
+      "ALL GONE. ONLY MARKO LEFT.";
+  }
+
 }
 
 /* BUBBLES */
 
-for (let i = 0; i < 18; i++) {
-  const bubble = document.createElement("div");
-  bubble.className = "bubble";
-  bubble.style.left = random(5, 95) + "%";
-  bubble.style.animationDelay = random(0, 3) + "s";
-  bubble.style.animationDuration = random(1.5, 4) + "s";
-  beerLiquid.appendChild(bubble);
+function createBeerBubbles() {
+
+  beerBubbles.innerHTML = "";
+
+  for (let i = 0; i < 25; i++) {
+
+    const bubble = document.createElement("div");
+
+    bubble.className = "beer-bubble";
+    bubble.style.left = random(5, 95) + "%";
+    bubble.style.animationDelay = random(0, 4) + "s";
+    bubble.style.animationDuration = random(2, 5) + "s";
+
+    beerBubbles.appendChild(bubble);
+
+  }
+
 }
+
+/* CLOSE BEER */
+
+document.getElementById("beer-close").addEventListener("click", function(event) {
+
+  event.stopPropagation();
+
+  beerMode = false;
+  beerScreen.style.display = "none";
+
+  beerGlass.style.transform = "none";
+  beerGlass.style.opacity = "1";
+
+});
+
 </script>
 
 </body>
