@@ -1,4 +1,74 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: white;
+  overflow: hidden;
+  cursor: crosshair;
+}
+
+.background {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.background img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+#markos {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.marko {
+  position: absolute;
+  white-space: nowrap;
+  font-weight: 900;
+  line-height: 0.8;
+  user-select: none;
+  animation: appear 0.15s ease-out;
+}
+
+@keyframes appear {
+  from { transform: scale(0); }
+  to { transform: scale(1) rotate(var(--rotation)); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background">
+  <img src="birthday.gif" alt="">
+</div>
+
+<div id="markos"></div>
+
 <script>
 const container = document.getElementById("markos");
 
@@ -29,20 +99,14 @@ function createMarko() {
   marko.className = "marko";
   marko.textContent = "MARKO";
 
-  marko.style.left = random(-5, 95) + "vw";
-  marko.style.top = random(-5, 95) + "vh";
+  marko.style.left = random(0, 95) + "vw";
+  marko.style.top = random(0, 95) + "vh";
   marko.style.fontSize = random(12, 180) + "px";
-  marko.style.color = colors[
-    Math.floor(Math.random() * colors.length)
-  ];
-  marko.style.fontFamily = fonts[
-    Math.floor(Math.random() * fonts.length)
-  ];
+  marko.style.color = colors[Math.floor(Math.random() * colors.length)];
+  marko.style.fontFamily = fonts[Math.floor(Math.random() * fonts.length)];
   marko.style.fontWeight = random(100, 1000);
   marko.style.fontStyle = Math.random() > 0.5 ? "italic" : "normal";
-  marko.style.setProperty(
-    "--rotation", random(-90, 90) + "deg"
-  );
+  marko.style.setProperty("--rotation", random(-90, 90) + "deg");
 
   container.appendChild(marko);
 }
@@ -56,7 +120,7 @@ function explosion() {
 document.addEventListener("click", () => {
   clickCount++;
 
-  if (clickCount >= 10) {
+  if (clickCount === 10) {
     container.innerHTML = "";
     clickCount = 0;
   } else {
@@ -64,3 +128,6 @@ document.addEventListener("click", () => {
   }
 });
 </script>
+
+</body>
+</html>
