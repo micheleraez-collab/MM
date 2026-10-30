@@ -1,83 +1,4 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title></title>
-
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  width: 100%;
-  min-height: 100%;
-  background: white;
-  overflow-x: hidden;
-  cursor: crosshair;
-}
-
-body {
-  min-height: 100vh;
-}
-
-.background {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.background img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-#markos {
-  position: fixed;
-  inset: 0;
-  z-index: 10;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.marko {
-  position: absolute;
-  white-space: nowrap;
-  font-weight: 900;
-  line-height: 0.8;
-  animation: appear 0.15s ease-out;
-  user-select: none;
-}
-
-@keyframes appear {
-  from {
-    transform: scale(0) rotate(0deg);
-  }
-  to {
-    transform: scale(1) rotate(var(--rotation));
-  }
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="background">
-  <img src="birthday.gif" alt="">
-</div>
-
-<div id="markos"></div>
-
 <script>
 const container = document.getElementById("markos");
 
@@ -90,19 +11,14 @@ const colors = [
 ];
 
 const fonts = [
-  "Arial",
-  "Helvetica",
-  "Impact",
-  "Georgia",
-  "Comic Sans MS",
-  "Times New Roman",
-  "Courier New",
-  "Verdana",
-  "Trebuchet MS",
-  "Papyrus",
-  "fantasy",
-  "cursive"
+  "Arial", "Helvetica", "Impact",
+  "Georgia", "Comic Sans MS",
+  "Times New Roman", "Courier New",
+  "Verdana", "Trebuchet MS",
+  "Papyrus", "fantasy", "cursive"
 ];
+
+let clickCount = 0;
 
 function random(min, max) {
   return Math.random() * (max - min) + min;
@@ -124,25 +40,27 @@ function createMarko() {
   ];
   marko.style.fontWeight = random(100, 1000);
   marko.style.fontStyle = Math.random() > 0.5 ? "italic" : "normal";
-  marko.style.setProperty("--rotation", random(-90, 90) + "deg");
+  marko.style.setProperty(
+    "--rotation", random(-90, 90) + "deg"
+  );
 
   container.appendChild(marko);
 }
 
 function explosion() {
-  const amount = 250;
-
-  for (let i = 0; i < amount; i++) {
+  for (let i = 0; i < 250; i++) {
     createMarko();
   }
 }
 
 document.addEventListener("click", () => {
-  explosion();
+  clickCount++;
+
+  if (clickCount >= 10) {
+    container.innerHTML = "";
+    clickCount = 0;
+  } else {
+    explosion();
+  }
 });
-
-// Erste kleine Überraschung beim ersten Klick
 </script>
-
-</body>
-</html>
