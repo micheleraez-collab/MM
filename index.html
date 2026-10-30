@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>hotttie</title>
+<title>hottie</title>
 
 <style>
 * { box-sizing: border-box; }
@@ -18,10 +18,7 @@ html, body {
   font-family: Helvetica, Arial, sans-serif;
 }
 
-button {
-  font: inherit;
-  cursor: pointer;
-}
+button { font: inherit; cursor: pointer; }
 
 #stage {
   position: fixed;
@@ -43,11 +40,7 @@ button {
   line-height: .85;
 }
 
-.item img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
+.item img { display: block; width: 100%; height: auto; }
 
 #controls {
   position: fixed;
@@ -69,12 +62,7 @@ button {
   letter-spacing: .02em;
 }
 
-.ui-button:hover {
-  background: black;
-  color: white;
-}
-
-/* GENERAL SCREENS */
+.ui-button:hover { background: black; color: white; }
 
 .screen {
   display: none;
@@ -86,8 +74,6 @@ button {
 
 .screen.active { display: block; }
 
-/* WISH INPUT */
-
 #wish-screen {
   display: none;
   align-items: center;
@@ -97,10 +83,7 @@ button {
 
 #wish-screen.active { display: flex; }
 
-#wish-panel {
-  width: min(420px, 100%);
-  text-align: center;
-}
+#wish-panel { width: min(420px, 100%); text-align: center; }
 
 #wish-panel h2 {
   font-size: 24px;
@@ -121,11 +104,7 @@ button {
   background: transparent;
 }
 
-#wish-submit {
-  margin-top: 24px;
-}
-
-/* WISH LAUNCH SCREEN */
+#wish-submit { margin-top: 24px; }
 
 #thank-you {
   display: none;
@@ -139,9 +118,7 @@ button {
   user-select: none;
 }
 
-#thank-you.active {
-  display: flex;
-}
+#thank-you.active { display: flex; }
 
 #throw-instruction {
   position: absolute;
@@ -175,21 +152,10 @@ button {
 }
 
 @keyframes wish-launch {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
-  25% {
-    transform: translate(-50%, -58%) scale(1.08);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, -160vh) scale(.35);
-    opacity: 0;
-  }
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  25% { transform: translate(-50%, -58%) scale(1.08); opacity: 1; }
+  100% { transform: translate(-50%, -160vh) scale(.35); opacity: 0; }
 }
-
-/* THANK YOU AFTER LAUNCH */
 
 #wish-thank-you {
   display: none;
@@ -204,9 +170,7 @@ button {
   animation: thank-you-appear .7s ease both;
 }
 
-#wish-thank-you.show {
-  display: flex;
-}
+#wish-thank-you.show { display: flex; }
 
 #wish-thank-you-image {
   width: 130px;
@@ -216,10 +180,7 @@ button {
   margin-bottom: 24px;
 }
 
-#wish-thank-you div {
-  font-size: 28px;
-  font-weight: 400;
-}
+#wish-thank-you div { font-size: 28px; font-weight: 400; }
 
 #wish-thank-you p {
   font-size: 12px;
@@ -228,17 +189,9 @@ button {
 }
 
 @keyframes thank-you-appear {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-
-/* HANGMAN */
 
 #hangman-screen {
   overflow-y: auto;
@@ -318,10 +271,7 @@ button {
   font-size: 13px;
 }
 
-.letter-button:disabled {
-  opacity: .2;
-  cursor: default;
-}
+.letter-button:disabled { opacity: .2; cursor: default; }
 
 #hangman-message {
   min-height: 30px;
@@ -346,14 +296,8 @@ button {
 }
 
 @keyframes pop-in {
-  0% {
-    opacity: 0;
-    transform: scale(.1) rotate(var(--rotation));
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) rotate(var(--rotation));
-  }
+  0% { opacity: 0; transform: scale(.1) rotate(var(--rotation)); }
+  100% { opacity: 1; transform: scale(1) rotate(var(--rotation)); }
 }
 
 #you-won {
@@ -372,11 +316,7 @@ button {
   animation: blink .5s steps(2, start) infinite;
 }
 
-@keyframes blink {
-  to { visibility: hidden; }
-}
-
-/* BEER */
+@keyframes blink { to { visibility: hidden; } }
 
 #beer-screen {
   background: #17100a;
@@ -432,8 +372,6 @@ button {
   color: white;
 }
 
-/* HELVETICA + LEICHTE SPERRUNG */
-
 * {
   font-family: Helvetica, Arial, sans-serif !important;
   letter-spacing: .035em;
@@ -451,8 +389,6 @@ button {
   <button class="ui-button" id="wish-button">ADD WISH +</button>
 </div>
 
-
-<!-- WISH INPUT -->
 <div id="wish-screen" class="screen">
   <div id="wish-panel">
     <h2>MAKE A WISH</h2>
@@ -464,11 +400,9 @@ button {
   </div>
 </div>
 
-<!-- WISH LAUNCH AND THANK YOU -->
 <div id="thank-you">
   <div id="throw-instruction">THROW IT INTO THE UNIVERSE</div>
   <div id="your-wish">YOUR WISH</div>
-
   <div id="wish-thank-you">
     <img id="wish-thank-you-image" src="1.png" alt="">
     <div>THANK YOU!</div>
@@ -476,40 +410,26 @@ button {
   </div>
 </div>
 
-<!-- HANGMAN -->
 <div id="hangman-screen" class="screen">
   <button class="ui-button" id="hangman-close">CLOSE</button>
-
   <div id="win-images"></div>
   <div id="you-won">WIN WIN WIN</div>
 
   <div class="hangman-content">
     <svg id="hangman-drawing" viewBox="0 0 180 180">
-
       <path class="hm-part" id="hm-1" d="M25 165 H155"/>
       <path class="hm-part" id="hm-2" d="M55 165 V15 H120 V35"/>
-
       <defs>
         <clipPath id="headClip">
           <circle cx="120" cy="52" r="17"/>
         </clipPath>
       </defs>
-
-      <image
-        id="hm-head-photo"
-        x="103"
-        y="35"
-        width="34"
-        height="34"
-        preserveAspectRatio="xMidYMid slice"
-        clip-path="url(#headClip)"
-        style="display:none;"
-      />
-
+      <image id="hm-head-photo" x="103" y="35" width="34" height="34"
+        preserveAspectRatio="xMidYMid slice" clip-path="url(#headClip)"
+        style="display:none;" />
       <path class="hm-part" id="hm-4" d="M120 69 V112"/>
       <path class="hm-part" id="hm-5" d="M120 80 L95 100"/>
       <path class="hm-part" id="hm-6" d="M120 80 L145 100"/>
-
     </svg>
 
     <div id="hangman-word"></div>
@@ -518,7 +438,6 @@ button {
   </div>
 </div>
 
-<!-- BEER -->
 <div id="beer-screen" class="screen">
   <img id="beer-reveal-photo" src="1.png" alt="">
   <canvas id="beer-canvas"></canvas>
@@ -527,7 +446,6 @@ button {
 </div>
 
 <script>
-
 /* SHARED SETTINGS */
 
 const stage = document.getElementById("stage");
@@ -566,136 +484,642 @@ async function enableSensors() {
       const permission = await DeviceOrientationEvent.requestPermission();
       if (permission !== "granted") return;
     } catch (error) {
-      console.log("Sensor permission:", error);
+      console.warn("Sensor permission denied:", error);
       return;
     }
   }
 
-  window.addEventListener("deviceorientation", (event) => {
-    if (event.beta !== null) rawBeta = event.beta;
-    if (event.gamma !== null) rawGamma = event.gamma;
+  window.addEventListener("deviceorientation", event => {
+    if (event.beta === null || event.gamma === null) return;
 
-    const beta = event.beta ?? 0;
-    const gamma = event.gamma ?? 0;
+    rawBeta = event.beta;
+    rawGamma = event.gamma;
 
-    // Relative movement from the neutral position, with reduced sensitivity.
-    if (sensorBaseBeta === null) sensorBaseBeta = beta;
-    if (sensorBaseGamma === null) sensorBaseGamma = gamma;
+    if (sensorBaseBeta === null) sensorBaseBeta = rawBeta;
+    if (sensorBaseGamma === null) sensorBaseGamma = rawGamma;
 
-    const targetX = Math.max(-0.65, Math.min(0.65, (gamma - sensorBaseGamma) / 58));
-    const targetY = Math.max(-0.65, Math.min(0.65, (beta - sensorBaseBeta) / 72));
+    const targetX = Math.max(-1, Math.min(1, (rawGamma - sensorBaseGamma) / 22));
+    const targetY = Math.max(-1, Math.min(1, (rawBeta - sensorBaseBeta) / 28));
 
-    tiltX += (targetX - tiltX) * 0.045;
-    tiltY += (targetY - tiltY) * 0.045;
+    tiltX += (targetX - tiltX) * 0.12;
+    tiltY += (targetY - tiltY) * 0.12;
   });
 
   sensorsStarted = true;
 }
 
-document.addEventListener("pointerdown", enableSensors, { once: true });
-
-/* RANDOM LANDING PAGE */
-
-function createLandingItem() {
-  const isImage = Math.random() < 0.12;
-  const element = document.createElement("div");
-
-  element.className = "item";
-
-  const x = random(-5, window.innerWidth - 30);
-  const y = random(-5, window.innerHeight - 30);
-  const rotation = random(-65, 65);
-
-  if (isImage) {
-    const img = document.createElement("img");
-    img.src = randomItem(imageFiles);
-    img.alt = "";
-
-    element.appendChild(img);
-    element.style.width = `${random(35, 220)}px`;
-  } else {
-    element.textContent = Math.random() < 0.5 ? "MARKO" : "26";
-    element.style.fontFamily = "Helvetica, Arial, sans-serif";
-    element.style.fontSize = `${random(18, 150)}px`;
-    element.style.fontWeight = randomItem(["400", "600", "800"]);
-
-    element.style.color = randomItem([
-      "#000000",
-      "#ed1c24",
-      "#2445ff",
-      "#00a651",
-      "#ff6b00",
-      "#a000c8",
-      "#ff1493"
-    ]);
-  }
-
-  element.style.left = `${x}px`;
-  element.style.top = `${y}px`;
-
-  element.dataset.x = x;
-  element.dataset.y = y;
-  element.dataset.rotation = rotation;
-
-  // Every element gets its own tilt direction and movement strength.
-  element.dataset.tiltX = (Math.random() < 0.5 ? -1 : 1) * random(110, 240);
-  element.dataset.tiltY = (Math.random() < 0.5 ? -1 : 1) * random(110, 240);
-  element.dataset.rotateX = (Math.random() < 0.5 ? -1 : 1) * random(25, 65);
-  element.dataset.rotateY = (Math.random() < 0.5 ? -1 : 1) * random(25, 65);
-  element.dataset.rotateZ = (Math.random() < 0.5 ? -1 : 1) * random(12, 35);
-
-  element.style.transform = `rotate(${rotation}deg)`;
-
-  stage.appendChild(element);
-}
+/* LANDING COMPOSITION */
 
 function generateComposition() {
   stage.innerHTML = "";
 
-  let amount;
-  const chance = Math.random();
+  const items = [
+    { type: "text", content: "MARKO", size: 13 },
+    { type: "text", content: "26", size: 180 },
+    { type: "image", content: "1.png", width: 150 },
+    { type: "image", content: "2.png", width: 110 },
+    { type: "image", content: "3.png", width: 180 },
+    { type: "image", content: "4.png", width: 120 },
+    { type: "image", content: "5.png", width: 140 },
+    { type: "image", content: "6.png", width: 100 },
+    { type: "image", content: "7.png", width: 170 },
+    { type: "image", content: "8.png", width: 120 },
+    { type: "image", content: "9.png", width: 150 },
+    { type: "image", content: "10.png", width: 110 },
+    { type: "image", content: "11.png", width: 130 },
+    { type: "image", content: "12.png", width: 170 },
+    { type: "image", content: "13.png", width: 100 },
+    { type: "image", content: "14.png", width: 140 },
+    { type: "image", content: "15.png", width: 120 },
+    { type: "image", content: "16.png", width: 160 }
+  ];
 
-  if (chance < 0.15) {
-    amount = Math.floor(random(3, 12));
-  } else if (chance < 0.45) {
-    amount = Math.floor(random(12, 30));
-  } else if (chance < 0.80) {
-    amount = Math.floor(random(30, 65));
-  } else {
-    amount = Math.floor(random(65, 110));
-  }
+  items.forEach(item => {
+    const element = document.createElement("div");
+    element.className = "item";
 
-  for (let i = 0; i < amount; i++) {
-    createLandingItem();
-  }
+    if (item.type === "text") {
+      element.textContent = item.content;
+      element.style.fontSize = `${item.size}px`;
+      element.style.fontWeight = "900";
+    } else {
+      const img = document.createElement("img");
+      img.src = item.content;
+      img.alt = "";
+      img.style.width = `${item.width}px`;
+      element.appendChild(img);
+    }
 
+    element.style.left = `${random(0, 85)}vw`;
+    element.style.top = `${random(0, 85)}vh`;
+
+    element.dataset.tiltX = (Math.random() < 0.5 ? -1 : 1) * random(180, 360);
+    element.dataset.tiltY = (Math.random() < 0.5 ? -1 : 1) * random(180, 360);
+    element.dataset.rotateX = (Math.random() < 0.5 ? -1 : 1) * random(35, 85);
+    element.dataset.rotateY = (Math.random() < 0.5 ? -1 : 1) * random(35, 85);
+    element.dataset.rotateZ = (Math.random() < 0.5 ? -1 : 1) * random(25, 55);
+
+    stage.appendChild(element);
+  });
 }
 
-stage.addEventListener("click", generateComposition);
-
 function animateLanding() {
-  document.querySelectorAll("#stage .item").forEach((item) => {
-    const x = Number(item.dataset.x);
-    const y = Number(item.dataset.y);
-    const rotation = Number(item.dataset.rotation);
-    const moveX = Number(item.dataset.tiltX);
-    const moveY = Number(item.dataset.tiltY);
-    const rotateX = Number(item.dataset.rotateX);
-    const rotateY = Number(item.dataset.rotateY);
-    const rotateZ = Number(item.dataset.rotateZ);
+  document.querySelectorAll(".item").forEach(element => {
+    const x = tiltX * Number(element.dataset.tiltX);
+    const y = tiltY * Number(element.dataset.tiltY);
+    const rx = tiltY * Number(element.dataset.rotateX);
+    const ry = tiltX * Number(element.dataset.rotateY);
+    const rz = (tiltX + tiltY) * Number(element.dataset.rotateZ);
 
-    // Each element moves independently, with its own direction and intensity.
-    item.style.left = `${x}px`;
-    item.style.top = `${y}px`;
-    item.style.transform = `
-      translate3d(${tiltX * moveX}px, ${tiltY * moveY}px, 0)
-      rotateX(${tiltY * rotateX}deg)
-      rotateY(${tiltX * rotateY}deg)
-      rotateZ(${rotation + tiltX * rotateZ + tiltY * rotateZ * 0.65}deg)
-    `;
+    element.style.transform =
+      `translate3d(${x}px, ${y}px, 0) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg)`;
   });
 
   requestAnimationFrame(animateLanding);
 }
 
+generateComposition();
 animateLanding();
+
+/* WISH */
+
+const wishScreen = document.getElementById("wish-screen");
+const thankYouScreen = document.getElementById("thank-you");
+const wishInput = document.getElementById("wish-input");
+const yourWish = document.getElementById("your-wish");
+const wishThankYou = document.getElementById("wish-thank-you");
+const wishThankYouImage = document.getElementById("wish-thank-you-image");
+
+document.getElementById("wish-button").addEventListener("click", () => {
+  wishScreen.classList.add("active");
+  wishInput.value = "";
+  wishInput.focus();
+});
+
+document.getElementById("wish-close").addEventListener("click", () => {
+  wishScreen.classList.remove("active");
+});
+
+document.getElementById("wish-submit").addEventListener("click", () => {
+  const wish = wishInput.value.trim();
+  if (!wish) return;
+
+  wishScreen.classList.remove("active");
+  thankYouScreen.classList.add("active");
+
+  yourWish.textContent = wish;
+  yourWish.style.display = "block";
+  yourWish.classList.remove("launching");
+  wishThankYou.classList.remove("show");
+});
+
+let wishStartY = 0;
+let wishDragging = false;
+
+yourWish.addEventListener("pointerdown", event => {
+  wishDragging = true;
+  wishStartY = event.clientY;
+  yourWish.setPointerCapture(event.pointerId);
+});
+
+yourWish.addEventListener("pointerup", event => {
+  if (!wishDragging) return;
+  wishDragging = false;
+
+  const distance = wishStartY - event.clientY;
+
+  if (distance > 20 || Math.abs(distance) <= 20) {
+    launchWish();
+  }
+});
+
+yourWish.addEventListener("click", launchWish);
+
+function launchWish() {
+  if (yourWish.classList.contains("launching")) return;
+
+  yourWish.classList.add("launching");
+
+  setTimeout(() => {
+    yourWish.style.display = "none";
+    wishThankYouImage.src = randomItem(imageFiles);
+    wishThankYou.classList.add("show");
+  }, 850);
+}
+
+wishThankYou.addEventListener("click", () => {
+  thankYouScreen.classList.remove("active");
+  wishThankYou.classList.remove("show");
+});
+
+/* HANGMAN */
+
+const hangmanScreen = document.getElementById("hangman-screen");
+const hangmanWord = document.getElementById("hangman-word");
+const hangmanLetters = document.getElementById("hangman-letters");
+const hangmanMessage = document.getElementById("hangman-message");
+const winImages = document.getElementById("win-images");
+const youWon = document.getElementById("you-won");
+const headPhoto = document.getElementById("hm-head-photo");
+
+const solution = "FREITAG";
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+let guessedLetters = [];
+let mistakes = 0;
+let gameFinished = false;
+
+function renderWord() {
+  hangmanWord.innerHTML = "";
+
+  solution.split("").forEach(letter => {
+    const span = document.createElement("div");
+    span.className = "hm-letter";
+    span.textContent = guessedLetters.includes(letter) ? letter : "";
+    hangmanWord.appendChild(span);
+  });
+}
+
+function renderLetters() {
+  hangmanLetters.innerHTML = "";
+
+  alphabet.forEach(letter => {
+    const button = document.createElement("button");
+    button.className = "letter-button";
+    button.textContent = letter;
+    button.disabled = guessedLetters.includes(letter) || gameFinished;
+
+    button.addEventListener("click", () => guessLetter(letter));
+    hangmanLetters.appendChild(button);
+  });
+}
+
+function renderDrawing() {
+  for (let i = 1; i <= 6; i++) {
+    const part = document.getElementById(`hm-${i}`);
+    if (part) part.style.display = i <= mistakes ? "block" : "none";
+  }
+
+  headPhoto.style.display = mistakes >= 3 ? "block" : "none";
+}
+
+function guessLetter(letter) {
+  if (gameFinished || guessedLetters.includes(letter)) return;
+
+  guessedLetters.push(letter);
+
+  if (!solution.includes(letter)) mistakes++;
+
+  renderWord();
+  renderLetters();
+  renderDrawing();
+
+  if (solution.split("").every(character => guessedLetters.includes(character))) {
+    finishHangman(true);
+    return;
+  }
+
+  if (mistakes >= 6) finishHangman(false);
+}
+
+function finishHangman(won) {
+  gameFinished = true;
+  renderLetters();
+
+  if (won) {
+    hangmanMessage.textContent = "";
+    youWon.style.display = "block";
+    showWinImages();
+  } else {
+    hangmanMessage.textContent = "GAME OVER";
+  }
+}
+
+function showWinImages() {
+  winImages.innerHTML = "";
+
+  for (let i = 0; i < 60; i++) {
+    const img = document.createElement("img");
+
+    img.className = "win-image";
+    img.src = randomItem(imageFiles);
+    img.alt = "";
+
+    img.style.left = `${random(-2, 95)}%`;
+    img.style.top = `${random(-2, 95)}%`;
+    img.style.width = `${random(35, 160)}px`;
+    img.style.setProperty("--rotation", `${random(-50, 50)}deg`);
+    img.style.animationDelay = `${random(0, 2)}s`;
+
+    winImages.appendChild(img);
+  }
+}
+
+function resetHangman() {
+  guessedLetters = [];
+  mistakes = 0;
+  gameFinished = false;
+
+  hangmanMessage.textContent = "";
+  winImages.innerHTML = "";
+  youWon.style.display = "none";
+
+  headPhoto.setAttribute("href", randomItem(imageFiles));
+  headPhoto.style.display = "none";
+
+  renderWord();
+  renderLetters();
+  renderDrawing();
+}
+
+document.getElementById("gift-button").addEventListener("click", () => {
+  hangmanScreen.classList.add("active");
+  resetHangman();
+});
+
+document.getElementById("hangman-close").addEventListener("click", () => {
+  hangmanScreen.classList.remove("active");
+});
+
+/* BEER MODE */
+
+const beerScreen = document.getElementById("beer-screen");
+const beerCanvas = document.getElementById("beer-canvas");
+const ctx = beerCanvas.getContext("2d");
+const beerPhotos = document.getElementById("beer-photos");
+const beerRevealPhoto = document.getElementById("beer-reveal-photo");
+
+let beerLevel = .94;
+let beerAngle = 0;
+let beerAngleVelocity = 0;
+let beerSlosh = 0;
+let beerSloshVelocity = 0;
+let beerLastTime = 0;
+let beerRunning = false;
+let beerPhotoItems = [];
+
+function resizeBeer() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  beerCanvas.width = window.innerWidth * dpr;
+  beerCanvas.height = window.innerHeight * dpr;
+
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+window.addEventListener("resize", resizeBeer);
+
+function openBeer() {
+  enableSensors();
+
+  beerScreen.classList.add("active");
+  stage.style.display = "none";
+  document.getElementById("controls").style.display = "none";
+
+  beerPhotos.innerHTML = "";
+  beerPhotoItems = [];
+
+  beerLevel = .94;
+  beerRevealPhoto.src = randomItem(imageFiles);
+  beerRevealPhoto.style.opacity = "0";
+
+  sensorBaseBeta = rawBeta;
+  sensorBaseGamma = rawGamma;
+  tiltX = 0;
+  tiltY = 0;
+
+  beerAngle = 0;
+  beerAngleVelocity = 0;
+  beerSlosh = 0;
+  beerSloshVelocity = 0;
+
+  resizeBeer();
+
+  beerRunning = true;
+  beerLastTime = performance.now();
+
+  requestAnimationFrame(animateBeer);
+}
+
+function closeBeer() {
+  beerRunning = false;
+  beerScreen.classList.remove("active");
+  stage.style.display = "block";
+  document.getElementById("controls").style.display = "flex";
+}
+
+document.getElementById("beer-button").addEventListener("click", openBeer);
+document.getElementById("beer-close").addEventListener("click", closeBeer);
+
+/* PHOTOS */
+
+beerScreen.addEventListener("pointerdown", event => {
+  if (event.target.id === "beer-close") return;
+
+  const amount = Math.floor(random(2, 5));
+
+  for (let i = 0; i < amount; i++) {
+    const img = document.createElement("img");
+    img.className = "beer-photo";
+    img.src = randomItem(imageFiles);
+
+    const size = random(75, 135);
+    img.style.width = `${size}px`;
+    img.style.height = `${size}px`;
+
+    beerPhotos.appendChild(img);
+
+    beerPhotoItems.push({
+      element: img,
+      x: random(0, window.innerWidth - size),
+      y: random(0, window.innerHeight - size),
+      vx: random(-2, 2),
+      vy: random(-2, 2),
+      size,
+      rotation: random(-25, 25),
+      spin: random(-.5, .5)
+    });
+  }
+});
+
+/* BEER PHOTOS MOVEMENT */
+
+function updatePhotos(dt) {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+
+  beerPhotoItems.forEach(photo => {
+    photo.vx += tiltX * 10 * dt;
+    photo.vy += tiltY * 10 * dt;
+
+    photo.vx *= Math.pow(.985, dt * 60);
+    photo.vy *= Math.pow(.985, dt * 60);
+
+    photo.x += photo.vx * dt * 60;
+    photo.y += photo.vy * dt * 60;
+    photo.rotation += photo.spin * dt * 60;
+
+    if (photo.x < 0) {
+      photo.x = 0;
+      photo.vx *= -.8;
+    }
+
+    if (photo.x + photo.size > w) {
+      photo.x = w - photo.size;
+      photo.vx *= -.8;
+    }
+
+    if (photo.y < 0) {
+      photo.y = 0;
+      photo.vy *= -.8;
+    }
+
+    if (photo.y + photo.size > h) {
+      photo.y = h - photo.size;
+      photo.vy *= -.8;
+    }
+
+    photo.element.style.left = "0";
+    photo.element.style.top = "0";
+    photo.element.style.transform =
+      `translate(${photo.x}px, ${photo.y}px) rotate(${photo.rotation}deg)`;
+  });
+}
+
+/* FLUID PHYSICS */
+
+function updateBeerPhysics(dt) {
+  const targetAngle = Math.atan2(-tiltX * .62, (tiltY * .62) || .001);
+
+  beerAngleVelocity += (targetAngle - beerAngle) * 2.2 * dt;
+  beerAngleVelocity *= Math.pow(.90, dt * 60);
+  beerAngle += beerAngleVelocity * dt * 60;
+
+  beerAngle = Math.max(-1.05, Math.min(1.05, beerAngle));
+
+  beerSloshVelocity += (tiltX * .28 - beerSlosh) * 1.8 * dt;
+  beerSloshVelocity *= Math.pow(.94, dt * 60);
+  beerSlosh += beerSloshVelocity * dt * 60;
+
+  const tiltAmount = Math.hypot(tiltX, tiltY);
+  const drinking = Math.max(0, tiltAmount - .08);
+
+  if (drinking > 0 && beerLevel > .01) {
+    beerLevel -= drinking * .0012 * dt * 60;
+    beerLevel = Math.max(.01, beerLevel);
+  }
+
+  const consumed = Math.max(0, Math.min(1, (0.94 - beerLevel) / 0.93));
+  beerRevealPhoto.style.opacity = String(consumed * 0.88);
+}
+
+/* SURFACE SHAPE */
+
+function surfaceY(x, time, width, height) {
+  const centerX = width / 2;
+  const baseY = height * (1 - beerLevel);
+  const slope = Math.tan(beerAngle);
+
+  const movement = Math.sin(x * .009 + time * .0015) * beerSlosh * 13;
+
+  const wave =
+    Math.sin(x * .018 + time * .0018) * 2.5 +
+    Math.sin(x * .038 - time * .0012) * 1.3 +
+    Math.sin(x * .006 + time * .0008) * 3;
+
+  return baseY + (x - centerX) * slope + movement + wave;
+}
+
+/* DRAW LIQUID */
+
+function drawBeer(time) {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+
+  ctx.clearRect(0, 0, w, h);
+
+  const points = [];
+
+  for (let x = -10; x <= w + 10; x += 3) {
+    points.push({ x, y: surfaceY(x, time, w, h) });
+  }
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(0, h);
+  ctx.lineTo(0, points[0].y);
+
+  points.forEach(p => ctx.lineTo(p.x, p.y));
+
+  ctx.lineTo(w, h);
+  ctx.closePath();
+  ctx.clip();
+
+  const liquid = ctx.createLinearGradient(0, 0, w * .6, h);
+
+  liquid.addColorStop(0, "#f8c45d");
+  liquid.addColorStop(.18, "#e99b26");
+  liquid.addColorStop(.42, "#ce7914");
+  liquid.addColorStop(.72, "#a9530b");
+  liquid.addColorStop(1, "#612a08");
+
+  ctx.fillStyle = liquid;
+  ctx.fillRect(0, 0, w, h);
+
+  const glow = ctx.createRadialGradient(
+    w * .3, h * .45, 5,
+    w * .3, h * .45, w * .85
+  );
+
+  glow.addColorStop(0, "rgba(255,224,142,.35)");
+  glow.addColorStop(.45, "rgba(255,174,48,.12)");
+  glow.addColorStop(1, "rgba(40,12,0,.35)");
+
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, w, h);
+
+  for (let i = 0; i < 160; i++) {
+    const x = (i * 97.31) % w;
+    const y = (i * 173.13 - time * (.018 + (i % 5) * .004)) % h;
+
+    if (y < 0) continue;
+
+    const r = .5 + (i % 4) * .45;
+
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(255,232,170,.3)";
+    ctx.fill();
+  }
+
+  ctx.restore();
+
+  ctx.save();
+  ctx.beginPath();
+
+  points.forEach((p, i) => {
+    if (i === 0) ctx.moveTo(p.x, p.y - 8);
+    else ctx.lineTo(p.x, p.y - 8);
+  });
+
+  for (let i = points.length - 1; i >= 0; i--) {
+    const p = points[i];
+    ctx.lineTo(p.x, p.y + 4);
+  }
+
+  ctx.closePath();
+
+  const foam = ctx.createLinearGradient(0, -8, 0, 5);
+  foam.addColorStop(0, "#fffdf5");
+  foam.addColorStop(.5, "#f9f0dc");
+  foam.addColorStop(1, "#e5d3b2");
+
+  ctx.fillStyle = foam;
+  ctx.fill();
+
+  for (let i = 0; i < 260; i++) {
+    const x = (i * 37.71) % w;
+    const y = surfaceY(x, time, w, h) + random(-7, 7);
+    const r = random(1, 3.8);
+
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fillStyle = i % 3 === 0
+      ? "rgba(255,255,255,.9)"
+      : "rgba(221,197,158,.45)";
+    ctx.fill();
+  }
+
+  ctx.beginPath();
+
+  points.forEach((p, i) => {
+    if (i === 0) ctx.moveTo(p.x, p.y + 5);
+    else ctx.lineTo(p.x, p.y + 5);
+  });
+
+  ctx.strokeStyle = "rgba(73,35,9,.25)";
+  ctx.lineWidth = 7;
+  ctx.filter = "blur(5px)";
+  ctx.stroke();
+  ctx.filter = "none";
+
+  ctx.restore();
+
+  ctx.save();
+  ctx.globalCompositeOperation = "screen";
+
+  const highlight = ctx.createLinearGradient(0, 0, w, h);
+  highlight.addColorStop(0, "rgba(255,255,255,.09)");
+  highlight.addColorStop(.35, "rgba(255,255,255,0)");
+  highlight.addColorStop(1, "rgba(255,255,255,.04)");
+
+  ctx.fillStyle = highlight;
+  ctx.fillRect(0, 0, w, h);
+
+  ctx.restore();
+}
+
+/* MAIN ANIMATION */
+
+function animateBeer(time) {
+  if (!beerRunning) return;
+
+  const dt = Math.min((time - beerLastTime) / 1000, .04);
+  beerLastTime = time;
+
+  updateBeerPhysics(dt);
+  drawBeer(time);
+  updatePhotos(dt);
+
+  requestAnimationFrame(animateBeer);
+}
+
+/* INITIAL STATE */
+
+renderWord();
+renderLetters();
+renderDrawing();
+
+</script>
+</body>
+</html>
