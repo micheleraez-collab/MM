@@ -1130,17 +1130,16 @@ function updateBeerPhysics(dt) {
   beerSloshVelocity *= Math.pow(.94, dt * 60);
   beerSlosh += beerSloshVelocity * dt * 60;
 
-  // Drinking is triggered by the amount of tilt in either direction,
-  // not by returning the phone to its neutral/upright position.
+  // Bier wird beim Kippen des Handys schneller weniger.
   const tiltAmount = Math.hypot(tiltX, tiltY);
   const drinking = Math.max(0, tiltAmount - .08);
 
   if (drinking > 0 && beerLevel > .01) {
-    beerLevel -= drinking * .00025 * dt * 60;
+    beerLevel -= drinking * .0012 * dt * 60;
     beerLevel = Math.max(.01, beerLevel);
   }
 
-  // The photo behind the beer is revealed as the glass empties.
+  // Das Hintergrundfoto wird sichtbar, während das Bier weniger wird.
   const consumed = Math.max(0, Math.min(1, (0.94 - beerLevel) / 0.93));
   beerRevealPhoto.style.opacity = String(consumed * 0.88);
 }
@@ -1244,10 +1243,12 @@ function drawBeer(time) {
     if (i === 0) ctx.moveTo(p.x, p.y - 8);
     else ctx.lineTo(p.x, p.y - 8);
   });
+
   for (let i = points.length - 1; i >= 0; i--) {
     const p = points[i];
     ctx.lineTo(p.x, p.y + 4);
   }
+
   ctx.closePath();
 
   const foam = ctx.createLinearGradient(0, -8, 0, 5);
