@@ -3,20 +3,16 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>MARKO — 26</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>MARKO 26</title>
 
 <style>
 @font-face {
   font-family: "NationalCode";
   src: url("NationalCodePiStd-Universal.otf") format("opentype");
-  font-weight: 100 1000;
-  font-style: normal;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 html, body {
   margin: 0;
@@ -24,132 +20,63 @@ html, body {
   height: 100%;
   overflow: hidden;
   background: white;
-  color: black;
-  font-family: "NationalCode", sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
 }
-
-body {
-  cursor: crosshair;
-}
-
-/* LANDING PAGE */
 
 #canvas-area {
   position: fixed;
   inset: 0;
   overflow: hidden;
-  z-index: 1;
-  pointer-events: none;
 }
 
-.marko,
-.marko-image {
+.item {
   position: absolute;
-  user-select: none;
-  -webkit-user-drag: none;
-  pointer-events: none;
-  will-change: left, top, transform;
-}
-
-.marko {
   white-space: nowrap;
-  line-height: 0.9;
-  transform-origin: center center;
+  font-family: "NationalCode", sans-serif;
+  user-select: none;
+  pointer-events: none;
+  transform-origin: center;
 }
 
-.marko-image {
+.item img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(42vw, 260px);
+  max-height: min(42vh, 260px);
   object-fit: contain;
-  transform-origin: center center;
 }
-
-/* BUTTONS */
 
 .controls {
   position: fixed;
-  left: 20px;
-  bottom: 20px;
+  left: 16px;
+  bottom: 16px;
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: 7px;
   z-index: 10;
 }
 
 button {
   font-family: Helvetica, Arial, sans-serif;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: .02em;
+  padding: 10px 13px;
+  border: 1px solid black;
   background: white;
   color: black;
-  border: 1px solid black;
-  padding: 11px 16px;
   cursor: pointer;
-}
-
-button:hover {
-  background: black;
-  color: white;
 }
 
 #click-counter {
   position: fixed;
-  right: 20px;
-  bottom: 20px;
+  right: 16px;
+  bottom: 16px;
+  font-size: 12px;
   z-index: 10;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 13px;
-  pointer-events: none;
 }
-
-/* WISH PANEL */
 
 #wish-panel {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 20;
-  background: rgba(255,255,255,0.97);
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.wish-content {
-  width: 100%;
-  max-width: 500px;
-}
-
-.wish-content h2 {
-  font-size: 42px;
-  margin: 0 0 25px;
-}
-
-textarea {
-  display: block;
-  width: 100%;
-  min-height: 150px;
-  resize: vertical;
-  padding: 15px;
-  border: 1px solid black;
-  border-radius: 0;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  background: white;
-  color: black;
-  outline: none;
-}
-
-textarea:focus {
-  border-width: 2px;
-}
-
-.wish-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 15px;
-}
-
-/* THANK YOU */
-
-#thank-you-screen {
   display: none;
   position: fixed;
   inset: 0;
@@ -157,35 +84,50 @@ textarea:focus {
   background: white;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  padding: 20px;
+  padding: 24px;
 }
 
-.thank-you-image {
-  position: relative;
-  width: min(650px, 80vw);
-  height: min(450px, 60vh);
-  background-size: cover;
-  background-position: center;
-  display: flex;
+#wish-panel-inner {
+  width: min(420px, 100%);
+}
+
+#wish-panel textarea {
+  width: 100%;
+  height: 130px;
+  padding: 12px;
+  border: 1px solid black;
+  font: 14px Helvetica, Arial, sans-serif;
+  resize: none;
+}
+
+#wish-panel button { margin-top: 10px; }
+
+#thank-you-screen {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: white;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
-#thank-you-screen h1 {
-  position: relative;
-  font-size: clamp(50px, 12vw, 130px);
-  line-height: 0.85;
-  text-align: center;
-  margin: 0;
+#thank-you-screen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#thank-you-screen span {
+  position: absolute;
   color: white;
-  mix-blend-mode: difference;
+  font-family: "NationalCode", sans-serif;
+  font-size: clamp(50px, 14vw, 150px);
   pointer-events: none;
 }
 
-/* =================================
-   FULLSCREEN BEER MODE
-================================= */
+/* BEER */
 
 #beer-screen {
   display: none;
@@ -194,171 +136,43 @@ textarea:focus {
   width: 100%;
   height: 100%;
   height: 100dvh;
-  z-index: 40;
-  background: #fff;
+  z-index: 50;
   overflow: hidden;
+  background: #17100a;
   touch-action: none;
 }
 
-/* Photorealistic beer texture */
-
-#beer-fill {
+#beer-canvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-
-  background-image: url("beer-texture.png");
-  background-size: 100% 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    100% 100%,
-    0 100%
-  );
-
-  will-change: clip-path;
 }
-
-/* Moving foam surface */
-
-#beer-surface {
-  position: absolute;
-  left: -15%;
-  width: 130%;
-  height: 65px;
-  top: 0;
-
-  background:
-    radial-gradient(
-      ellipse at 15% 60%,
-      rgba(255,255,255,0.98) 0%,
-      rgba(255,250,237,0.96) 45%,
-      rgba(240,224,197,0.75) 75%,
-      rgba(255,255,255,0) 100%
-    );
-
-  border-radius: 50%;
-  filter: blur(2px);
-  pointer-events: none;
-  will-change: top, transform;
-  z-index: 3;
-}
-
-/* Fine foam texture */
-
-#beer-surface::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  background-image:
-    radial-gradient(circle at 12% 50%, rgba(255,255,255,0.9) 2px, transparent 4px),
-    radial-gradient(circle at 28% 35%, rgba(210,180,140,0.18) 3px, transparent 5px),
-    radial-gradient(circle at 50% 65%, rgba(255,255,255,0.8) 2px, transparent 4px),
-    radial-gradient(circle at 73% 35%, rgba(210,180,140,0.15) 3px, transparent 5px),
-    radial-gradient(circle at 90% 55%, rgba(255,255,255,0.9) 2px, transparent 4px);
-
-  opacity: 0.8;
-}
-
-/* Marko photos inside the beer */
 
 #beer-photos {
   position: absolute;
   inset: 0;
-  z-index: 5;
   overflow: hidden;
   pointer-events: none;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
 
 .beer-photo {
   position: absolute;
-  object-fit: contain;
-  filter: drop-shadow(0 4px 5px rgba(0,0,0,0.25));
-  will-change: left, top, transform;
+  width: clamp(75px, 22vw, 145px);
+  height: clamp(75px, 22vw, 145px);
+  object-fit: cover;
+  box-shadow: 0 3px 15px rgba(0,0,0,.3);
+  will-change: transform;
 }
-
-/* Bubbles */
-
-#beer-bubbles {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.beer-bubble {
-  position: absolute;
-  bottom: -10px;
-  border: 1px solid rgba(255,255,255,0.65);
-  border-radius: 50%;
-  background: rgba(255,255,255,0.2);
-  box-shadow: 0 0 4px rgba(255,255,255,0.4);
-  animation: bubble-rise 3s infinite ease-in;
-}
-
-@keyframes bubble-rise {
-  0% {
-    transform: translateY(0);
-    opacity: 0;
-  }
-  20% {
-    opacity: 0.7;
-  }
-  100% {
-    transform: translateY(-100vh);
-    opacity: 0;
-  }
-}
-
-/* Close button */
 
 #beer-close {
   position: absolute;
-  top: max(18px, env(safe-area-inset-top));
-  right: 18px;
-  z-index: 20;
-  background: rgba(255,255,255,0.8);
-  border: 1px solid rgba(0,0,0,0.3);
-  color: black;
-  font-size: 11px;
-  padding: 9px 12px;
-}
-
-/* MOBILE */
-
-@media (max-width: 600px) {
-  .controls {
-    left: 10px;
-    bottom: max(12px, env(safe-area-inset-bottom));
-    gap: 5px;
-  }
-
-  button {
-    font-size: 11px;
-    padding: 10px 9px;
-  }
-
-  #click-counter {
-    right: 12px;
-    bottom: max(17px, env(safe-area-inset-bottom));
-    font-size: 12px;
-  }
-
-  .wish-content h2 {
-    font-size: 34px;
-  }
-
-  .thank-you-image {
-    width: 90vw;
-    height: 55vh;
-  }
+  right: 15px;
+  top: 15px;
+  z-index: 60;
+  border: 1px solid rgba(255,255,255,.6);
+  background: rgba(0,0,0,.2);
+  color: white;
 }
 </style>
 </head>
@@ -375,831 +189,707 @@ textarea:focus {
 
 <div id="click-counter">0 / 10</div>
 
-<!-- WISH PANEL -->
-
 <div id="wish-panel">
-  <div class="wish-content">
-    <h2>MAKE A WISH</h2>
-
-    <textarea
-      id="wish-input"
-      placeholder="Write your wish here..."
-    ></textarea>
-
-    <div class="wish-buttons">
-      <button id="close-wish">CLOSE ×</button>
-      <button id="submit-wish">SEND WISH ↑</button>
-    </div>
+  <div id="wish-panel-inner">
+    <textarea id="wish-text" placeholder="Your wish..."></textarea>
+    <br>
+    <button id="submit-wish">SEND WISH →</button>
+    <button id="cancel-wish">CLOSE</button>
   </div>
 </div>
-
-<!-- THANK YOU -->
 
 <div id="thank-you-screen">
-  <div class="thank-you-image" id="thank-you-image">
-    <h1>THANK<br>YOU</h1>
-  </div>
+  <img id="thank-you-image" src="" alt="">
+  <span>THANK YOU</span>
 </div>
 
-<!-- FULLSCREEN BEER -->
-
 <div id="beer-screen">
-
-  <button id="beer-close">CLOSE ×</button>
-
-  <div id="beer-fill"></div>
-
-  <div id="beer-bubbles"></div>
-
-  <div id="beer-surface"></div>
-
+  <canvas id="beer-canvas"></canvas>
   <div id="beer-photos"></div>
-
+  <button id="beer-close">CLOSE</button>
 </div>
 
 <script>
+/* ==================================================
+   SETTINGS
+================================================== */
 
-/* =================================
-   ELEMENTS AND STATE
-================================= */
+const imageFiles = Array.from({length: 16}, (_, i) => `${i + 1}.png`);
 
-const canvasArea = document.getElementById("canvas-area");
-const counterDisplay = document.getElementById("click-counter");
+const random = (min, max) => Math.random() * (max - min) + min;
 
-const wishPanel = document.getElementById("wish-panel");
-const wishInput = document.getElementById("wish-input");
-
-const thankYouScreen = document.getElementById("thank-you-screen");
-const thankYouImage = document.getElementById("thank-you-image");
-
-const beerScreen = document.getElementById("beer-screen");
-const beerFill = document.getElementById("beer-fill");
-const beerSurface = document.getElementById("beer-surface");
-const beerBubbles = document.getElementById("beer-bubbles");
-const beerPhotos = document.getElementById("beer-photos");
-
-let clickCount = 0;
-let sensorsEnabled = false;
-let beerMode = false;
-
-let lastBeta = null;
-let lastGamma = null;
-
-let landingBaselineBeta = null;
-let landingBaselineGamma = null;
-
-let beerBaselineBeta = null;
-let beerBaselineGamma = null;
-
-let smoothBeta = 0;
-let smoothGamma = 0;
-
-let beerLevel = 100;
-let lastFrameTime = 0;
-let lastShake = 0;
+const randomImage = () =>
+  imageFiles[Math.floor(Math.random() * imageFiles.length)];
 
 const colors = [
-  "#ff0000",
-  "#0000ff",
-  "#00a651",
-  "#ff6600",
-  "#ff00aa",
-  "#8b00ff",
-  "#000000",
-  "#ffcc00",
-  "#00a6a6"
+  "#000000", "#e52b24", "#2449d8",
+  "#f1bd00", "#00a36c", "#a52bcb",
+  "#ff5c35", "#6a3e2b"
 ];
 
-function random(min, max) {
-  return Math.random() * (max - min) + min;
-}
+/* ==================================================
+   DEVICE MOTION
+================================================== */
 
-function randomImageNumber() {
-  return Math.floor(Math.random() * 16) + 1;
-}
+let sensorEnabled = false;
+let tiltX = 0;
+let tiltY = 0;
 
-function clamp(value, min, max) {
-  return Math.max(min, Math.min(max, value));
-}
-
-/* =================================
-   MOTION SENSORS
-================================= */
+let targetTiltX = 0;
+let targetTiltY = 0;
 
 async function enableSensors() {
-  if (sensorsEnabled) return;
+  if (sensorEnabled) return;
 
-  try {
-    if (
-      typeof DeviceOrientationEvent !== "undefined" &&
-      typeof DeviceOrientationEvent.requestPermission === "function"
-    ) {
+  if (
+    typeof DeviceOrientationEvent !== "undefined" &&
+    typeof DeviceOrientationEvent.requestPermission === "function"
+  ) {
+    try {
       const permission =
         await DeviceOrientationEvent.requestPermission();
 
       if (permission !== "granted") return;
+    } catch (error) {
+      console.log("Motion permission unavailable");
+      return;
     }
-
-    if ("DeviceOrientationEvent" in window) {
-      window.addEventListener("deviceorientation", handleOrientation);
-      sensorsEnabled = true;
-    }
-
-    if ("DeviceMotionEvent" in window) {
-      window.addEventListener("devicemotion", handleMotion);
-    }
-
-  } catch (error) {
-    console.log("Motion sensors unavailable:", error);
   }
+
+  window.addEventListener("deviceorientation", event => {
+    if (event.beta == null || event.gamma == null) return;
+
+    targetTiltX = Math.max(-1, Math.min(1, event.gamma / 35));
+    targetTiltY = Math.max(-1, Math.min(1, event.beta / 60));
+  }, true);
+
+  sensorEnabled = true;
 }
 
-function handleOrientation(event) {
-  if (event.beta === null || event.gamma === null) return;
-
-  lastBeta = event.beta;
-  lastGamma = event.gamma;
-
-  if (beerMode) {
-    if (beerBaselineBeta === null) {
-      beerBaselineBeta = lastBeta;
-      beerBaselineGamma = lastGamma;
-    }
-  } else {
-    if (landingBaselineBeta === null) {
-      landingBaselineBeta = lastBeta;
-      landingBaselineGamma = lastGamma;
-    }
-  }
+function smoothSensors() {
+  tiltX += (targetTiltX - tiltX) * .09;
+  tiltY += (targetTiltY - tiltY) * .09;
+  requestAnimationFrame(smoothSensors);
 }
 
-/* =================================
-   LANDING PAGE: CREATE ELEMENTS
-================================= */
+smoothSensors();
 
-function createMarko() {
+/* ==================================================
+   LANDING PAGE – RANDOM COMPOSITION
+================================================== */
 
-  if (Math.random() < 0.08) {
-    createRandomImage();
-    return;
-  }
+const canvasArea = document.getElementById("canvas-area");
+const counter = document.getElementById("click-counter");
 
+let items = [];
+let clickCount = 0;
+
+function createItem() {
   const element = document.createElement("div");
+  element.className = "item";
 
-  element.className = "marko";
-  element.textContent = Math.random() < 0.5 ? "MARKO" : "26";
+  const isImage = Math.random() < .12;
 
-  const size = random(20, 150);
-  const rotation = random(-35, 35);
+  if (isImage) {
+    const img = document.createElement("img");
+    img.src = randomImage();
+    element.appendChild(img);
+  } else {
+    element.textContent = Math.random() < .5 ? "MARKO" : "26";
 
-  element.style.fontSize = size + "px";
-  element.style.fontWeight = Math.floor(random(100, 1001));
-  element.style.color =
-    colors[Math.floor(Math.random() * colors.length)];
-  element.style.fontStyle =
-    Math.random() < 0.35 ? "italic" : "normal";
+    element.style.fontSize = `${random(13, 150)}px`;
+    element.style.color =
+      colors[Math.floor(Math.random() * colors.length)];
 
-  const x = random(30, Math.max(31, window.innerWidth - 30));
-  const y = random(30, Math.max(31, window.innerHeight - 30));
+    element.style.fontWeight =
+      Math.random() < .5 ? "normal" : "bold";
 
-  element.dataset.x = x;
-  element.dataset.y = y;
-  element.dataset.vx = random(-0.3, 0.3);
-  element.dataset.vy = random(-0.3, 0.3);
-  element.dataset.rotation = rotation;
-  element.dataset.spin = random(-0.25, 0.25);
+    element.style.fontStyle =
+      Math.random() < .22 ? "italic" : "normal";
 
-  element.style.left = x + "px";
-  element.style.top = y + "px";
-  element.style.transform =
-    `translate(-50%, -50%) rotate(${rotation}deg)`;
+    element.style.letterSpacing = `${random(-5, 8)}px`;
+  }
+
+  /*
+    Deliberately uneven distribution:
+    some objects gather in clusters,
+    others appear far away.
+  */
+
+  let x, y;
+
+  if (Math.random() < .65 && items.length > 0) {
+    const anchor = items[Math.floor(Math.random() * items.length)];
+
+    x = anchor.x + random(-180, 180);
+    y = anchor.y + random(-160, 160);
+  } else {
+    x = random(-80, window.innerWidth - 40);
+    y = random(-70, window.innerHeight - 40);
+  }
+
+  const rotation = random(-75, 75);
+
+  element.style.left = `${x}px`;
+  element.style.top = `${y}px`;
+  element.style.transform = `rotate(${rotation}deg)`;
 
   canvasArea.appendChild(element);
-}
 
-function createRandomImage() {
-
-  const image = document.createElement("img");
-
-  image.className = "marko-image";
-  image.src = `${randomImageNumber()}.png`;
-
-  const size = random(50, 190);
-  const rotation = random(-35, 35);
-
-  const x = random(30, Math.max(31, window.innerWidth - 30));
-  const y = random(30, Math.max(31, window.innerHeight - 30));
-
-  image.style.width = size + "px";
-  image.style.height = size + "px";
-
-  image.dataset.x = x;
-  image.dataset.y = y;
-  image.dataset.vx = random(-0.3, 0.3);
-  image.dataset.vy = random(-0.3, 0.3);
-  image.dataset.rotation = rotation;
-  image.dataset.spin = random(-0.25, 0.25);
-
-  image.style.left = x + "px";
-  image.style.top = y + "px";
-  image.style.transform =
-    `translate(-50%, -50%) rotate(${rotation}deg)`;
-
-  canvasArea.appendChild(image);
-}
-
-/* =================================
-   LANDING PAGE: PHYSICS
-================================= */
-
-function updateLandingPhysics(dt) {
-
-  if (
-    lastBeta === null ||
-    lastGamma === null ||
-    landingBaselineBeta === null ||
-    landingBaselineGamma === null
-  ) return;
-
-  const tiltX = clamp(lastGamma - landingBaselineGamma, -60, 60);
-  const tiltY = clamp(lastBeta - landingBaselineBeta, -60, 60);
-
-  smoothGamma += (tiltX - smoothGamma) * 0.08;
-  smoothBeta += (tiltY - smoothBeta) * 0.08;
-
-  const elements = document.querySelectorAll(
-    "#canvas-area .marko, #canvas-area .marko-image"
-  );
-
-  elements.forEach(element => {
-
-    let x = parseFloat(element.dataset.x);
-    let y = parseFloat(element.dataset.y);
-
-    let vx = parseFloat(element.dataset.vx);
-    let vy = parseFloat(element.dataset.vy);
-
-    let rotation = parseFloat(element.dataset.rotation);
-    let spin = parseFloat(element.dataset.spin);
-
-    const rect = element.getBoundingClientRect();
-
-    const halfWidth = rect.width / 2;
-    const halfHeight = rect.height / 2;
-
-    vx += smoothGamma * 0.00075 * dt * 60;
-    vy += smoothBeta * 0.00075 * dt * 60;
-
-    vx *= Math.pow(0.992, dt * 60);
-    vy *= Math.pow(0.992, dt * 60);
-
-    vx = clamp(vx, -8, 8);
-    vy = clamp(vy, -8, 8);
-
-    x += vx * dt * 60;
-    y += vy * dt * 60;
-
-    if (x < halfWidth) {
-      x = halfWidth;
-      vx = Math.abs(vx) * 0.72;
-    }
-
-    if (x > window.innerWidth - halfWidth) {
-      x = window.innerWidth - halfWidth;
-      vx = -Math.abs(vx) * 0.72;
-    }
-
-    if (y < halfHeight) {
-      y = halfHeight;
-      vy = Math.abs(vy) * 0.72;
-    }
-
-    if (y > window.innerHeight - halfHeight) {
-      y = window.innerHeight - halfHeight;
-      vy = -Math.abs(vy) * 0.72;
-    }
-
-    rotation += spin * dt * 60 + vx * 0.12;
-
-    element.dataset.x = x;
-    element.dataset.y = y;
-    element.dataset.vx = vx;
-    element.dataset.vy = vy;
-    element.dataset.rotation = rotation;
-
-    element.style.left = x + "px";
-    element.style.top = y + "px";
-    element.style.transform =
-      `translate(-50%, -50%) rotate(${rotation}deg)`;
-
+  items.push({
+    element,
+    x,
+    y,
+    vx: random(-2.8, 2.8),
+    vy: random(-2.8, 2.8),
+    rotation,
+    rotationSpeed: random(-.7, .7)
   });
 }
 
-/* =================================
-   ANIMATION LOOP
-================================= */
-
-function animationLoop(timestamp) {
-
-  if (!lastFrameTime) lastFrameTime = timestamp;
-
-  const dt = Math.min((timestamp - lastFrameTime) / 1000, 0.04);
-
-  lastFrameTime = timestamp;
-
-  if (beerMode) {
-    updateBeerPhysics(dt);
-  } else {
-    updateLandingPhysics(dt);
-  }
-
-  requestAnimationFrame(animationLoop);
-}
-
-requestAnimationFrame(animationLoop);
-
-/* =================================
-   LANDING PAGE: CLICK
-================================= */
-
-document.addEventListener("click", async function(event) {
-
-  if (
-    event.target.closest("button") ||
-    event.target.closest("#wish-panel") ||
-    event.target.closest("#thank-you-screen") ||
-    event.target.closest("#beer-screen")
-  ) {
-    return;
-  }
-
-  if (wishPanel.style.display === "flex") return;
-  if (thankYouScreen.style.display === "flex") return;
-  if (beerMode) return;
-
-  await enableSensors();
-
+function createComposition() {
   clickCount++;
 
   if (clickCount >= 10) {
-    resetCanvas();
-    return;
+    canvasArea.innerHTML = "";
+    items = [];
+    clickCount = 0;
+  } else {
+    /*
+      Weighted random amount:
+      usually a lot of elements,
+      sometimes very few,
+      sometimes an overwhelming amount.
+    */
+
+    const roll = Math.random();
+    let amount;
+
+    if (roll < .15) amount = Math.floor(random(3, 12));
+    else if (roll < .45) amount = Math.floor(random(12, 30));
+    else if (roll < .8) amount = Math.floor(random(30, 65));
+    else amount = Math.floor(random(65, 110));
+
+    for (let i = 0; i < amount; i++) {
+      createItem();
+    }
   }
 
-  // Each click adds a new random amount
-  const amount = Math.floor(random(3, 81));
+  counter.textContent = `${clickCount} / 10`;
+}
 
-  for (let i = 0; i < amount; i++) {
-    createMarko();
-  }
-
-  updateCounter();
+canvasArea.addEventListener("click", () => {
+  enableSensors();
+  createComposition();
 });
 
-function updateCounter() {
-  counterDisplay.textContent = clickCount + " / 10";
-}
+/* ==================================================
+   LANDING PAGE MOVEMENT
+================================================== */
 
-function resetCanvas() {
-  canvasArea.innerHTML = "";
-  clickCount = 0;
-  updateCounter();
-}
-
-/* =================================
-   SHAKE
-================================= */
-
-function handleMotion(event) {
-
-  if (beerMode) return;
-
-  const acceleration = event.accelerationIncludingGravity;
-  if (!acceleration) return;
-
-  const force =
-    Math.abs(acceleration.x || 0) +
-    Math.abs(acceleration.y || 0) +
-    Math.abs(acceleration.z || 0);
-
-  const now = Date.now();
-
-  if (force > 35 && now - lastShake > 700) {
-
-    lastShake = now;
-
-    document.querySelectorAll(
-      "#canvas-area .marko, #canvas-area .marko-image"
-    ).forEach(element => {
-
-      element.dataset.vx = random(-5, 5);
-      element.dataset.vy = random(-5, 5);
-      element.dataset.spin = random(-1, 1);
-
-    });
-  }
-}
-
-/* =================================
-   PNG DOWNLOAD
-================================= */
-
-document.getElementById("download-button")
-.addEventListener("click", async function() {
-
-  await document.fonts.ready;
-
+function animateItems() {
   const width = window.innerWidth;
   const height = window.innerHeight;
-  const scale = 2;
 
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
+  items.forEach(item => {
+    item.vx += tiltX * .15;
+    item.vy += tiltY * .15;
 
-  canvas.width = width * scale;
-  canvas.height = height * scale;
+    item.vx *= .985;
+    item.vy *= .985;
 
-  ctx.scale(scale, scale);
+    item.x += item.vx;
+    item.y += item.vy;
+    item.rotation += item.rotationSpeed;
+
+    const rect = item.element.getBoundingClientRect();
+
+    if (item.x > width - rect.width || item.x < -rect.width) {
+      item.vx *= -.75;
+    }
+
+    if (item.y > height - rect.height || item.y < -rect.height) {
+      item.vy *= -.75;
+    }
+
+    item.element.style.left = `${item.x}px`;
+    item.element.style.top = `${item.y}px`;
+    item.element.style.transform = `rotate(${item.rotation}deg)`;
+  });
+
+  requestAnimationFrame(animateItems);
+}
+
+animateItems();
+
+/* ==================================================
+   PNG EXPORT
+================================================== */
+
+document.getElementById("download-button")
+.addEventListener("click", async () => {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  const output = document.createElement("canvas");
+  const ctx = output.getContext("2d");
+
+  output.width = width * 2;
+  output.height = height * 2;
+  ctx.scale(2, 2);
 
   ctx.fillStyle = "white";
   ctx.fillRect(0, 0, width, height);
 
-  const elements = document.querySelectorAll(
-    "#canvas-area .marko, #canvas-area .marko-image"
-  );
+  for (const item of items) {
+    const rect = item.element.getBoundingClientRect();
+    const img = item.element.querySelector("img");
 
-  const images = Array.from(
-    document.querySelectorAll("#canvas-area .marko-image")
-  );
-
-  await Promise.all(images.map(image => {
-
-    if (image.complete && image.naturalWidth > 0) {
-      return Promise.resolve();
-    }
-
-    return new Promise(resolve => {
-      image.onload = resolve;
-      image.onerror = resolve;
-    });
-
-  }));
-
-  elements.forEach(element => {
-
-    const x = parseFloat(element.dataset.x);
-    const y = parseFloat(element.dataset.y);
-    const rotation = parseFloat(element.dataset.rotation);
-
-    const rect = element.getBoundingClientRect();
-
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.rotate(rotation * Math.PI / 180);
-
-    if (element.classList.contains("marko-image")) {
-
-      if (element.complete && element.naturalWidth > 0) {
+    if (img) {
+      try {
+        await img.decode();
+        ctx.save();
+        ctx.translate(rect.left + rect.width / 2, rect.top + rect.height / 2);
+        ctx.rotate(item.rotation * Math.PI / 180);
         ctx.drawImage(
-          element,
+          img,
           -rect.width / 2,
           -rect.height / 2,
           rect.width,
           rect.height
         );
-      }
-
+        ctx.restore();
+      } catch (error) {}
     } else {
+      const style = getComputedStyle(item.element);
 
-      const style = window.getComputedStyle(element);
-      const size = parseFloat(style.fontSize);
-
-      ctx.font =
-        `${style.fontStyle} ${style.fontWeight} ${size}px "NationalCode"`;
-
+      ctx.save();
+      ctx.translate(rect.left, rect.top);
+      ctx.rotate(item.rotation * Math.PI / 180);
       ctx.fillStyle = style.color;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-
-      ctx.fillText(element.textContent, 0, 0);
+      ctx.font =
+        `${style.fontStyle} ${style.fontWeight} ${style.fontSize} NationalCode`;
+      ctx.fillText(item.element.textContent, 0, rect.height * .8);
+      ctx.restore();
     }
-
-    ctx.restore();
-
-  });
-
-  const link = document.createElement("a");
-
-  link.download = "MARKO-26.png";
-  link.href = canvas.toDataURL("image/png");
-  link.click();
-
-});
-
-/* =================================
-   WISH PANEL
-================================= */
-
-document.getElementById("wish-button")
-.addEventListener("click", function() {
-  wishPanel.style.display = "flex";
-  wishInput.focus();
-});
-
-document.getElementById("close-wish")
-.addEventListener("click", function() {
-  wishPanel.style.display = "none";
-  wishInput.value = "";
-});
-
-function showRandomImage() {
-  const imageNumber = randomImageNumber();
-  thankYouImage.style.backgroundImage = `url("${imageNumber}.png")`;
-}
-
-document.getElementById("submit-wish")
-.addEventListener("click", function() {
-
-  if (wishInput.value.trim() === "") {
-    wishInput.focus();
-    return;
   }
 
+  const link = document.createElement("a");
+  link.download = "marko-26.png";
+  link.href = output.toDataURL("image/png");
+  link.click();
+});
+
+/* ==================================================
+   WISH
+================================================== */
+
+const wishPanel = document.getElementById("wish-panel");
+const wishText = document.getElementById("wish-text");
+const thankYouScreen = document.getElementById("thank-you-screen");
+
+document.getElementById("wish-button").onclick = () => {
+  wishPanel.style.display = "flex";
+  wishText.value = "";
+};
+
+document.getElementById("cancel-wish").onclick = () => {
   wishPanel.style.display = "none";
-  wishInput.value = "";
+};
 
-  resetCanvas();
-  showRandomImage();
+document.getElementById("submit-wish").onclick = () => {
+  if (!wishText.value.trim()) return;
 
+  wishPanel.style.display = "none";
+  canvasArea.innerHTML = "";
+  items = [];
+  clickCount = 0;
+  counter.textContent = "0 / 10";
+
+  document.getElementById("thank-you-image").src = randomImage();
   thankYouScreen.style.display = "flex";
-});
+};
 
-thankYouScreen.addEventListener("click", function() {
+thankYouScreen.onclick = () => {
   thankYouScreen.style.display = "none";
-  resetCanvas();
-});
+};
 
-/* =================================
+/* ==================================================
    BEER MODE
-================================= */
+================================================== */
 
-function openBeer() {
+const beerScreen = document.getElementById("beer-screen");
+const beerCanvas = document.getElementById("beer-canvas");
+const ctx = beerCanvas.getContext("2d");
+const beerPhotos = document.getElementById("beer-photos");
 
-  beerMode = true;
-  beerLevel = 100;
+let beerLevel = .94;
+let beerAngle = 0;
+let beerAngleVelocity = 0;
+let beerSlosh = 0;
+let beerSloshVelocity = 0;
+let beerLastTime = 0;
+let beerRunning = false;
+let beerPhotoItems = [];
 
-  beerBaselineBeta = lastBeta;
-  beerBaselineGamma = lastGamma;
+function resizeBeer() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-  smoothBeta = 0;
-  smoothGamma = 0;
+  beerCanvas.width = window.innerWidth * dpr;
+  beerCanvas.height = window.innerHeight * dpr;
 
-  beerFill.style.clipPath =
-    "polygon(0 0, 100% 0, 100% 100%, 0 100%)";
-
-  beerSurface.style.opacity = "1";
-  beerPhotos.innerHTML = "";
-
-  beerScreen.style.display = "block";
-
-  createBeerBubbles();
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
-/* OPEN BEER */
+window.addEventListener("resize", resizeBeer);
 
-document.getElementById("beer-button")
-.addEventListener("click", async function() {
+function openBeer() {
+  enableSensors();
 
-  await enableSensors();
-  openBeer();
+  beerScreen.style.display = "block";
+  canvasArea.style.display = "none";
+  document.querySelector(".controls").style.display = "none";
+  counter.style.display = "none";
 
-});
+  beerPhotos.innerHTML = "";
+  beerPhotoItems = [];
 
-/* TAP SCREEN = ADD MARKO PHOTOS */
+  beerLevel = .94;
+  beerAngle = 0;
+  beerAngleVelocity = 0;
+  beerSlosh = 0;
+  beerSloshVelocity = 0;
 
-beerScreen.addEventListener("click", function(event) {
+  resizeBeer();
 
-  if (event.target.closest("#beer-close")) return;
+  beerRunning = true;
+  beerLastTime = performance.now();
 
-  if (!beerMode) return;
+  requestAnimationFrame(animateBeer);
+}
+
+function closeBeer() {
+  beerRunning = false;
+  beerScreen.style.display = "none";
+  canvasArea.style.display = "block";
+  document.querySelector(".controls").style.display = "flex";
+  counter.style.display = "block";
+}
+
+document.getElementById("beer-button").onclick = openBeer;
+document.getElementById("beer-close").onclick = closeBeer;
+
+/* Photos */
+
+beerScreen.addEventListener("pointerdown", event => {
+  if (event.target.id === "beer-close") return;
 
   const amount = Math.floor(random(2, 5));
 
   for (let i = 0; i < amount; i++) {
-    addBeerPhoto();
-  }
+    const img = document.createElement("img");
+    img.className = "beer-photo";
+    img.src = randomImage();
 
+    const size = random(75, 135);
+    img.style.width = `${size}px`;
+    img.style.height = `${size}px`;
+
+    beerPhotos.appendChild(img);
+
+    beerPhotoItems.push({
+      element: img,
+      x: random(0, window.innerWidth - size),
+      y: random(0, window.innerHeight - size),
+      vx: random(-2, 2),
+      vy: random(-2, 2),
+      size,
+      rotation: random(-25, 25),
+      spin: random(-.5, .5)
+    });
+  }
 });
 
-/* ADD PHOTOS */
+/* Beer photos movement */
 
-function addBeerPhoto() {
+function updatePhotos(dt) {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
 
-  const image = document.createElement("img");
+  beerPhotoItems.forEach(photo => {
+    photo.vx += tiltX * 18 * dt;
+    photo.vy += tiltY * 18 * dt;
 
-  image.className = "beer-photo";
-  image.src = `${randomImageNumber()}.png`;
+    photo.vx *= Math.pow(.985, dt * 60);
+    photo.vy *= Math.pow(.985, dt * 60);
 
-  const size = random(55, 110);
+    photo.x += photo.vx * dt * 60;
+    photo.y += photo.vy * dt * 60;
+    photo.rotation += photo.spin * dt * 60;
 
-  const x = random(size / 2, window.innerWidth - size / 2);
-  const y = random(size / 2, window.innerHeight - size / 2);
-
-  const rotation = random(-35, 35);
-
-  image.dataset.x = x;
-  image.dataset.y = y;
-  image.dataset.vx = random(-0.5, 0.5);
-  image.dataset.vy = random(-0.5, 0.5);
-  image.dataset.rotation = rotation;
-  image.dataset.spin = random(-0.4, 0.4);
-  image.dataset.size = size;
-
-  image.style.width = size + "px";
-  image.style.height = size + "px";
-  image.style.left = x + "px";
-  image.style.top = y + "px";
-
-  image.style.transform =
-    `translate(-50%, -50%) rotate(${rotation}deg)`;
-
-  beerPhotos.appendChild(image);
-}
-
-/* =================================
-   BEER PHYSICS
-================================= */
-
-function updateBeerPhysics(dt) {
-
-  if (
-    lastBeta === null ||
-    lastGamma === null ||
-    beerBaselineBeta === null ||
-    beerBaselineGamma === null
-  ) return;
-
-  const rawBeta = lastBeta - beerBaselineBeta;
-  const rawGamma = lastGamma - beerBaselineGamma;
-
-  // Smooth sensor readings
-  smoothBeta += (rawBeta - smoothBeta) * 0.12;
-  smoothGamma += (rawGamma - smoothGamma) * 0.12;
-
-  const tiltX = clamp(smoothGamma, -90, 90);
-  const tiltY = clamp(smoothBeta, -90, 90);
-
-  // Beer surface angle
-  const slope = clamp(tiltX * 0.45, -30, 30);
-
-  // Drink when tilted
-  const drinkingAngle = Math.max(0, Math.abs(tiltY) - 18);
-
-  if (drinkingAngle > 0 && beerLevel > 0) {
-
-    // More tilt = faster drinking
-    const drinkingSpeed = drinkingAngle / 55;
-
-    beerLevel = Math.max(
-      0,
-      beerLevel - drinkingSpeed * dt * 18
-    );
-  }
-
-  // Calculate the moving liquid surface
-  const surfaceY = 100 - beerLevel;
-
-  const leftY = clamp(
-    surfaceY + slope * 0.5,
-    0,
-    100
-  );
-
-  const rightY = clamp(
-    surfaceY - slope * 0.5,
-    0,
-    100
-  );
-
-  // Crop the beer image to the remaining liquid
-  beerFill.style.clipPath =
-    `polygon(0 ${leftY}%, 100% ${rightY}%, 100% 100%, 0 100%)`;
-
-  // Move the foam with the beer level
-  beerSurface.style.top =
-    `calc(${surfaceY}% - 32px)`;
-
-  beerSurface.style.transform =
-    `rotate(${slope}deg)`;
-
-  beerSurface.style.opacity =
-    beerLevel > 0.5 ? "1" : "0";
-
-  // Photos follow the tilt with inertia
-  const photos = document.querySelectorAll(".beer-photo");
-
-  photos.forEach(photo => {
-
-    let x = parseFloat(photo.dataset.x);
-    let y = parseFloat(photo.dataset.y);
-
-    let vx = parseFloat(photo.dataset.vx);
-    let vy = parseFloat(photo.dataset.vy);
-
-    let rotation = parseFloat(photo.dataset.rotation);
-    let spin = parseFloat(photo.dataset.spin);
-
-    const size = parseFloat(photo.dataset.size);
-    const halfSize = size / 2;
-
-    vx += tiltX * 0.0009;
-    vy += tiltY * 0.0009;
-
-    vx *= 0.985;
-    vy *= 0.985;
-
-    x += vx * 60 * dt;
-    y += vy * 60 * dt;
-
-    if (x < halfSize || x > window.innerWidth - halfSize) {
-      vx *= -0.65;
-      x = clamp(x, halfSize, window.innerWidth - halfSize);
+    if (photo.x < 0) {
+      photo.x = 0;
+      photo.vx *= -.8;
     }
 
-    if (y < halfSize || y > window.innerHeight - halfSize) {
-      vy *= -0.65;
-      y = clamp(y, halfSize, window.innerHeight - halfSize);
+    if (photo.x + photo.size > w) {
+      photo.x = w - photo.size;
+      photo.vx *= -.8;
     }
 
-    rotation += spin * dt * 60;
+    if (photo.y < 0) {
+      photo.y = 0;
+      photo.vy *= -.8;
+    }
 
-    photo.dataset.x = x;
-    photo.dataset.y = y;
-    photo.dataset.vx = vx;
-    photo.dataset.vy = vy;
-    photo.dataset.rotation = rotation;
+    if (photo.y + photo.size > h) {
+      photo.y = h - photo.size;
+      photo.vy *= -.8;
+    }
 
-    photo.style.left = x + "px";
-    photo.style.top = y + "px";
-
-    photo.style.transform =
-      `translate(-50%, -50%) rotate(${rotation}deg)`;
-
+    photo.element.style.left = "0";
+    photo.element.style.top = "0";
+    photo.element.style.transform =
+      `translate(${photo.x}px, ${photo.y}px) rotate(${photo.rotation}deg)`;
   });
 }
 
-/* =================================
-   BUBBLES
-================================= */
+/* Fluid physics */
 
-function createBeerBubbles() {
+function updateBeerPhysics(dt) {
+  /*
+    Liquid follows the phone's orientation.
+    It has inertia, so it does not instantly snap
+    into the new position.
+  */
 
-  beerBubbles.innerHTML = "";
+  const targetAngle = Math.atan2(-tiltX, tiltY || .001);
 
-  for (let i = 0; i < 45; i++) {
+  beerAngleVelocity += (targetAngle - beerAngle) * 3.5 * dt;
+  beerAngleVelocity *= Math.pow(.86, dt * 60);
+  beerAngle += beerAngleVelocity * dt * 60;
 
-    const bubble = document.createElement("div");
+  beerAngle = Math.max(-1.05, Math.min(1.05, beerAngle));
 
-    bubble.className = "beer-bubble";
+  /*
+    Secondary slosh: a little overshoot and wobble
+    after every movement.
+  */
 
-    const size = random(2, 6);
+  beerSloshVelocity += (tiltX * .5 - beerSlosh) * 2.5 * dt;
+  beerSloshVelocity *= Math.pow(.92, dt * 60);
+  beerSlosh += beerSloshVelocity * dt * 60;
 
-    bubble.style.width = size + "px";
-    bubble.style.height = size + "px";
-    bubble.style.left = random(0, 100) + "%";
+  /*
+    Drink only when tipping the phone in one direction.
+    Reverse the sign if the direction is wrong.
+  */
 
-    bubble.style.animationDelay = random(0, 5) + "s";
-    bubble.style.animationDuration = random(2, 6) + "s";
+  const betaDegrees = tiltY * 60;
+  const drinking = Math.max(0, betaDegrees - 24);
 
-    beerBubbles.appendChild(bubble);
+  if (drinking > 0 && beerLevel > .01) {
+    beerLevel -= drinking * .000018 * dt * 60;
+    beerLevel = Math.max(.01, beerLevel);
   }
 }
 
-/* =================================
-   CLOSE BEER
-================================= */
+/* Surface shape */
 
-document.getElementById("beer-close")
-.addEventListener("click", function(event) {
+function surfaceY(x, time, width, height) {
+  const centerX = width / 2;
+  const baseY = height * (1 - beerLevel);
+  const slope = Math.tan(beerAngle);
 
-  event.stopPropagation();
+  const movement =
+    Math.sin(x * .009 + time * .0015) * beerSlosh * 13;
 
-  beerMode = false;
-  beerScreen.style.display = "none";
+  const wave =
+    Math.sin(x * .018 + time * .0018) * 2.5 +
+    Math.sin(x * .038 - time * .0012) * 1.3 +
+    Math.sin(x * .006 + time * .0008) * 3;
 
-  beerBaselineBeta = null;
-  beerBaselineGamma = null;
+  return baseY + (x - centerX) * slope + movement + wave;
+}
 
-  smoothBeta = 0;
-  smoothGamma = 0;
+/* Draw liquid */
 
-  // Recalibrate landing page to current phone position
-  landingBaselineBeta = lastBeta;
-  landingBaselineGamma = lastGamma;
+function drawBeer(time) {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
 
-});
+  ctx.clearRect(0, 0, w, h);
+
+  /*
+    Dark background gives the impression of a screen
+    filled with beer rather than a glass object.
+  */
+
+  ctx.fillStyle = "#160d07";
+  ctx.fillRect(0, 0, w, h);
+
+  const points = [];
+
+  for (let x = -10; x <= w + 10; x += 3) {
+    points.push({
+      x,
+      y: surfaceY(x, time, w, h)
+    });
+  }
+
+  /* Beer body */
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(0, h);
+  ctx.lineTo(0, points[0].y);
+
+  points.forEach(p => ctx.lineTo(p.x, p.y));
+
+  ctx.lineTo(w, h);
+  ctx.closePath();
+  ctx.clip();
+
+  const liquid = ctx.createLinearGradient(0, 0, w * .6, h);
+
+  liquid.addColorStop(0, "#f8c45d");
+  liquid.addColorStop(.18, "#e99b26");
+  liquid.addColorStop(.42, "#ce7914");
+  liquid.addColorStop(.72, "#a9530b");
+  liquid.addColorStop(1, "#612a08");
+
+  ctx.fillStyle = liquid;
+  ctx.fillRect(0, 0, w, h);
+
+  /* Warm light inside the beer */
+
+  const glow = ctx.createRadialGradient(
+    w * .3, h * .45, 5,
+    w * .3, h * .45, w * .85
+  );
+
+  glow.addColorStop(0, "rgba(255,224,142,.35)");
+  glow.addColorStop(.45, "rgba(255,174,48,.12)");
+  glow.addColorStop(1, "rgba(40,12,0,.35)");
+
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, w, h);
+
+  /* Tiny suspended bubbles */
+
+  for (let i = 0; i < 160; i++) {
+    const x = (i * 97.31) % w;
+    const y = (i * 173.13 - time * (.018 + (i % 5) * .004)) % h;
+
+    if (y < 0) continue;
+
+    const r = .5 + (i % 4) * .45;
+
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(255,232,170,.3)";
+    ctx.fill();
+  }
+
+  ctx.restore();
+
+  /* Foam cap with soft irregular edge */
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(w, 0);
+
+  for (let i = points.length - 1; i >= 0; i--) {
+    const p = points[i];
+    ctx.lineTo(p.x, p.y);
+  }
+
+  ctx.closePath();
+
+  const foam = ctx.createLinearGradient(0, 0, 0, 65);
+  foam.addColorStop(0, "#fffdf5");
+  foam.addColorStop(.5, "#f9f0dc");
+  foam.addColorStop(1, "#e5d3b2");
+
+  ctx.fillStyle = foam;
+  ctx.fill();
+
+  /*
+    Small foam pockets and bubbles make the edge
+    less geometric and more organic.
+  */
+
+  for (let i = 0; i < 260; i++) {
+    const x = (i * 37.71) % w;
+    const y = surfaceY(x, time, w, h) + random(-7, 7);
+    const r = random(1, 3.8);
+
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fillStyle =
+      i % 3 === 0
+        ? "rgba(255,255,255,.9)"
+        : "rgba(221,197,158,.45)";
+    ctx.fill();
+  }
+
+  /* Soft shadow where foam meets beer */
+
+  ctx.beginPath();
+
+  points.forEach((p, i) => {
+    if (i === 0) ctx.moveTo(p.x, p.y + 5);
+    else ctx.lineTo(p.x, p.y + 5);
+  });
+
+  ctx.strokeStyle = "rgba(73,35,9,.25)";
+  ctx.lineWidth = 7;
+  ctx.filter = "blur(5px)";
+  ctx.stroke();
+  ctx.filter = "none";
+
+  ctx.restore();
+
+  /* Small highlights */
+
+  ctx.save();
+  ctx.globalCompositeOperation = "screen";
+
+  const highlight = ctx.createLinearGradient(0, 0, w, h);
+  highlight.addColorStop(0, "rgba(255,255,255,.09)");
+  highlight.addColorStop(.35, "rgba(255,255,255,0)");
+  highlight.addColorStop(1, "rgba(255,255,255,.04)");
+
+  ctx.fillStyle = highlight;
+  ctx.fillRect(0, 0, w, h);
+
+  ctx.restore();
+}
+
+/* Main animation */
+
+function animateBeer(time) {
+  if (!beerRunning) return;
+
+  const dt = Math.min((time - beerLastTime) / 1000, .04);
+  beerLastTime = time;
+
+  updateBeerPhysics(dt);
+  drawBeer(time);
+  updatePhotos(dt);
+
+  requestAnimationFrame(animateBeer);
+}
+
+/* ==================================================
+   INITIALISE
+================================================== */
+
+document.addEventListener("pointerdown", () => {
+  enableSensors();
+}, {once: true});
 
 </script>
-
 </body>
 </html>
