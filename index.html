@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>hottie</title>
+<title>MARKO 26</title>
 
 <style>
 @font-face {
@@ -184,6 +184,7 @@ button {
   width: 180px;
   height: 180px;
   margin: 0 auto 20px;
+  overflow: visible;
 }
 
 .hm-part {
@@ -372,12 +373,32 @@ button {
   <div class="hangman-content">
 
     <svg id="hangman-drawing" viewBox="0 0 180 180">
+
       <path class="hm-part" id="hm-1" d="M25 165 H155"/>
       <path class="hm-part" id="hm-2" d="M55 165 V15 H120 V35"/>
-      <circle class="hm-part" id="hm-3" cx="120" cy="52" r="17"/>
+
+      <!-- FOTO ALS KOPF -->
+      <defs>
+        <clipPath id="headClip">
+          <circle cx="120" cy="52" r="17"/>
+        </clipPath>
+      </defs>
+
+      <image
+        id="hm-head-photo"
+        x="103"
+        y="35"
+        width="34"
+        height="34"
+        preserveAspectRatio="xMidYMid slice"
+        clip-path="url(#headClip)"
+        style="display:none;"
+      />
+
       <path class="hm-part" id="hm-4" d="M120 69 V112"/>
       <path class="hm-part" id="hm-5" d="M120 80 L95 100"/>
       <path class="hm-part" id="hm-6" d="M120 80 L145 100"/>
+
     </svg>
 
     <div id="hangman-word"></div>
@@ -505,7 +526,6 @@ function createLandingItem() {
 
 function generateComposition() {
   clickCount++;
-
   stage.innerHTML = "";
 
   if (clickCount >= 10) {
@@ -579,7 +599,6 @@ document.getElementById("wish-submit").addEventListener("click", () => {
   counter.textContent = "0 / 10";
 
   document.getElementById("thank-you-image").src = randomItem(imageFiles);
-
   thankYou.classList.add("active");
 });
 
@@ -598,6 +617,7 @@ const hangmanLetters = document.getElementById("hangman-letters");
 const hangmanMessage = document.getElementById("hangman-message");
 const winImages = document.getElementById("win-images");
 const youWon = document.getElementById("you-won");
+const headPhoto = document.getElementById("hm-head-photo");
 
 let guessedLetters = [];
 let mistakes = 0;
@@ -639,9 +659,13 @@ function renderLetters() {
 
 function renderDrawing() {
   for (let i = 1; i <= 6; i++) {
+    if (i === 3) continue;
+
     document.getElementById(`hm-${i}`).style.display =
       i <= mistakes ? "block" : "none";
   }
+
+  headPhoto.style.display = mistakes >= 3 ? "block" : "none";
 }
 
 function guessLetter(letter) {
@@ -716,6 +740,10 @@ function resetHangman() {
   hangmanMessage.textContent = "";
   winImages.innerHTML = "";
   youWon.style.display = "none";
+
+  /* Bei jedem neuen Spiel ein neues Foto als Kopf */
+  headPhoto.setAttribute("href", randomItem(imageFiles));
+  headPhoto.style.display = "none";
 
   renderWord();
   renderLetters();
