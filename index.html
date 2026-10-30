@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>hottie</title>
+<title>MARKO 26</title>
 
 <style>
 @font-face {
@@ -12,7 +12,9 @@
   src: url("NationalCodePiStd-Universal.otf") format("opentype");
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 html, body {
   margin: 0;
@@ -76,6 +78,8 @@ button {
   z-index: 10;
 }
 
+/* WISH */
+
 #wish-panel {
   display: none;
   position: fixed;
@@ -100,7 +104,9 @@ button {
   resize: none;
 }
 
-#wish-panel button { margin-top: 10px; }
+#wish-panel button {
+  margin-top: 10px;
+}
 
 #thank-you-screen {
   display: none;
@@ -147,6 +153,7 @@ button {
   inset: 0;
   width: 100%;
   height: 100%;
+  display: block;
 }
 
 #beer-photos {
@@ -174,6 +181,161 @@ button {
   background: rgba(0,0,0,.2);
   color: white;
 }
+
+/* HANGMAN */
+
+#hangman-screen {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: white;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+#hangman-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 5;
+}
+
+.hangman-content {
+  position: relative;
+  z-index: 2;
+  width: min(440px, 100%);
+  text-align: center;
+}
+
+.hangman-title {
+  font-family: "NationalCode", sans-serif;
+  font-size: clamp(42px, 10vw, 75px);
+}
+
+.hangman-subtitle {
+  font-size: 11px;
+  letter-spacing: .12em;
+  margin-top: 5px;
+}
+
+#hangman-drawing {
+  width: 190px;
+  margin: 20px auto 10px;
+}
+
+#hangman-drawing svg {
+  width: 100%;
+}
+
+/* Buchstabenanzeige */
+
+#hangman-word {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  margin: 25px 0;
+  color: black;
+}
+
+.hm-letter {
+  width: 34px;
+  min-width: 34px;
+  height: 42px;
+  border-bottom: 2px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000000;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 27px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+#hangman-message {
+  font-size: 11px;
+  margin-bottom: 20px;
+}
+
+#hangman-letters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7px;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+#hangman-letters button {
+  width: 35px;
+  height: 35px;
+  padding: 0;
+}
+
+#hangman-letters button:disabled {
+  opacity: .2;
+  cursor: default;
+}
+
+#hangman-restart {
+  display: none;
+  margin: 25px auto 0;
+}
+
+/* WIN WIN WIN */
+
+#you-won {
+  display: none;
+  font-family: "NationalCode", sans-serif;
+  font-size: clamp(45px, 13vw, 105px);
+  line-height: 1;
+  margin: 25px 0;
+  color: #e52b24;
+  white-space: nowrap;
+  animation: wonBlink .55s steps(2, start) infinite;
+}
+
+@keyframes wonBlink {
+  to {
+    visibility: hidden;
+  }
+}
+
+/* WIN IMAGES */
+
+#win-images {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#win-images img {
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  object-fit: cover;
+  animation: markoPop .5s ease-out both;
+  animation-delay: var(--delay);
+}
+
+@keyframes markoPop {
+  0% {
+    opacity: 0;
+    transform: scale(.1) rotate(var(--rotation));
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(var(--rotation));
+  }
+}
+
 </style>
 </head>
 
@@ -182,12 +344,14 @@ button {
 <div id="canvas-area"></div>
 
 <div class="controls">
-  <button id="download-button">PNG DOWNLOAD ↓</button>
+  <button id="gift-button">GESCHENK »</button>
   <button id="beer-button">BEER</button>
   <button id="wish-button">ADD WISH +</button>
 </div>
 
 <div id="click-counter">0 / 10</div>
+
+<!-- WISH -->
 
 <div id="wish-panel">
   <div id="wish-panel-inner">
@@ -198,10 +362,14 @@ button {
   </div>
 </div>
 
+<!-- THANK YOU -->
+
 <div id="thank-you-screen">
   <img id="thank-you-image" src="" alt="">
   <span>THANK YOU</span>
 </div>
+
+<!-- BEER -->
 
 <div id="beer-screen">
   <canvas id="beer-canvas"></canvas>
@@ -209,23 +377,84 @@ button {
   <button id="beer-close">CLOSE</button>
 </div>
 
+<!-- HANGMAN -->
+
+<div id="hangman-screen">
+  <div id="win-images"></div>
+
+  <button id="hangman-close">CLOSE ×</button>
+
+  <div class="hangman-content">
+    <div class="hangman-title">GESCHENK »</div>
+    <div class="hangman-subtitle">RATE DAS WORT.</div>
+
+    <div id="hangman-drawing">
+      <svg viewBox="0 0 220 190">
+        <path d="M30 175 H145 M60 175 V15 H145 V40"
+              stroke="black" stroke-width="3" fill="none"/>
+
+        <circle id="hm-head" cx="145" cy="55" r="15"
+                stroke="black" stroke-width="3"
+                fill="none" opacity="0"/>
+
+        <path id="hm-body" d="M145 70 V115"
+              stroke="black" stroke-width="3"
+              fill="none" opacity="0"/>
+
+        <path id="hm-arm1" d="M145 82 L120 100"
+              stroke="black" stroke-width="3"
+              fill="none" opacity="0"/>
+
+        <path id="hm-arm2" d="M145 82 L170 100"
+              stroke="black" stroke-width="3"
+              fill="none" opacity="0"/>
+
+        <path id="hm-leg1" d="M145 115 L120 145"
+              stroke="black" stroke-width="3"
+              fill="none" opacity="0"/>
+
+        <path id="hm-leg2" d="M145 115 L170 145"
+              stroke="black" stroke-width="3"
+              fill="none" opacity="0"/>
+      </svg>
+    </div>
+
+    <div id="hangman-word"></div>
+    <div id="you-won">WIN WIN WIN</div>
+    <div id="hangman-message">6 VERSUCHE ÜBRIG</div>
+    <div id="hangman-letters"></div>
+    <button id="hangman-restart">NOCHMAL SPIELEN ↻</button>
+  </div>
+</div>
+
 <script>
+
 /* ==================================================
    SETTINGS
 ================================================== */
 
-const imageFiles = Array.from({length: 16}, (_, i) => `${i + 1}.png`);
+const imageFiles = Array.from(
+  {length: 16},
+  (_, i) => `${i + 1}.png`
+);
 
-const random = (min, max) => Math.random() * (max - min) + min;
+const random = (min, max) =>
+  Math.random() * (max - min) + min;
 
 const randomImage = () =>
   imageFiles[Math.floor(Math.random() * imageFiles.length)];
 
 const colors = [
-  "#000000", "#e52b24", "#2449d8",
-  "#f1bd00", "#00a36c", "#a52bcb",
-  "#ff5c35", "#6a3e2b"
+  "#000000",
+  "#e52b24",
+  "#2449d8",
+  "#f1bd00",
+  "#00a36c",
+  "#a52bcb",
+  "#ff5c35",
+  "#6a3e2b"
 ];
+
 
 /* ==================================================
    DEVICE MOTION
@@ -234,9 +463,9 @@ const colors = [
 let sensorEnabled = false;
 let tiltX = 0;
 let tiltY = 0;
-
 let targetTiltX = 0;
 let targetTiltY = 0;
+let rawBeta = null;
 
 async function enableSensors() {
   if (sensorEnabled) return;
@@ -259,6 +488,8 @@ async function enableSensors() {
   window.addEventListener("deviceorientation", event => {
     if (event.beta == null || event.gamma == null) return;
 
+    rawBeta = event.beta;
+
     targetTiltX = Math.max(-1, Math.min(1, event.gamma / 35));
     targetTiltY = Math.max(-1, Math.min(1, event.beta / 60));
   }, true);
@@ -274,8 +505,9 @@ function smoothSensors() {
 
 smoothSensors();
 
+
 /* ==================================================
-   LANDING PAGE – RANDOM COMPOSITION
+   LANDING PAGE
 ================================================== */
 
 const canvasArea = document.getElementById("canvas-area");
@@ -288,39 +520,23 @@ function createItem() {
   const element = document.createElement("div");
   element.className = "item";
 
-  const isImage = Math.random() < .12;
-
-  if (isImage) {
+  if (Math.random() < .12) {
     const img = document.createElement("img");
     img.src = randomImage();
     element.appendChild(img);
   } else {
     element.textContent = Math.random() < .5 ? "MARKO" : "26";
-
     element.style.fontSize = `${random(13, 150)}px`;
-    element.style.color =
-      colors[Math.floor(Math.random() * colors.length)];
-
-    element.style.fontWeight =
-      Math.random() < .5 ? "normal" : "bold";
-
-    element.style.fontStyle =
-      Math.random() < .22 ? "italic" : "normal";
-
+    element.style.color = colors[Math.floor(Math.random() * colors.length)];
+    element.style.fontWeight = Math.random() < .5 ? "normal" : "bold";
+    element.style.fontStyle = Math.random() < .22 ? "italic" : "normal";
     element.style.letterSpacing = `${random(-5, 8)}px`;
   }
-
-  /*
-    Deliberately uneven distribution:
-    some objects gather in clusters,
-    others appear far away.
-  */
 
   let x, y;
 
   if (Math.random() < .65 && items.length > 0) {
     const anchor = items[Math.floor(Math.random() * items.length)];
-
     x = anchor.x + random(-180, 180);
     y = anchor.y + random(-160, 160);
   } else {
@@ -355,20 +571,18 @@ function createComposition() {
     items = [];
     clickCount = 0;
   } else {
-    /*
-      Weighted random amount:
-      usually a lot of elements,
-      sometimes very few,
-      sometimes an overwhelming amount.
-    */
-
     const roll = Math.random();
     let amount;
 
-    if (roll < .15) amount = Math.floor(random(3, 12));
-    else if (roll < .45) amount = Math.floor(random(12, 30));
-    else if (roll < .8) amount = Math.floor(random(30, 65));
-    else amount = Math.floor(random(65, 110));
+    if (roll < .15) {
+      amount = Math.floor(random(3, 12));
+    } else if (roll < .45) {
+      amount = Math.floor(random(12, 30));
+    } else if (roll < .8) {
+      amount = Math.floor(random(30, 65));
+    } else {
+      amount = Math.floor(random(65, 110));
+    }
 
     for (let i = 0; i < amount; i++) {
       createItem();
@@ -382,6 +596,7 @@ canvasArea.addEventListener("click", () => {
   enableSensors();
   createComposition();
 });
+
 
 /* ==================================================
    LANDING PAGE MOVEMENT
@@ -422,63 +637,6 @@ function animateItems() {
 
 animateItems();
 
-/* ==================================================
-   PNG EXPORT
-================================================== */
-
-document.getElementById("download-button")
-.addEventListener("click", async () => {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
-
-  const output = document.createElement("canvas");
-  const ctx = output.getContext("2d");
-
-  output.width = width * 2;
-  output.height = height * 2;
-  ctx.scale(2, 2);
-
-  ctx.fillStyle = "white";
-  ctx.fillRect(0, 0, width, height);
-
-  for (const item of items) {
-    const rect = item.element.getBoundingClientRect();
-    const img = item.element.querySelector("img");
-
-    if (img) {
-      try {
-        await img.decode();
-        ctx.save();
-        ctx.translate(rect.left + rect.width / 2, rect.top + rect.height / 2);
-        ctx.rotate(item.rotation * Math.PI / 180);
-        ctx.drawImage(
-          img,
-          -rect.width / 2,
-          -rect.height / 2,
-          rect.width,
-          rect.height
-        );
-        ctx.restore();
-      } catch (error) {}
-    } else {
-      const style = getComputedStyle(item.element);
-
-      ctx.save();
-      ctx.translate(rect.left, rect.top);
-      ctx.rotate(item.rotation * Math.PI / 180);
-      ctx.fillStyle = style.color;
-      ctx.font =
-        `${style.fontStyle} ${style.fontWeight} ${style.fontSize} NationalCode`;
-      ctx.fillText(item.element.textContent, 0, rect.height * .8);
-      ctx.restore();
-    }
-  }
-
-  const link = document.createElement("a");
-  link.download = "marko-26.png";
-  link.href = output.toDataURL("image/png");
-  link.click();
-});
 
 /* ==================================================
    WISH
@@ -514,6 +672,7 @@ thankYouScreen.onclick = () => {
   thankYouScreen.style.display = "none";
 };
 
+
 /* ==================================================
    BEER MODE
 ================================================== */
@@ -531,13 +690,13 @@ let beerSloshVelocity = 0;
 let beerLastTime = 0;
 let beerRunning = false;
 let beerPhotoItems = [];
+let beerBaseBeta = 0;
+let beerBaseCaptured = false;
 
 function resizeBeer() {
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
-
   beerCanvas.width = window.innerWidth * dpr;
   beerCanvas.height = window.innerHeight * dpr;
-
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
@@ -560,8 +719,11 @@ function openBeer() {
   beerSlosh = 0;
   beerSloshVelocity = 0;
 
-  resizeBeer();
+  beerBaseCaptured = rawBeta !== null;
 
+  if (beerBaseCaptured) beerBaseBeta = rawBeta;
+
+  resizeBeer();
   beerRunning = true;
   beerLastTime = performance.now();
 
@@ -579,7 +741,8 @@ function closeBeer() {
 document.getElementById("beer-button").onclick = openBeer;
 document.getElementById("beer-close").onclick = closeBeer;
 
-/* Photos */
+
+/* Fotos im Bier */
 
 beerScreen.addEventListener("pointerdown", event => {
   if (event.target.id === "beer-close") return;
@@ -609,8 +772,6 @@ beerScreen.addEventListener("pointerdown", event => {
     });
   }
 });
-
-/* Beer photos movement */
 
 function updatePhotos(dt) {
   const w = window.innerWidth;
@@ -654,15 +815,10 @@ function updatePhotos(dt) {
   });
 }
 
-/* Fluid physics */
+
+/* Flüssigkeitsphysik */
 
 function updateBeerPhysics(dt) {
-  /*
-    Liquid follows the phone's orientation.
-    It has inertia, so it does not instantly snap
-    into the new position.
-  */
-
   const targetAngle = Math.atan2(-tiltX, tiltY || .001);
 
   beerAngleVelocity += (targetAngle - beerAngle) * 3.5 * dt;
@@ -671,30 +827,39 @@ function updateBeerPhysics(dt) {
 
   beerAngle = Math.max(-1.05, Math.min(1.05, beerAngle));
 
-  /*
-    Secondary slosh: a little overshoot and wobble
-    after every movement.
-  */
-
   beerSloshVelocity += (tiltX * .5 - beerSlosh) * 2.5 * dt;
   beerSloshVelocity *= Math.pow(.92, dt * 60);
   beerSlosh += beerSloshVelocity * dt * 60;
 
   /*
-    Drink only when tipping the phone in one direction.
-    Reverse the sign if the direction is wrong.
+    Trinkmechanik: Die Haltung beim Öffnen ist
+    die Ausgangsposition. Erst ab 18 Grad Abweichung
+    wird Bier verbraucht.
   */
 
-  const betaDegrees = tiltY * 60;
-  const drinking = Math.max(0, betaDegrees - 24);
+  if (rawBeta !== null) {
+    if (!beerBaseCaptured) {
+      beerBaseBeta = rawBeta;
+      beerBaseCaptured = true;
+    }
 
-  if (drinking > 0 && beerLevel > .01) {
-    beerLevel -= drinking * .000018 * dt * 60;
-    beerLevel = Math.max(.01, beerLevel);
+    let pitchFromRest = rawBeta - beerBaseBeta;
+
+    if (pitchFromRest > 180) pitchFromRest -= 360;
+    if (pitchFromRest < -180) pitchFromRest += 360;
+
+    const drinkingAngle = Math.max(0, Math.abs(pitchFromRest) - 18);
+
+    if (drinkingAngle > 0 && beerLevel > .01) {
+      const drinkingSpeed = drinkingAngle / 35;
+      beerLevel -= drinkingSpeed * .0008 * dt * 60;
+      beerLevel = Math.max(.01, beerLevel);
+    }
   }
 }
 
-/* Surface shape */
+
+/* Oberfläche */
 
 function surfaceY(x, time, width, height) {
   const centerX = width / 2;
@@ -712,32 +877,22 @@ function surfaceY(x, time, width, height) {
   return baseY + (x - centerX) * slope + movement + wave;
 }
 
-/* Draw liquid */
+
+/* Bier zeichnen */
 
 function drawBeer(time) {
   const w = window.innerWidth;
   const h = window.innerHeight;
 
   ctx.clearRect(0, 0, w, h);
-
-  /*
-    Dark background gives the impression of a screen
-    filled with beer rather than a glass object.
-  */
-
   ctx.fillStyle = "#160d07";
   ctx.fillRect(0, 0, w, h);
 
   const points = [];
 
   for (let x = -10; x <= w + 10; x += 3) {
-    points.push({
-      x,
-      y: surfaceY(x, time, w, h)
-    });
+    points.push({x, y: surfaceY(x, time, w, h)});
   }
-
-  /* Beer body */
 
   ctx.save();
   ctx.beginPath();
@@ -751,7 +906,6 @@ function drawBeer(time) {
   ctx.clip();
 
   const liquid = ctx.createLinearGradient(0, 0, w * .6, h);
-
   liquid.addColorStop(0, "#f8c45d");
   liquid.addColorStop(.18, "#e99b26");
   liquid.addColorStop(.42, "#ce7914");
@@ -760,8 +914,6 @@ function drawBeer(time) {
 
   ctx.fillStyle = liquid;
   ctx.fillRect(0, 0, w, h);
-
-  /* Warm light inside the beer */
 
   const glow = ctx.createRadialGradient(
     w * .3, h * .45, 5,
@@ -774,8 +926,6 @@ function drawBeer(time) {
 
   ctx.fillStyle = glow;
   ctx.fillRect(0, 0, w, h);
-
-  /* Tiny suspended bubbles */
 
   for (let i = 0; i < 160; i++) {
     const x = (i * 97.31) % w;
@@ -793,7 +943,7 @@ function drawBeer(time) {
 
   ctx.restore();
 
-  /* Foam cap with soft irregular edge */
+  /* Schaum */
 
   ctx.save();
   ctx.beginPath();
@@ -801,8 +951,7 @@ function drawBeer(time) {
   ctx.lineTo(w, 0);
 
   for (let i = points.length - 1; i >= 0; i--) {
-    const p = points[i];
-    ctx.lineTo(p.x, p.y);
+    ctx.lineTo(points[i].x, points[i].y);
   }
 
   ctx.closePath();
@@ -815,11 +964,6 @@ function drawBeer(time) {
   ctx.fillStyle = foam;
   ctx.fill();
 
-  /*
-    Small foam pockets and bubbles make the edge
-    less geometric and more organic.
-  */
-
   for (let i = 0; i < 260; i++) {
     const x = (i * 37.71) % w;
     const y = surfaceY(x, time, w, h) + random(-7, 7);
@@ -827,14 +971,13 @@ function drawBeer(time) {
 
     ctx.beginPath();
     ctx.arc(x, y, r, 0, Math.PI * 2);
-    ctx.fillStyle =
-      i % 3 === 0
-        ? "rgba(255,255,255,.9)"
-        : "rgba(221,197,158,.45)";
+
+    ctx.fillStyle = i % 3 === 0
+      ? "rgba(255,255,255,.9)"
+      : "rgba(221,197,158,.45)";
+
     ctx.fill();
   }
-
-  /* Soft shadow where foam meets beer */
 
   ctx.beginPath();
 
@@ -851,8 +994,6 @@ function drawBeer(time) {
 
   ctx.restore();
 
-  /* Small highlights */
-
   ctx.save();
   ctx.globalCompositeOperation = "screen";
 
@@ -867,7 +1008,8 @@ function drawBeer(time) {
   ctx.restore();
 }
 
-/* Main animation */
+
+/* Bier-Animation */
 
 function animateBeer(time) {
   if (!beerRunning) return;
@@ -882,8 +1024,206 @@ function animateBeer(time) {
   requestAnimationFrame(animateBeer);
 }
 
+
 /* ==================================================
-   INITIALISE
+   HANGMAN – GESCHENK
+================================================== */
+
+const hangmanScreen = document.getElementById("hangman-screen");
+const hangmanWord = document.getElementById("hangman-word");
+const hangmanMessage = document.getElementById("hangman-message");
+const hangmanLetters = document.getElementById("hangman-letters");
+const hangmanRestart = document.getElementById("hangman-restart");
+const winImages = document.getElementById("win-images");
+const youWon = document.getElementById("you-won");
+
+const solution = "FREITAG";
+const maxMistakes = 6;
+
+let guessedLetters = [];
+let mistakes = 0;
+let gameFinished = false;
+
+const bodyParts = [
+  "hm-head",
+  "hm-body",
+  "hm-arm1",
+  "hm-arm2",
+  "hm-leg1",
+  "hm-leg2"
+];
+
+function openHangman() {
+  hangmanScreen.style.display = "flex";
+  startHangman();
+}
+
+function closeHangman() {
+  hangmanScreen.style.display = "none";
+}
+
+document.getElementById("gift-button")
+  .addEventListener("click", openHangman);
+
+document.getElementById("hangman-close")
+  .addEventListener("click", closeHangman);
+
+hangmanRestart.addEventListener("click", startHangman);
+
+
+/* Neues Spiel */
+
+function startHangman() {
+  guessedLetters = [];
+  mistakes = 0;
+  gameFinished = false;
+
+  bodyParts.forEach(id => {
+    document.getElementById(id).setAttribute("opacity", "0");
+  });
+
+  winImages.innerHTML = "";
+  youWon.style.display = "none";
+
+  hangmanRestart.style.display = "none";
+  hangmanMessage.style.display = "block";
+  hangmanMessage.textContent = "6 VERSUCHE ÜBRIG";
+
+  renderWord();
+  renderLetters();
+}
+
+
+/* Wort mit festen Positionen anzeigen */
+
+function renderWord() {
+  hangmanWord.innerHTML = "";
+
+  for (let i = 0; i < solution.length; i++) {
+    const letter = solution[i];
+    const span = document.createElement("div");
+
+    span.className = "hm-letter";
+
+    if (guessedLetters.includes(letter)) {
+      span.textContent = letter;
+    } else {
+      span.textContent = "\u00A0";
+    }
+
+    hangmanWord.appendChild(span);
+  }
+}
+
+
+/* Tastatur anzeigen */
+
+function renderLetters() {
+  hangmanLetters.innerHTML = "";
+
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(letter => {
+    const button = document.createElement("button");
+
+    button.textContent = letter;
+    button.disabled = guessedLetters.includes(letter) || gameFinished;
+
+    button.addEventListener("click", () => {
+      guessLetter(letter);
+    });
+
+    hangmanLetters.appendChild(button);
+  });
+}
+
+
+/* Buchstaben raten */
+
+function guessLetter(letter) {
+  if (gameFinished || guessedLetters.includes(letter)) return;
+
+  guessedLetters.push(letter);
+
+  if (!solution.includes(letter)) {
+    mistakes++;
+
+    if (mistakes <= bodyParts.length) {
+      document.getElementById(bodyParts[mistakes - 1])
+        .setAttribute("opacity", "1");
+    }
+  }
+
+  renderWord();
+  renderLetters();
+
+  const wordSolved = solution
+    .split("")
+    .every(letter => guessedLetters.includes(letter));
+
+  if (wordSolved) {
+    finishHangman(true);
+  } else if (mistakes >= maxMistakes) {
+    finishHangman(false);
+  } else {
+    hangmanMessage.textContent =
+      `${maxMistakes - mistakes} VERSUCHE ÜBRIG`;
+  }
+}
+
+
+/* Gewinnanimation mit Marko-Bildern */
+
+function showWinImages() {
+  winImages.innerHTML = "";
+
+  for (let i = 0; i < 60; i++) {
+    const img = document.createElement("img");
+
+    img.src = randomImage();
+
+    const size = random(45, 180);
+    const rotation = random(-45, 45);
+    const delay = random(0, 1.5);
+
+    img.style.setProperty("--size", `${size}px`);
+    img.style.setProperty("--rotation", `${rotation}deg`);
+    img.style.setProperty("--delay", `${delay}s`);
+
+    img.style.left = `${random(-5, 95)}%`;
+    img.style.top = `${random(-5, 100)}%`;
+
+    winImages.appendChild(img);
+  }
+}
+
+
+/* Spiel beenden */
+
+function finishHangman(won) {
+  gameFinished = true;
+  renderLetters();
+
+  if (won) {
+    showWinImages();
+
+    youWon.style.display = "block";
+    hangmanMessage.style.display = "none";
+  } else {
+    winImages.innerHTML = "";
+    youWon.style.display = "none";
+
+    hangmanMessage.style.display = "block";
+    hangmanMessage.textContent =
+      "GAME OVER – DAS WORT WAR FREITAG.";
+
+    renderWord();
+  }
+
+  hangmanRestart.style.display = "block";
+}
+
+
+/* ==================================================
+   INITIALISIERUNG
 ================================================== */
 
 document.addEventListener("pointerdown", () => {
