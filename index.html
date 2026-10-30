@@ -84,7 +84,7 @@ button {
   font-size: 12px;
 }
 
-/* WISH */
+/* GENERAL SCREENS */
 
 .screen {
   display: none;
@@ -95,6 +95,8 @@ button {
 }
 
 .screen.active { display: block; }
+
+/* WISH INPUT */
 
 #wish-screen {
   display: none;
@@ -133,6 +135,8 @@ button {
   margin-top: 24px;
 }
 
+/* WISH LAUNCH SCREEN */
+
 #thank-you {
   display: none;
   position: fixed;
@@ -142,20 +146,98 @@ button {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  user-select: none;
+}
+
+#thank-you.active {
+  display: flex;
+}
+
+#throw-instruction {
+  position: absolute;
+  top: 42px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: .12em;
+  font-weight: 400;
+}
+
+#your-wish {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: .02em;
+  white-space: nowrap;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  will-change: transform, opacity;
+}
+
+#your-wish.launching {
+  pointer-events: none;
+  animation: wish-launch .85s cubic-bezier(.15,.75,.25,1) forwards;
+}
+
+@keyframes wish-launch {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  25% {
+    transform: translate(-50%, -58%) scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -160vh) scale(.35);
+    opacity: 0;
+  }
+}
+
+/* THANK YOU AFTER LAUNCH */
+
+#wish-thank-you {
+  display: none;
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  background: white;
   cursor: pointer;
+  animation: thank-you-appear .7s ease both;
 }
 
-#thank-you.active { display: flex; }
-
-#thank-you img {
-  width: min(55vw, 320px);
-  height: auto;
-  object-fit: contain;
+#wish-thank-you.show {
+  display: flex;
 }
 
-#thank-you p {
+#wish-thank-you div {
   font-size: 28px;
-  margin-top: 20px;
+  font-weight: 400;
+}
+
+#wish-thank-you p {
+  font-size: 12px;
+  font-weight: 400;
+  margin-top: 12px;
+}
+
+@keyframes thank-you-appear {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* HANGMAN */
@@ -346,7 +428,7 @@ button {
 
 <div id="counter">0 / 10</div>
 
-<!-- WISH SCREEN -->
+<!-- WISH INPUT -->
 <div id="wish-screen" class="screen">
   <div id="wish-panel">
     <h2>MAKE A WISH</h2>
@@ -358,12 +440,18 @@ button {
   </div>
 </div>
 
+<!-- WISH LAUNCH AND THANK YOU -->
 <div id="thank-you">
-  <img id="thank-you-image" src="1.png" alt="">
-  <p>THANK YOU</p>
+  <div id="throw-instruction">THROW IT INTO THE UNIVERSE</div>
+  <div id="your-wish">YOUR WISH</div>
+
+  <div id="wish-thank-you">
+    <div>THANK YOU!</div>
+    <p>Your wish will soon come true.</p>
+  </div>
 </div>
 
-<!-- HANGMAN SCREEN -->
+<!-- HANGMAN -->
 <div id="hangman-screen" class="screen">
   <button class="ui-button" id="hangman-close">CLOSE</button>
 
@@ -371,13 +459,11 @@ button {
   <div id="you-won">WIN WIN WIN</div>
 
   <div class="hangman-content">
-
     <svg id="hangman-drawing" viewBox="0 0 180 180">
 
       <path class="hm-part" id="hm-1" d="M25 165 H155"/>
       <path class="hm-part" id="hm-2" d="M55 165 V15 H120 V35"/>
 
-      <!-- FOTO ALS KOPF -->
       <defs>
         <clipPath id="headClip">
           <circle cx="120" cy="52" r="17"/>
@@ -404,11 +490,10 @@ button {
     <div id="hangman-word"></div>
     <div id="hangman-letters"></div>
     <div id="hangman-message"></div>
-
   </div>
 </div>
 
-<!-- BEER SCREEN -->
+<!-- BEER -->
 <div id="beer-screen" class="screen">
   <canvas id="beer-canvas"></canvas>
   <div id="beer-photos"></div>
@@ -573,8 +658,17 @@ animateLanding();
 /* WISH */
 
 const wishScreen = document.getElementById("wish-screen");
-const thankYou = document.getElementById("thank-you");
+const wishLaunchScreen = document.getElementById("thank-you");
 const wishInput = document.getElementById("wish-input");
+const yourWish = document.getElementById("your-wish");
+const wishThankYou = document.getElementById("wish-thank-you");
+const throwInstruction = document.getElementById("throw-instruction");
+
+let wishStartY = 0;
+let wishStartTime = 0;
+let wishPointerDown = false;
+let wishHasLaunched = false;
+let wishThankYouVisible = false;
 
 document.getElementById("wish-button").addEventListener("click", () => {
   wishScreen.classList.add("active");
@@ -598,12 +692,89 @@ document.getElementById("wish-submit").addEventListener("click", () => {
   clickCount = 0;
   counter.textContent = "0 / 10";
 
-  document.getElementById("thank-you-image").src = randomItem(imageFiles);
-  thankYou.classList.add("active");
+  /* Reset the wish experience */
+  wishHasLaunched = false;
+  wishThankYouVisible = false;
+  wishPointerDown = false;
+
+  yourWish.classList.remove("launching");
+  yourWish.style.display = "block";
+
+  throwInstruction.style.display = "block";
+  wishThankYou.classList.remove("show");
+
+  wishLaunchScreen.classList.add("active");
 });
 
-thankYou.addEventListener("click", () => {
-  thankYou.classList.remove("active");
+/* Launch the wish */
+
+function launchWish() {
+  if (wishHasLaunched || wishThankYouVisible) return;
+
+  wishHasLaunched = true;
+  yourWish.classList.add("launching");
+
+  setTimeout(() => {
+    yourWish.style.display = "none";
+    throwInstruction.style.display = "none";
+
+    wishThankYou.classList.add("show");
+    wishThankYouVisible = true;
+  }, 850);
+}
+
+/* Tap or swipe up on YOUR WISH */
+
+yourWish.addEventListener("pointerdown", (event) => {
+  if (wishHasLaunched) return;
+
+  event.preventDefault();
+  event.stopPropagation();
+
+  wishPointerDown = true;
+  wishStartY = event.clientY;
+  wishStartTime = Date.now();
+
+  yourWish.setPointerCapture(event.pointerId);
+});
+
+yourWish.addEventListener("pointerup", (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+
+  if (!wishPointerDown || wishHasLaunched) return;
+
+  wishPointerDown = false;
+
+  const distance = wishStartY - event.clientY;
+  const elapsed = Date.now() - wishStartTime;
+  const speed = distance / Math.max(elapsed, 1);
+
+  /* A tap or a quick upward swipe launches it */
+  if (distance < 12 || (distance > 35 && speed > 0.25)) {
+    launchWish();
+  }
+});
+
+yourWish.addEventListener("pointercancel", () => {
+  wishPointerDown = false;
+});
+
+/* Tap the thank-you message to return home */
+
+wishThankYou.addEventListener("click", () => {
+  if (!wishThankYouVisible) return;
+
+  wishLaunchScreen.classList.remove("active");
+
+  wishThankYou.classList.remove("show");
+  yourWish.classList.remove("launching");
+
+  yourWish.style.display = "block";
+  throwInstruction.style.display = "block";
+
+  wishHasLaunched = false;
+  wishThankYouVisible = false;
 });
 
 /* HANGMAN */
@@ -741,7 +912,6 @@ function resetHangman() {
   winImages.innerHTML = "";
   youWon.style.display = "none";
 
-  /* Bei jedem neuen Spiel ein neues Foto als Kopf */
   headPhoto.setAttribute("href", randomItem(imageFiles));
   headPhoto.style.display = "none";
 
@@ -902,7 +1072,7 @@ function drawBeer(time) {
   beerCtx.closePath();
   beerCtx.fill();
 
-  /* Foam */
+  /* FOAM */
 
   beerCtx.fillStyle = "#fff3d4";
   beerCtx.beginPath();
@@ -932,7 +1102,7 @@ function drawBeer(time) {
   beerCtx.closePath();
   beerCtx.fill();
 
-  /* Bubbles */
+  /* BUBBLES */
 
   for (let i = 0; i < 35; i++) {
     const bx = (i * 83 + time * 0.015) % width;
@@ -948,7 +1118,7 @@ function drawBeer(time) {
     beerCtx.fill();
   }
 
-  /* Photos move with tilt */
+  /* PHOTOS MOVE WITH TILT */
 
   beerPhotos.querySelectorAll(".beer-photo").forEach((img) => {
     const rotation = Number(img.dataset.rotation);
@@ -967,6 +1137,5 @@ renderLetters();
 renderDrawing();
 
 </script>
-
 </body>
 </html>
