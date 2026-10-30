@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -216,6 +215,14 @@ button {
 
 #wish-thank-you.show {
   display: flex;
+}
+
+#wish-thank-you-image {
+  width: 130px;
+  height: auto;
+  max-height: 180px;
+  object-fit: contain;
+  margin-bottom: 24px;
 }
 
 #wish-thank-you div {
@@ -446,6 +453,7 @@ button {
   <div id="your-wish">YOUR WISH</div>
 
   <div id="wish-thank-you">
+    <img id="wish-thank-you-image" src="1.png" alt="">
     <div>THANK YOU!</div>
     <p>Your wish will soon come true.</p>
   </div>
@@ -718,6 +726,7 @@ function launchWish() {
     yourWish.style.display = "none";
     throwInstruction.style.display = "none";
 
+    document.getElementById("wish-thank-you-image").src = randomItem(imageFiles);
     wishThankYou.classList.add("show");
     wishThankYouVisible = true;
   }, 850);
