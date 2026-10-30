@@ -188,7 +188,9 @@ textarea:focus {
   pointer-events: none;
 }
 
-/* BEER SCREEN */
+/* =================================
+   BEER SCREEN
+================================= */
 
 #beer-screen {
   display: none;
@@ -196,7 +198,12 @@ textarea:focus {
   inset: 0;
   z-index: 40;
   background:
-    radial-gradient(ellipse at center, #393939 0%, #171717 65%, #080808 100%);
+    radial-gradient(
+      ellipse at 50% 42%,
+      #37332e 0%,
+      #171614 65%,
+      #090909 100%
+    );
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -210,12 +217,12 @@ textarea:focus {
   top: 8%;
   width: 100%;
   text-align: center;
-  color: white;
+  color: #fff;
   font-family: Helvetica, Arial, sans-serif;
   font-size: clamp(22px, 5vw, 42px);
   font-weight: 900;
   line-height: 1.05;
-  letter-spacing: -1px;
+  letter-spacing: -1.5px;
   z-index: 5;
 }
 
@@ -226,20 +233,20 @@ textarea:focus {
   width: min(65vw, 310px);
   height: min(57vh, 470px);
   margin-top: 35px;
-  border: 3px solid rgba(255,255,255,0.72);
-  border-top: 1px solid rgba(255,255,255,0.6);
-  border-radius: 12px 12px 48px 48px;
+  border: 2px solid rgba(255,255,255,0.52);
+  border-top: 2px solid rgba(255,255,255,0.8);
+  border-radius: 13px 13px 42px 42px;
   background: linear-gradient(
     90deg,
-    rgba(255,255,255,0.16),
-    rgba(255,255,255,0.03) 18%,
-    rgba(255,255,255,0.08) 80%,
+    rgba(255,255,255,0.2),
+    rgba(255,255,255,0.015) 14%,
+    rgba(255,255,255,0.035) 80%,
     rgba(255,255,255,0.18)
   );
   box-shadow:
-    inset 9px 0 16px rgba(255,255,255,0.12),
-    inset -9px 0 16px rgba(255,255,255,0.1),
-    0 20px 60px rgba(0,0,0,0.45);
+    inset 8px 0 12px rgba(255,255,255,0.12),
+    inset -8px 0 12px rgba(255,255,255,0.1),
+    0 25px 65px rgba(0,0,0,0.45);
   transform-origin: center center;
   transition: transform 0.12s ease-out;
   overflow: hidden;
@@ -249,7 +256,7 @@ textarea:focus {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  border-radius: 8px 8px 43px 43px;
+  border-radius: 9px 9px 38px 38px;
 }
 
 /* BEER LIQUID */
@@ -262,13 +269,16 @@ textarea:focus {
   height: 85%;
   background: linear-gradient(
     90deg,
-    #a64c00 0%,
-    #e58a08 12%,
-    #ffc02e 35%,
-    #f9a900 65%,
-    #b95c00 100%
+    #9c4900 0%,
+    #d97900 12%,
+    #f9a900 32%,
+    #ffd04a 48%,
+    #f2a000 72%,
+    #a94c00 100%
   );
-  box-shadow: inset 0 8px 18px rgba(255,255,255,0.2);
+  box-shadow:
+    inset 0 10px 18px rgba(255,255,255,0.24),
+    inset 0 -10px 18px rgba(100,40,0,0.2);
   transition: height 0.12s linear;
   z-index: 1;
 }
@@ -276,26 +286,35 @@ textarea:focus {
 #beer-surface {
   position: absolute;
   left: -20%;
-  top: -12px;
+  top: -13px;
   width: 140%;
-  height: 25px;
-  background: #ffcf57;
+  height: 27px;
   border-radius: 50%;
-  box-shadow: 0 5px 10px rgba(255,255,255,0.3);
+  background: linear-gradient(
+    180deg,
+    #ffe69a,
+    #ffbf36
+  );
+  box-shadow: 0 4px 12px rgba(255,230,160,0.35);
   transition: transform 0.12s ease-out;
 }
 
 #beer-foam {
   position: absolute;
   left: -5%;
-  top: -25px;
+  top: -27px;
   width: 110%;
-  height: 48px;
+  height: 52px;
   border-radius: 50%;
-  background: #fff4db;
+  background: radial-gradient(
+    ellipse at 30% 45%,
+    #fffdf2 0%,
+    #fff1d2 65%,
+    #e9d3a7 100%
+  );
   box-shadow:
-    0 3px 8px rgba(255,255,255,0.6),
-    inset 0 -6px 8px rgba(205,160,80,0.2);
+    0 4px 12px rgba(255,255,255,0.5),
+    inset 0 -6px 8px rgba(180,140,80,0.15);
   transition: opacity 0.3s;
 }
 
@@ -310,10 +329,11 @@ textarea:focus {
 .beer-bubble {
   position: absolute;
   bottom: -10px;
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
+  border: 1px solid rgba(255,255,255,0.5);
   border-radius: 50%;
-  background: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.2);
   animation: beer-bubble-rise 3s infinite ease-in;
 }
 
@@ -323,7 +343,7 @@ textarea:focus {
     opacity: 0;
   }
   20% {
-    opacity: 0.8;
+    opacity: 0.65;
   }
   to {
     transform: translateY(-450px);
@@ -331,7 +351,7 @@ textarea:focus {
   }
 }
 
-/* PHOTOS INSIDE GLASS */
+/* MARKO PHOTOS */
 
 #marko-photos {
   position: absolute;
@@ -344,7 +364,7 @@ textarea:focus {
 .beer-photo {
   position: absolute;
   object-fit: contain;
-  filter: drop-shadow(0 3px 4px rgba(0,0,0,0.25));
+  filter: drop-shadow(0 4px 5px rgba(0,0,0,0.28));
   will-change: left, top, transform;
 }
 
@@ -353,11 +373,11 @@ textarea:focus {
 .glass-shine {
   position: absolute;
   top: 5%;
-  left: 8%;
-  width: 12px;
-  height: 80%;
+  left: 7%;
+  width: 13px;
+  height: 82%;
   border-radius: 50%;
-  background: rgba(255,255,255,0.24);
+  background: rgba(255,255,255,0.3);
   filter: blur(4px);
   pointer-events: none;
   z-index: 5;
@@ -368,10 +388,10 @@ textarea:focus {
   top: 0;
   left: -2px;
   right: -2px;
-  height: 8px;
+  height: 9px;
   border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.75);
-  box-shadow: 0 2px 8px rgba(255,255,255,0.25);
+  border: 2px solid rgba(255,255,255,0.8);
+  box-shadow: 0 2px 10px rgba(255,255,255,0.25);
   pointer-events: none;
   z-index: 6;
 }
@@ -383,19 +403,36 @@ textarea:focus {
   width: 80%;
   height: 8px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.24);
   pointer-events: none;
   z-index: 6;
+}
+
+/* CONDENSATION */
+
+#beer-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  opacity: 0.55;
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(255,255,255,.7) 1px, transparent 2px),
+    radial-gradient(circle at 88% 25%, rgba(255,255,255,.5) 2px, transparent 3px),
+    radial-gradient(circle at 18% 65%, rgba(255,255,255,.45) 2px, transparent 3px),
+    radial-gradient(circle at 83% 73%, rgba(255,255,255,.6) 1px, transparent 2px),
+    radial-gradient(circle at 92% 48%, rgba(255,255,255,.4) 1px, transparent 2px),
+    radial-gradient(circle at 8% 83%, rgba(255,255,255,.5) 2px, transparent 3px);
 }
 
 #beer-hint {
   position: absolute;
   bottom: 7%;
-  color: white;
+  color: rgba(255,255,255,0.65);
   font-family: Helvetica, Arial, sans-serif;
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: 2px;
-  opacity: 0.65;
   text-align: center;
   padding: 0 15px;
 }
@@ -406,7 +443,7 @@ textarea:focus {
   right: 20px;
   color: white;
   background: transparent;
-  border-color: white;
+  border-color: rgba(255,255,255,0.6);
   z-index: 10;
 }
 
@@ -469,7 +506,10 @@ textarea:focus {
   <div class="wish-content">
     <h2>MAKE A WISH</h2>
 
-    <textarea id="wish-input" placeholder="Write your wish here..."></textarea>
+    <textarea
+      id="wish-input"
+      placeholder="Write your wish here..."
+    ></textarea>
 
     <div class="wish-buttons">
       <button id="close-wish">CLOSE ×</button>
@@ -495,6 +535,7 @@ textarea:focus {
   <div id="beer-title">DRINK A BEER<br>WITH MARKO.</div>
 
   <div id="beer-glass">
+
     <div id="beer-content">
 
       <div id="beer-liquid">
@@ -510,6 +551,7 @@ textarea:focus {
     <div class="glass-shine"></div>
     <div class="glass-rim"></div>
     <div class="glass-base"></div>
+
   </div>
 
   <div id="beer-hint">TILT TO DRINK · TAP TO FILL WITH MARKO</div>
@@ -544,8 +586,10 @@ let beerMode = false;
 let beerLevel = 85;
 let lastBeta = 0;
 let lastGamma = 0;
-let lastShake = 0;
+let baselineBeta = null;
+let baselineGamma = null;
 let lastOrientationTime = 0;
+let lastShake = 0;
 
 const colors = [
   "#ff0000",
@@ -867,12 +911,18 @@ thankYouScreen.addEventListener("click", function() {
   resetCanvas();
 });
 
-/* BEER MODE */
+/* =================================
+   BEER MODE
+================================= */
 
 function openBeer() {
 
   beerMode = true;
   beerLevel = 85;
+
+  baselineBeta = null;
+  baselineGamma = null;
+  lastOrientationTime = 0;
 
   beerLiquid.style.height = "85%";
   beerFoam.style.opacity = "1";
@@ -888,16 +938,20 @@ function openBeer() {
   beerScreen.style.display = "flex";
 
   createBeerBubbles();
+
 }
+
+/* OPEN BEER */
 
 document.getElementById("beer-button").addEventListener("click", async function() {
   await enableSensors();
   openBeer();
 });
 
-/* TAP GLASS = ADD PHOTOS, NOT DRINK */
+/* TAP GLASS = FILL WITH PHOTOS */
 
 beerGlass.addEventListener("click", function(event) {
+
   event.stopPropagation();
 
   if (!beerMode) return;
@@ -908,8 +962,6 @@ beerGlass.addEventListener("click", function(event) {
     addBeerPhoto();
   }
 
-  document.getElementById("beer-hint").textContent =
-    "MORE MARKO · MORE MARKO · MORE MARKO";
 });
 
 /* ADD PHOTOS */
@@ -921,10 +973,7 @@ function addBeerPhoto() {
   image.className = "beer-photo";
   image.src = `${randomImageNumber()}.png`;
 
-  const size = random(45, 100);
-
-  image.style.width = size + "px";
-  image.style.height = size + "px";
+  const size = random(45, 95);
 
   const glassWidth = markoPhotos.clientWidth;
   const glassHeight = markoPhotos.clientHeight;
@@ -946,45 +995,70 @@ function addBeerPhoto() {
   image.dataset.spin = random(-0.4, 0.4);
   image.dataset.size = size;
 
+  image.style.width = size + "px";
+  image.style.height = size + "px";
+
   image.style.left = x + "px";
   image.style.top = y + "px";
+
   image.style.transform =
     `translate(-50%, -50%) rotate(${rotation}deg)`;
 
   markoPhotos.appendChild(image);
+
 }
 
-/* TILT = DRINK BEER, PHOTOS MOVE TOO */
+/* TILT = DRINK BEER AND MOVE PHOTOS */
 
 function updateBeer(beta, gamma) {
 
   if (!beerMode) return;
 
-  // Glass movement
-  const tilt = Math.max(-35, Math.min(35, gamma));
+  const now = Date.now();
+
+  // Establish the upright phone position as the baseline
+  if (baselineBeta === null) {
+    baselineBeta = beta;
+    baselineGamma = gamma;
+    lastOrientationTime = now;
+  }
+
+  const deltaBeta = beta - baselineBeta;
+  const deltaGamma = gamma - baselineGamma;
+
+  const deltaTime = Math.min(
+    (now - lastOrientationTime) / 1000,
+    0.1
+  );
+
+  lastOrientationTime = now;
+
+  // GLASS MOVEMENT
+  const tilt = Math.max(-35, Math.min(35, deltaGamma));
 
   beerGlass.style.transform =
     `perspective(800px) rotate(${tilt * 0.45}deg)`;
 
-  // Beer surface reacts to tilt
+  // BEER SURFACE
   beerSurface.style.transform =
-    `translateY(${beta * 0.25}px) rotate(${-gamma * 0.7}deg)`;
+    `translateY(${deltaBeta * 0.25}px) rotate(${-deltaGamma * 0.7}deg)`;
 
-  // The beer gets consumed while the phone is tilted
-  const drinkingAngle = Math.max(0, Math.abs(beta) - 40);
+  // DRINK BEER WHEN TILTING FORWARD OR BACKWARD
+  const drinkingAngle = Math.max(0, Math.abs(deltaBeta) - 30);
 
   if (drinkingAngle > 0 && beerLevel > 0) {
 
     beerLevel = Math.max(
       0,
-      beerLevel - drinkingAngle * 0.00035
+      beerLevel - drinkingAngle * 0.0008 * Math.max(deltaTime, 0.016) * 60
     );
 
     beerLiquid.style.height = beerLevel + "%";
     beerFoam.style.opacity = Math.max(0, beerLevel / 85);
+
   }
 
-  // Gravity-like movement for photos
+  // PHOTO MOVEMENT: SIMPLE GRAVITY + INERTIA
   const photos = document.querySelectorAll(".beer-photo");
 
   const width = markoPhotos.clientWidth;
@@ -1003,35 +1077,35 @@ function updateBeer(beta, gamma) {
 
     const size = parseFloat(photo.dataset.size);
 
-    // Phone tilt acts like gravity
-    vx += gamma * 0.006;
-    vy += beta * 0.006;
+    // Tilt acts like gravity
+    vx += deltaGamma * 0.012;
+    vy += deltaBeta * 0.012;
 
-    // Air/liquid resistance
-    vx *= 0.985;
-    vy *= 0.985;
+    // Friction
+    vx *= 0.94;
+    vy *= 0.94;
 
     // Move photos
     x += vx;
     y += vy;
 
-    // Photos bounce against glass walls
+    // Bounce at glass walls
     const halfSize = size / 2;
 
     if (x < halfSize || x > width - halfSize) {
-      vx *= -0.65;
+      vx *= -0.55;
       x = Math.max(halfSize, Math.min(width - halfSize, x));
     }
 
     if (y < halfSize || y > height - halfSize) {
-      vy *= -0.65;
+      vy *= -0.55;
       y = Math.max(halfSize, Math.min(height - halfSize, y));
     }
 
-    // Rotation follows movement
+    // Rotation
     rotation += spin + vx * 0.12;
 
-    // Save physics values
+    // Save movement
     photo.dataset.x = x;
     photo.dataset.y = y;
 
@@ -1040,7 +1114,7 @@ function updateBeer(beta, gamma) {
 
     photo.dataset.rotation = rotation;
 
-    // Update visual position
+    // Update image
     photo.style.left = x + "px";
     photo.style.top = y + "px";
 
