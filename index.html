@@ -1,4 +1,139 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MARKO 26</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: white;
+  overflow: hidden;
+  cursor: crosshair;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+/* MARKO CHAOS */
+
+#markos {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.marko {
+  position: absolute;
+  white-space: nowrap;
+  font-weight: 900;
+  line-height: 0.8;
+  user-select: none;
+  animation: appear 0.15s ease-out;
+}
+
+@keyframes appear {
+  from { transform: scale(0); }
+  to { transform: scale(1) rotate(var(--rotation)); }
+}
+
+/* BUTTONS */
+
+#controls {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
+  gap: 8px;
+}
+
+button {
+  padding: 13px 18px;
+  background: black;
+  color: white;
+  border: none;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #ff00cc;
+}
+
+/* WISH WINDOW */
+
+#wish-panel {
+  display: none;
+  position: fixed;
+  z-index: 101;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(90%, 420px);
+  padding: 30px;
+  background: white;
+  border: 2px solid black;
+  box-shadow: 8px 8px 0 #ff00cc;
+  cursor: default;
+}
+
+#wish-panel h2 {
+  font-size: 28px;
+  font-weight: 900;
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+}
+
+#wish-input {
+  width: 100%;
+  height: 120px;
+  resize: none;
+  border: 1px solid black;
+  padding: 12px;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  outline: none;
+  margin-bottom: 15px;
+}
+
+#wish-input:focus {
+  border: 2px solid #ff00cc;
+}
+
+#wish-submit {
+  width: 100%;
+}
+
+#close-wish {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  color: black;
+  font-size: 20px;
+  padding: 4px;
+}
+
+#close-wish:hover {
+  color: #ff00cc;
+  background: none;
+}
+
+/* THANK YOU SCREEN */
+
 #thank-you-screen {
   display: none;
   position: fixed;
@@ -36,7 +171,285 @@
   font-size: clamp(60px, 13vw, 180px);
   text-align: center;
   letter-spacing: -0.07em;
-  text-shadow: 3px 3px 0 #ff00cc;
+  text-shadow:
+    3px 3px 0 #ff00cc,
+    0 0 20px #ff00cc,
+    4px 8px 15px rgba(0,0,0,0.3);
   transform: rotate(-5deg);
   pointer-events: none;
+  animation: thankyou 1s infinite alternate;
 }
+
+@keyframes thankyou {
+  from { transform: rotate(-5deg) scale(1); }
+  to { transform: rotate(3deg) scale(1.04); }
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+  #controls {
+    bottom: 12px;
+    right: 12px;
+    flex-direction: column;
+  }
+
+  button {
+    padding: 12px;
+  }
+
+  #wish-panel {
+    padding: 25px;
+  }
+
+  #thank-you-screen::before {
+    width: 85vw;
+    height: 45vh;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="markos"></div>
+
+<div id="controls">
+  <button id="add-wish">ADD WISH +</button>
+  <button id="download">PNG DOWNLOAD ↓</button>
+</div>
+
+<!-- WISH FORM -->
+
+<div id="wish-panel">
+
+  <button id="close-wish">×</button>
+
+  <div id="wish-form">
+    <h2>MAKE A WISH.</h2>
+
+    <textarea
+      id="wish-input"
+      placeholder="Write your wish here..."
+    ></textarea>
+
+    <button id="wish-submit">
+      SUBMIT TO UNIVERSE →
+    </button>
+  </div>
+
+</div>
+
+<!-- THANK YOU SCREEN -->
+
+<div id="thank-you-screen">
+  <h1>THANK YOU</h1>
+</div>
+
+<script>
+
+// ==================================
+// MARKO 26 GENERATOR
+// ==================================
+
+const container = document.getElementById("markos");
+
+const colors = [
+  "#ff0000", "#ff00cc", "#00ff00",
+  "#0000ff", "#ffff00", "#ff6600",
+  "#00ffff", "#9900ff", "#000000",
+  "#ff1493", "#7fff00", "#ff4500",
+  "#8a2be2", "#00aaff", "#ff69b4",
+  "#795548", "#ff0080"
+];
+
+const fonts = [
+  "Arial", "Helvetica", "Impact",
+  "Georgia", "Comic Sans MS",
+  "Times New Roman", "Courier New",
+  "Verdana", "Trebuchet MS",
+  "Papyrus", "fantasy", "cursive"
+];
+
+let clickCount = 0;
+let elements = [];
+
+function random(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function createMarko() {
+
+  const item = {
+    text: Math.random() > 0.5 ? "MARKO" : "26",
+    x: random(0, window.innerWidth),
+    y: random(0, window.innerHeight),
+    size: random(12, 180),
+    color: colors[Math.floor(Math.random() * colors.length)],
+    font: fonts[Math.floor(Math.random() * fonts.length)],
+    weight: random(100, 1000),
+    italic: Math.random() > 0.5,
+    rotation: random(-90, 90)
+  };
+
+  elements.push(item);
+
+  const marko = document.createElement("div");
+  marko.className = "marko";
+  marko.textContent = item.text;
+
+  marko.style.left = item.x + "px";
+  marko.style.top = item.y + "px";
+  marko.style.fontSize = item.size + "px";
+  marko.style.color = item.color;
+  marko.style.fontFamily = item.font;
+  marko.style.fontWeight = item.weight;
+  marko.style.fontStyle = item.italic ? "italic" : "normal";
+  marko.style.setProperty("--rotation", item.rotation + "deg");
+
+  container.appendChild(marko);
+}
+
+function explosion() {
+  for (let i = 0; i < 250; i++) {
+    createMarko();
+  }
+}
+
+// CLICK EXPLOSION
+
+document.addEventListener("click", (event) => {
+
+  if (event.target.closest("#controls")) return;
+  if (event.target.closest("#wish-panel")) return;
+
+  const thankScreen = document.getElementById("thank-you-screen");
+
+  if (thankScreen.classList.contains("active")) {
+    thankScreen.classList.remove("active");
+    thankScreen.style.removeProperty("--random-image");
+
+    container.innerHTML = "";
+    elements = [];
+    clickCount = 0;
+    return;
+  }
+
+  clickCount++;
+
+  if (clickCount >= 10) {
+    container.innerHTML = "";
+    elements = [];
+    clickCount = 0;
+  } else {
+    explosion();
+  }
+
+});
+
+
+// ==================================
+// ADD WISH
+// ==================================
+
+const panel = document.getElementById("wish-panel");
+const input = document.getElementById("wish-input");
+
+document.getElementById("add-wish").addEventListener("click", () => {
+
+  panel.style.display = "block";
+  input.value = "";
+  input.placeholder = "Write your wish here...";
+  input.focus();
+
+});
+
+document.getElementById("close-wish").addEventListener("click", () => {
+  panel.style.display = "none";
+});
+
+
+// ==================================
+// RANDOM INTERNET IMAGE
+// ==================================
+
+function loadRandomImage() {
+
+  const screen = document.getElementById("thank-you-screen");
+
+  const randomId = Math.floor(Math.random() * 1000000);
+
+  const url = `https://picsum.photos/seed/${randomId}/1200/800`;
+
+  screen.style.setProperty("--random-image", `url("${url}")`);
+
+  screen.classList.add("active");
+
+}
+
+document.getElementById("wish-submit").addEventListener("click", () => {
+
+  if (input.value.trim() === "") {
+    input.placeholder = "Make a wish first...";
+    input.focus();
+    return;
+  }
+
+  panel.style.display = "none";
+
+  loadRandomImage();
+
+});
+
+
+// ==================================
+// PNG DOWNLOAD
+// ==================================
+
+document.getElementById("download").addEventListener("click", () => {
+
+  const canvas = document.createElement("canvas");
+  const scale = 2;
+
+  canvas.width = window.innerWidth * scale;
+  canvas.height = window.innerHeight * scale;
+
+  const ctx = canvas.getContext("2d");
+
+  ctx.scale(scale, scale);
+
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+
+  elements.forEach(item => {
+
+    ctx.save();
+
+    ctx.translate(item.x, item.y);
+    ctx.rotate(item.rotation * Math.PI / 180);
+
+    ctx.fillStyle = item.color;
+
+    ctx.font =
+      `${item.italic ? "italic" : "normal"} ${item.weight} ${item.size}px "${item.font}"`;
+
+    ctx.textBaseline = "top";
+    ctx.fillText(item.text, 0, 0);
+
+    ctx.restore();
+
+  });
+
+  const link = document.createElement("a");
+
+  link.download = "MARKO-26.png";
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+
+});
+
+</script>
+
+</body>
+</html>
