@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>hottie</title>
+<title>MARKO 26</title>
 
 <style>
 @font-face {
@@ -385,13 +385,13 @@ button {
   to { visibility: hidden; }
 }
 
-/* BEER – ORIGINAL VERSION */
+/* BEER */
 
 #beer-screen {
   background: #17100a;
   overflow: hidden;
-  touch-action: none;
   height: 100dvh;
+  touch-action: none;
 }
 
 #beer-canvas {
@@ -404,8 +404,8 @@ button {
 #beer-photos {
   position: absolute;
   inset: 0;
-  pointer-events: none;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .beer-photo {
@@ -418,13 +418,19 @@ button {
 }
 
 #beer-close {
-  position: fixed;
-  z-index: 60;
-  top: 15px;
+  position: absolute;
   right: 15px;
+  top: 15px;
+  z-index: 60;
   border: 1px solid rgba(255,255,255,.6);
   background: rgba(0,0,0,.2);
   color: white;
+}
+
+/* NATIONAL FONT FOR ALL WEBSITE TEXT */
+
+* {
+  font-family: "National", sans-serif !important;
 }
 </style>
 </head>
@@ -474,6 +480,7 @@ button {
 
   <div class="hangman-content">
     <svg id="hangman-drawing" viewBox="0 0 180 180">
+
       <path class="hm-part" id="hm-1" d="M25 165 H155"/>
       <path class="hm-part" id="hm-2" d="M55 165 V15 H120 V35"/>
 
@@ -497,6 +504,7 @@ button {
       <path class="hm-part" id="hm-4" d="M120 69 V112"/>
       <path class="hm-part" id="hm-5" d="M120 80 L95 100"/>
       <path class="hm-part" id="hm-6" d="M120 80 L145 100"/>
+
     </svg>
 
     <div id="hangman-word"></div>
@@ -529,8 +537,6 @@ let rawBeta = null;
 let rawGamma = null;
 let tiltX = 0;
 let tiltY = 0;
-let targetTiltX = 0;
-let targetTiltY = 0;
 let sensorsStarted = false;
 
 function random(min, max) {
@@ -563,22 +569,15 @@ async function enableSensors() {
     if (event.beta !== null) rawBeta = event.beta;
     if (event.gamma !== null) rawGamma = event.gamma;
 
-    if (event.beta == null || event.gamma == null) return;
+    const beta = event.beta || 0;
+    const gamma = event.gamma || 0;
 
-    targetTiltX = Math.max(-1, Math.min(1, event.gamma / 35));
-    targetTiltY = Math.max(-1, Math.min(1, event.beta / 60));
-  }, true);
+    tiltX += (gamma / 45 - tiltX) * 0.08;
+    tiltY += (beta / 45 - tiltY) * 0.08;
+  });
 
   sensorsStarted = true;
 }
-
-function smoothSensors() {
-  tiltX += (targetTiltX - tiltX) * .09;
-  tiltY += (targetTiltY - tiltY) * .09;
-  requestAnimationFrame(smoothSensors);
-}
-
-smoothSensors();
 
 document.addEventListener("pointerdown", enableSensors, { once: true });
 
@@ -713,6 +712,7 @@ document.getElementById("wish-submit").addEventListener("click", () => {
   clickCount = 0;
   counter.textContent = "0 / 10";
 
+  /* Reset the wish experience */
   wishHasLaunched = false;
   wishThankYouVisible = false;
   wishPointerDown = false;
@@ -726,6 +726,8 @@ document.getElementById("wish-submit").addEventListener("click", () => {
   wishLaunchScreen.classList.add("active");
 });
 
+/* Launch the wish */
+
 function launchWish() {
   if (wishHasLaunched || wishThankYouVisible) return;
 
@@ -736,11 +738,12 @@ function launchWish() {
     yourWish.style.display = "none";
     throwInstruction.style.display = "none";
 
-    document.getElementById("wish-thank-you-image").src = randomItem(imageFiles);
     wishThankYou.classList.add("show");
     wishThankYouVisible = true;
   }, 850);
 }
+
+/* Tap or swipe up on YOUR WISH */
 
 yourWish.addEventListener("pointerdown", (event) => {
   if (wishHasLaunched) return;
@@ -767,6 +770,7 @@ yourWish.addEventListener("pointerup", (event) => {
   const elapsed = Date.now() - wishStartTime;
   const speed = distance / Math.max(elapsed, 1);
 
+  /* A tap or a quick upward swipe launches it */
   if (distance < 12 || (distance > 35 && speed > 0.25)) {
     launchWish();
   }
@@ -775,6 +779,8 @@ yourWish.addEventListener("pointerup", (event) => {
 yourWish.addEventListener("pointercancel", () => {
   wishPointerDown = false;
 });
+
+/* Tap the thank-you message to return home */
 
 wishThankYou.addEventListener("click", () => {
   if (!wishThankYouVisible) return;
@@ -943,7 +949,7 @@ document.getElementById("hangman-close").addEventListener("click", () => {
   hangmanScreen.classList.remove("active");
 });
 
-/* BEER MODE – ORIGINAL PHYSICS */
+/* BEER MODE */
 
 const beerScreen = document.getElementById("beer-screen");
 const beerCanvas = document.getElementById("beer-canvas");
@@ -974,6 +980,9 @@ function openBeer() {
   enableSensors();
 
   beerScreen.classList.add("active");
+  stage.style.display = "none";
+  document.getElementById("controls").style.display = "none";
+  counter.style.display = "none";
 
   beerPhotos.innerHTML = "";
   beerPhotoItems = [];
@@ -995,12 +1004,15 @@ function openBeer() {
 function closeBeer() {
   beerRunning = false;
   beerScreen.classList.remove("active");
+  stage.style.display = "block";
+  document.getElementById("controls").style.display = "flex";
+  counter.style.display = "block";
 }
 
-document.getElementById("beer-button").onclick = openBeer;
-document.getElementById("beer-close").onclick = closeBeer;
+document.getElementById("beer-button").addEventListener("click", openBeer);
+document.getElementById("beer-close").addEventListener("click", closeBeer);
 
-/* BEER PHOTOS */
+/* Photos */
 
 beerScreen.addEventListener("pointerdown", event => {
   if (event.target.id === "beer-close") return;
@@ -1020,8 +1032,8 @@ beerScreen.addEventListener("pointerdown", event => {
 
     beerPhotoItems.push({
       element: img,
-      x: random(0, Math.max(0, window.innerWidth - size)),
-      y: random(0, Math.max(0, window.innerHeight - size)),
+      x: random(0, window.innerWidth - size),
+      y: random(0, window.innerHeight - size),
       vx: random(-2, 2),
       vy: random(-2, 2),
       size,
@@ -1030,6 +1042,8 @@ beerScreen.addEventListener("pointerdown", event => {
     });
   }
 });
+
+/* Beer photos movement */
 
 function updatePhotos(dt) {
   const w = window.innerWidth;
@@ -1073,7 +1087,7 @@ function updatePhotos(dt) {
   });
 }
 
-/* BEER FLUID PHYSICS */
+/* Fluid physics */
 
 function updateBeerPhysics(dt) {
   const targetAngle = Math.atan2(-tiltX, tiltY || .001);
@@ -1097,7 +1111,7 @@ function updateBeerPhysics(dt) {
   }
 }
 
-/* BEER SURFACE */
+/* Surface shape */
 
 function surfaceY(x, time, width, height) {
   const centerX = width / 2;
@@ -1115,14 +1129,13 @@ function surfaceY(x, time, width, height) {
   return baseY + (x - centerX) * slope + movement + wave;
 }
 
-/* DRAW BEER */
+/* Draw liquid */
 
 function drawBeer(time) {
   const w = window.innerWidth;
   const h = window.innerHeight;
 
   ctx.clearRect(0, 0, w, h);
-
   ctx.fillStyle = "#160d07";
   ctx.fillRect(0, 0, w, h);
 
@@ -1135,7 +1148,7 @@ function drawBeer(time) {
     });
   }
 
-  /* BEER BODY */
+  /* Beer body */
 
   ctx.save();
   ctx.beginPath();
@@ -1159,7 +1172,7 @@ function drawBeer(time) {
   ctx.fillStyle = liquid;
   ctx.fillRect(0, 0, w, h);
 
-  /* WARM LIGHT */
+  /* Warm light inside the beer */
 
   const glow = ctx.createRadialGradient(
     w * .3, h * .45, 5,
@@ -1173,7 +1186,7 @@ function drawBeer(time) {
   ctx.fillStyle = glow;
   ctx.fillRect(0, 0, w, h);
 
-  /* BUBBLES */
+  /* Tiny suspended bubbles */
 
   for (let i = 0; i < 160; i++) {
     const x = (i * 97.31) % w;
@@ -1191,7 +1204,7 @@ function drawBeer(time) {
 
   ctx.restore();
 
-  /* FOAM */
+  /* Foam cap with soft irregular edge */
 
   ctx.save();
   ctx.beginPath();
@@ -1213,7 +1226,7 @@ function drawBeer(time) {
   ctx.fillStyle = foam;
   ctx.fill();
 
-  /* FOAM BUBBLES */
+  /* Small foam pockets and bubbles */
 
   for (let i = 0; i < 260; i++) {
     const x = (i * 37.71) % w;
@@ -1229,7 +1242,7 @@ function drawBeer(time) {
     ctx.fill();
   }
 
-  /* FOAM SHADOW */
+  /* Soft shadow where foam meets beer */
 
   ctx.beginPath();
 
@@ -1246,7 +1259,7 @@ function drawBeer(time) {
 
   ctx.restore();
 
-  /* HIGHLIGHTS */
+  /* Small highlights */
 
   ctx.save();
   ctx.globalCompositeOperation = "screen";
@@ -1262,7 +1275,7 @@ function drawBeer(time) {
   ctx.restore();
 }
 
-/* MAIN BEER ANIMATION */
+/* Main animation */
 
 function animateBeer(time) {
   if (!beerRunning) return;
